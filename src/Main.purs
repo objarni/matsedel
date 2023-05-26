@@ -6,6 +6,7 @@ import Effect (Effect)
 import Effect.Console (log)
 
 type Germ = {
+    pos :: Position,
     name :: String,
     age :: Int
 }
@@ -28,11 +29,12 @@ foreign import simulate ::
 
 main :: Effect Unit
 main = do
-  log "🍝Hej"
-  simulate [{ name: "Samuel", age: 25}] tick
+  simulate [{ pos: {x: 50.0, y: 50.0}, name: "Samuel", age: 25}] tick
 
 tick :: Array Germ -> Array Germ
-tick = map (\germ -> germ { age = germ.age + 1 })
-
-
-
+tick = map (\germ -> germ
+    { pos = germ.pos
+        { x = germ.pos.x + 1.0
+        , y = germ.pos.y + 1.0
+    }
+  })
