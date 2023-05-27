@@ -4,6 +4,8 @@ import Prelude
 import Effect (Effect)
 import Data.Number (cos, sin)
 
+type Model = { germs :: Array Germ }
+
 type Germ = {
     pos :: Position,
     dir :: Number,
@@ -15,13 +17,8 @@ type Position = {
     y :: Number
 }
 
-
-main :: Effect Unit
-main = do
-  simulate [{ pos: {x: 50.0, y: 50.0}, dir: 0.15, age: 25}] tick
-
-tick :: Array Germ -> Array Germ
-tick = map tickGerm
+tick :: Model -> Model
+tick m = m { germs = map tickGerm m.germs }
 
 tickGerm :: Germ -> Germ
 tickGerm germ = germ
@@ -35,10 +32,10 @@ tickGerm germ = germ
     dx = cos germ.dir
     dy = sin germ.dir
 
+main :: Effect Unit
+main = do
+  let germs = [{ pos: {x: 50.0, y: 50.0}, dir: 0.15, age: 25}] :: Array Germ
+  simulate { germs: germs } tick
 
-
-foreign import simulate ::
- Array Germ ->
- (Array Germ -> Array Germ) ->
- Effect Unit
+foreign import simulate :: Model -> (Model -> Model) -> Effect Unit
 
