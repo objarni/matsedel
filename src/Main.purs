@@ -29,6 +29,7 @@ tickGerm germ = germ
       { x = germ.pos.x + dx
       , y = germ.pos.y + dy
       }
+      , age = germ.age + 1
   }
   where
   dx :: Number
