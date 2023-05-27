@@ -1,0 +1,9 @@
+{
+  "name": "puregerm",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "spago bundle-app --watch"
+  },
+  "dependencies": {
+  }
+}

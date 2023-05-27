@@ -41,22 +41,37 @@
     map: arrayMap
   };
 
+  // output/Data.Number/foreign.js
+  var cos = Math.cos;
+  var sin = Math.sin;
+
+  // output/Data.Bounded/foreign.js
+  var topChar = String.fromCharCode(65535);
+  var bottomChar = String.fromCharCode(0);
+  var topNumber = Number.POSITIVE_INFINITY;
+  var bottomNumber = Number.NEGATIVE_INFINITY;
+
   // output/Main/index.js
-  var tick2 = /* @__PURE__ */ map(functorArray)(function(germ) {
+  var tickGerm = function(germ) {
+    var dy = sin(germ.dir);
+    var dx = cos(germ.dir);
     return {
       pos: {
-        x: germ.pos.x + 1,
-        y: germ.pos.y + 1
+        x: germ.pos.x + dx,
+        y: germ.pos.y + dy
       },
-      age: germ.age,
-      name: germ.name
+      dir: germ.dir,
+      name: germ.name,
+      age: germ.age
     };
-  });
+  };
+  var tick2 = /* @__PURE__ */ map(functorArray)(tickGerm);
   var main = /* @__PURE__ */ simulate([{
     pos: {
       x: 50,
       y: 50
     },
+    dir: 0.15,
     name: "Samuel",
     age: 25
   }])(tick2);
