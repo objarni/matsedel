@@ -5,13 +5,20 @@
     tick = tickGerms;
     window.requestAnimationFrame(step);
   };
-  function render(germs) {
+  function render(model) {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const germs = model.germs;
     ctx.fillStyle = "green";
     let germ = germs[0];
     ctx.fillRect(germ.pos.x, germ.pos.y, 2, 2);
+    ctx.fillStyle = "green";
+    const foods = model.foods;
+    ctx.fillStyle = "#ffffff";
+    foods.forEach((food) => {
+      ctx.fillRect(food.x, food.y, 2, 2);
+    });
   }
   var state = [];
   var tick = void 0;
@@ -52,6 +59,7 @@
   var bottomNumber = Number.NEGATIVE_INFINITY;
 
   // output/Main/index.js
+  var map2 = /* @__PURE__ */ map(functorArray);
   var tickGerm = function(germ) {
     var dy = sin(germ.dir);
     var dx = cos(germ.dir);
@@ -64,15 +72,29 @@
       age: germ.age
     };
   };
-  var tick2 = /* @__PURE__ */ map(functorArray)(tickGerm);
-  var main = /* @__PURE__ */ simulate([{
-    pos: {
-      x: 50,
-      y: 50
-    },
-    dir: 0.15,
-    age: 25
-  }])(tick2);
+  var tick2 = function(m) {
+    return {
+      germs: map2(tickGerm)(m.germs),
+      foods: m.foods
+    };
+  };
+  var main = /* @__PURE__ */ function() {
+    var germs = [{
+      pos: {
+        x: 50,
+        y: 50
+      },
+      dir: 0.15,
+      age: 25
+    }];
+    return simulate({
+      germs,
+      foods: [{
+        x: 1,
+        y: 1
+      }]
+    })(tick2);
+  }();
 
   // <stdin>
   main();
