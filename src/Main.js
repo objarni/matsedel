@@ -5,16 +5,19 @@ export const simulate = (initialGerms) => (tickGerms) => () => {
 }
 
 function render(model) {
+    // Clear canvas
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+    // Germs
     const germs = model.germs
     ctx.fillStyle = 'green'
-    let germ = germs[0]
-    ctx.fillRect(germ.pos.x, germ.pos.y, 2, 2)
-    ctx.fillStyle = 'green'
+    germs.forEach(germ => {
+        ctx.fillRect(germ.pos.x, germ.pos.y, 2, 2)
+    })
 
+    // Foods
     const foods = model.foods
     ctx.fillStyle = '#ffffff'
     foods.forEach(food => {
