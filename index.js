@@ -61,7 +61,6 @@
         y: germ.pos.y + dy
       },
       dir: germ.dir,
-      name: germ.name,
       age: germ.age
     };
   };
@@ -72,7 +71,6 @@
       y: 50
     },
     dir: 0.15,
-    name: "Samuel",
     age: 25
   }])(tick2);
 
