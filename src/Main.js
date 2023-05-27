@@ -5,6 +5,7 @@ export const simulate = (initialGerms) => (tickGerms) => () => {
 }
 
 function render(model) {
+
     // Clear canvas
     const canvas = document.getElementById('canvas')
     const ctx = canvas.getContext('2d')
