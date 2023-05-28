@@ -26,7 +26,7 @@ type Germ =
 tick :: Model -> Model
 tick m = m
   { germs = concatMap _.germs result
-  , foods = concatMap _.foods result
+  , foods = concatMap _.foods result <> m.foods
   }
   where
   result = map tickGerm m.germs

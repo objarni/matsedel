@@ -155,6 +155,25 @@
     map: arrayMap
   };
 
+  // output/Data.Semigroup/foreign.js
+  var concatArray = function(xs) {
+    return function(ys) {
+      if (xs.length === 0)
+        return ys;
+      if (ys.length === 0)
+        return xs;
+      return xs.concat(ys);
+    };
+  };
+
+  // output/Data.Semigroup/index.js
+  var semigroupArray = {
+    append: concatArray
+  };
+  var append = function(dict) {
+    return dict.append;
+  };
+
   // output/Control.Apply/foreign.js
   var arrayApply = function(fs) {
     return function(xs) {
@@ -318,6 +337,7 @@
 
   // output/Main/index.js
   var map2 = /* @__PURE__ */ map(functorArray);
+  var append2 = /* @__PURE__ */ append(semigroupArray);
   var tickGerm = function(germ) {
     var dy = sin(germ.dir);
     var dx = cos(germ.dir);
@@ -329,8 +349,8 @@
       lifeLeft: germ.lifeLeft - 1 | 0,
       dir: germ.dir
     };
-    var $9 = germ.lifeLeft === 0;
-    if ($9) {
+    var $10 = germ.lifeLeft === 0;
+    if ($10) {
       return {
         germs: [],
         foods: [g.pos]
@@ -348,9 +368,9 @@
       germs: concatMap(function(v1) {
         return v1.germs;
       })(result),
-      foods: concatMap(function(v1) {
+      foods: append2(concatMap(function(v1) {
         return v1.foods;
-      })(result)
+      })(result))(m.foods)
     };
   };
   var main = /* @__PURE__ */ function() {
