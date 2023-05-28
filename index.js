@@ -162,6 +162,9 @@
     }
   };
 
+  // output/Data.Boolean/index.js
+  var otherwise = true;
+
   // output/Data.Function/index.js
   var flip = function(f) {
     return function(b) {
@@ -278,10 +281,125 @@
   };
 
   // output/Data.Bounded/foreign.js
+  var topInt = 2147483647;
+  var bottomInt = -2147483648;
   var topChar = String.fromCharCode(65535);
   var bottomChar = String.fromCharCode(0);
   var topNumber = Number.POSITIVE_INFINITY;
   var bottomNumber = Number.NEGATIVE_INFINITY;
+
+  // output/Data.Ord/foreign.js
+  var unsafeCompareImpl = function(lt) {
+    return function(eq2) {
+      return function(gt) {
+        return function(x) {
+          return function(y) {
+            return x < y ? lt : x === y ? eq2 : gt;
+          };
+        };
+      };
+    };
+  };
+  var ordIntImpl = unsafeCompareImpl;
+
+  // output/Data.Eq/foreign.js
+  var refEq = function(r1) {
+    return function(r2) {
+      return r1 === r2;
+    };
+  };
+  var eqIntImpl = refEq;
+
+  // output/Data.Eq/index.js
+  var eqInt = {
+    eq: eqIntImpl
+  };
+
+  // output/Data.Ordering/index.js
+  var LT = /* @__PURE__ */ function() {
+    function LT2() {
+    }
+    ;
+    LT2.value = new LT2();
+    return LT2;
+  }();
+  var GT = /* @__PURE__ */ function() {
+    function GT2() {
+    }
+    ;
+    GT2.value = new GT2();
+    return GT2;
+  }();
+  var EQ = /* @__PURE__ */ function() {
+    function EQ2() {
+    }
+    ;
+    EQ2.value = new EQ2();
+    return EQ2;
+  }();
+
+  // output/Data.Ord/index.js
+  var ordInt = /* @__PURE__ */ function() {
+    return {
+      compare: ordIntImpl(LT.value)(EQ.value)(GT.value),
+      Eq0: function() {
+        return eqInt;
+      }
+    };
+  }();
+
+  // output/Data.Bounded/index.js
+  var top = function(dict) {
+    return dict.top;
+  };
+  var boundedInt = {
+    top: topInt,
+    bottom: bottomInt,
+    Ord0: function() {
+      return ordInt;
+    }
+  };
+  var bottom = function(dict) {
+    return dict.bottom;
+  };
+
+  // output/Data.Maybe/index.js
+  var identity2 = /* @__PURE__ */ identity(categoryFn);
+  var Nothing = /* @__PURE__ */ function() {
+    function Nothing2() {
+    }
+    ;
+    Nothing2.value = new Nothing2();
+    return Nothing2;
+  }();
+  var Just = /* @__PURE__ */ function() {
+    function Just2(value0) {
+      this.value0 = value0;
+    }
+    ;
+    Just2.create = function(value0) {
+      return new Just2(value0);
+    };
+    return Just2;
+  }();
+  var maybe = function(v) {
+    return function(v1) {
+      return function(v2) {
+        if (v2 instanceof Nothing) {
+          return v;
+        }
+        ;
+        if (v2 instanceof Just) {
+          return v1(v2.value0);
+        }
+        ;
+        throw new Error("Failed pattern match at Data.Maybe (line 237, column 1 - line 237, column 51): " + [v.constructor.name, v1.constructor.name, v2.constructor.name]);
+      };
+    };
+  };
+  var fromMaybe = function(a) {
+    return maybe(a)(identity2);
+  };
 
   // output/Data.Monoid/index.js
   var mempty = function(dict) {
@@ -481,8 +599,8 @@
         return function(pure2) {
           return function(f) {
             return function(array) {
-              function go(bot, top2) {
-                switch (top2 - bot) {
+              function go(bot, top3) {
+                switch (top3 - bot) {
                   case 0:
                     return pure2([]);
                   case 1:
@@ -492,8 +610,8 @@
                   case 3:
                     return apply2(apply2(map3(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
                   default:
-                    var pivot = bot + Math.floor((top2 - bot) / 4) * 2;
-                    return apply2(map3(concat2)(go(bot, pivot)))(go(pivot, top2));
+                    var pivot = bot + Math.floor((top3 - bot) / 4) * 2;
+                    return apply2(map3(concat2)(go(bot, pivot)))(go(pivot, top3));
                 }
               }
               return go(0, array.length);
@@ -505,14 +623,14 @@
   }();
 
   // output/Data.Traversable/index.js
-  var identity2 = /* @__PURE__ */ identity(categoryFn);
+  var identity3 = /* @__PURE__ */ identity(categoryFn);
   var traverse = function(dict) {
     return dict.traverse;
   };
   var sequenceDefault = function(dictTraversable) {
     var traverse2 = traverse(dictTraversable);
     return function(dictApplicative) {
-      return traverse2(dictApplicative)(identity2);
+      return traverse2(dictApplicative)(identity3);
     };
   };
   var traversableArray = {
@@ -537,9 +655,55 @@
   // output/Data.Array/index.js
   var concatMap = /* @__PURE__ */ flip(/* @__PURE__ */ bind(bindArray));
 
+  // output/Data.Int/foreign.js
+  var fromNumberImpl = function(just) {
+    return function(nothing) {
+      return function(n) {
+        return (n | 0) === n ? just(n) : nothing;
+      };
+    };
+  };
+  var toNumber = function(n) {
+    return n;
+  };
+
   // output/Data.Number/foreign.js
+  var isFiniteImpl = isFinite;
   var cos = Math.cos;
+  var floor = Math.floor;
   var sin = Math.sin;
+
+  // output/Data.Number/index.js
+  var pi = 3.141592653589793;
+
+  // output/Data.Int/index.js
+  var top2 = /* @__PURE__ */ top(boundedInt);
+  var bottom2 = /* @__PURE__ */ bottom(boundedInt);
+  var fromNumber = /* @__PURE__ */ function() {
+    return fromNumberImpl(Just.create)(Nothing.value);
+  }();
+  var unsafeClamp = function(x) {
+    if (!isFiniteImpl(x)) {
+      return 0;
+    }
+    ;
+    if (x >= toNumber(top2)) {
+      return top2;
+    }
+    ;
+    if (x <= toNumber(bottom2)) {
+      return bottom2;
+    }
+    ;
+    if (otherwise) {
+      return fromMaybe(0)(fromNumber(x));
+    }
+    ;
+    throw new Error("Failed pattern match at Data.Int (line 72, column 1 - line 72, column 29): " + [x.constructor.name]);
+  };
+  var floor2 = function($39) {
+    return unsafeClamp(floor($39));
+  };
 
   // output/Effect.Random/foreign.js
   var random = Math.random;
@@ -547,7 +711,7 @@
   // output/Effect.Random/index.js
   var randomRange = function(min3) {
     return function(max3) {
-      return function __do2() {
+      return function __do4() {
         var n = random();
         return n * (max3 - min3) + min3;
       };
@@ -557,6 +721,7 @@
   // output/Main/index.js
   var map2 = /* @__PURE__ */ map(functorArray);
   var append2 = /* @__PURE__ */ append(semigroupArray);
+  var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
   var tickGerm = function(germ) {
     var dy = sin(germ.dir);
     var dx = cos(germ.dir);
@@ -568,8 +733,8 @@
       lifeLeft: germ.lifeLeft - 1 | 0,
       dir: germ.dir
     };
-    var $14 = germ.lifeLeft === 0;
-    if ($14) {
+    var $15 = germ.lifeLeft === 0;
+    if ($15) {
       return {
         germs: [],
         foods: [g.pos]
@@ -600,24 +765,25 @@
       y
     };
   };
-  var random_food = random_pos;
-  var main = /* @__PURE__ */ function() {
-    var germs = [{
-      pos: {
-        x: 50,
-        y: 50
-      },
-      dir: 0.15,
-      lifeLeft: 25
-    }];
-    return function __do2() {
-      var foods = sequence(traversableArray)(applicativeEffect)(replicate(100)(random_food))();
-      return simulate({
-        germs,
-        foods
-      })(tick2)();
+  var random_germ = function __do2() {
+    var pos = random_pos();
+    var dir = randomRange(0)(2 * pi)();
+    var ll = randomRange(10)(100)();
+    return {
+      pos,
+      dir,
+      lifeLeft: floor2(ll)
     };
-  }();
+  };
+  var random_food = random_pos;
+  var main = function __do3() {
+    var foods = sequence2(replicate(100)(random_food))();
+    var germs = sequence2(replicate(100)(random_germ))();
+    return simulate({
+      germs,
+      foods
+    })(tick2)();
+  };
 
   // <stdin>
   main();
