@@ -3,6 +3,7 @@ module Main where
 import Prelude
 import Effect (Effect)
 import Data.Number (cos, sin)
+import Data.Array (concatMap)
 
 type Model =
   { germs :: Array Germ
@@ -25,20 +26,22 @@ type Germ =
 
 tick :: Model -> Model
 tick m = m
-  { germs = map tickGerm m.germs
-  , foods = m.foods
-  }
-
-tickGerm :: Germ -> Germ
-tickGerm germ = germ
-  { pos = germ.pos
-      { x = germ.pos.x + dx
-      , y = germ.pos.y + dy
-      }
-  , age = germ.age + 1
+  { germs = concatMap _.germs result
+  , foods = concatMap _.foods result
   }
   where
-  dx :: Number
+  result = map tickGerm m.germs
+
+tickGerm :: Germ -> Model
+tickGerm germ = { germs: [ g ], foods: [] }
+  where
+  g = germ
+    { pos = germ.pos
+        { x = germ.pos.x + dx
+        , y = germ.pos.y + dy
+        }
+    , age = germ.age + 1
+    }
   dx = cos germ.dir
   dy = sin germ.dir
 
