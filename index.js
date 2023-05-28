@@ -138,6 +138,30 @@
     };
   };
 
+  // output/Control.Semigroupoid/index.js
+  var semigroupoidFn = {
+    compose: function(f) {
+      return function(g) {
+        return function(x) {
+          return f(g(x));
+        };
+      };
+    }
+  };
+
+  // output/Control.Category/index.js
+  var identity = function(dict) {
+    return dict.identity;
+  };
+  var categoryFn = {
+    identity: function(x) {
+      return x;
+    },
+    Semigroupoid0: function() {
+      return semigroupoidFn;
+    }
+  };
+
   // output/Data.Function/index.js
   var flip = function(f) {
     return function(b) {
@@ -198,6 +222,23 @@
       return functorArray;
     }
   };
+  var apply = function(dict) {
+    return dict.apply;
+  };
+
+  // output/Control.Applicative/index.js
+  var pure = function(dict) {
+    return dict.pure;
+  };
+  var liftA1 = function(dictApplicative) {
+    var apply2 = apply(dictApplicative.Apply0());
+    var pure1 = pure(dictApplicative);
+    return function(f) {
+      return function(a) {
+        return apply2(pure1(f))(a);
+      };
+    };
+  };
 
   // output/Control.Bind/foreign.js
   var arrayBind = function(arr) {
@@ -221,11 +262,94 @@
     return dict.bind;
   };
 
+  // output/Control.Monad/index.js
+  var ap = function(dictMonad) {
+    var bind2 = bind(dictMonad.Bind1());
+    var pure2 = pure(dictMonad.Applicative0());
+    return function(f) {
+      return function(a) {
+        return bind2(f)(function(f$prime) {
+          return bind2(a)(function(a$prime) {
+            return pure2(f$prime(a$prime));
+          });
+        });
+      };
+    };
+  };
+
   // output/Data.Bounded/foreign.js
   var topChar = String.fromCharCode(65535);
   var bottomChar = String.fromCharCode(0);
   var topNumber = Number.POSITIVE_INFINITY;
   var bottomNumber = Number.NEGATIVE_INFINITY;
+
+  // output/Data.Monoid/index.js
+  var mempty = function(dict) {
+    return dict.mempty;
+  };
+
+  // output/Effect/foreign.js
+  var pureE = function(a) {
+    return function() {
+      return a;
+    };
+  };
+  var bindE = function(a) {
+    return function(f) {
+      return function() {
+        return f(a())();
+      };
+    };
+  };
+
+  // output/Effect/index.js
+  var $runtime_lazy = function(name, moduleName, init) {
+    var state2 = 0;
+    var val;
+    return function(lineNumber) {
+      if (state2 === 2)
+        return val;
+      if (state2 === 1)
+        throw new ReferenceError(name + " was needed before it finished initializing (module " + moduleName + ", line " + lineNumber + ")", moduleName, lineNumber);
+      state2 = 1;
+      val = init();
+      state2 = 2;
+      return val;
+    };
+  };
+  var monadEffect = {
+    Applicative0: function() {
+      return applicativeEffect;
+    },
+    Bind1: function() {
+      return bindEffect;
+    }
+  };
+  var bindEffect = {
+    bind: bindE,
+    Apply0: function() {
+      return $lazy_applyEffect(0);
+    }
+  };
+  var applicativeEffect = {
+    pure: pureE,
+    Apply0: function() {
+      return $lazy_applyEffect(0);
+    }
+  };
+  var $lazy_functorEffect = /* @__PURE__ */ $runtime_lazy("functorEffect", "Effect", function() {
+    return {
+      map: liftA1(applicativeEffect)
+    };
+  });
+  var $lazy_applyEffect = /* @__PURE__ */ $runtime_lazy("applyEffect", "Effect", function() {
+    return {
+      apply: ap(monadEffect),
+      Functor0: function() {
+        return $lazy_functorEffect(0);
+      }
+    };
+  });
 
   // output/Data.Array.ST/foreign.js
   var sortByImpl2 = function() {
@@ -278,6 +402,58 @@
     };
   }();
 
+  // output/Data.Foldable/foreign.js
+  var foldrArray = function(f) {
+    return function(init) {
+      return function(xs) {
+        var acc = init;
+        var len = xs.length;
+        for (var i = len - 1; i >= 0; i--) {
+          acc = f(xs[i])(acc);
+        }
+        return acc;
+      };
+    };
+  };
+  var foldlArray = function(f) {
+    return function(init) {
+      return function(xs) {
+        var acc = init;
+        var len = xs.length;
+        for (var i = 0; i < len; i++) {
+          acc = f(acc)(xs[i]);
+        }
+        return acc;
+      };
+    };
+  };
+
+  // output/Data.Foldable/index.js
+  var foldr = function(dict) {
+    return dict.foldr;
+  };
+  var foldMapDefaultR = function(dictFoldable) {
+    var foldr2 = foldr(dictFoldable);
+    return function(dictMonoid) {
+      var append3 = append(dictMonoid.Semigroup0());
+      var mempty2 = mempty(dictMonoid);
+      return function(f) {
+        return foldr2(function(x) {
+          return function(acc) {
+            return append3(f(x))(acc);
+          };
+        })(mempty2);
+      };
+    };
+  };
+  var foldableArray = {
+    foldr: foldrArray,
+    foldl: foldlArray,
+    foldMap: function(dictMonoid) {
+      return foldMapDefaultR(foldableArray)(dictMonoid);
+    }
+  };
+
   // output/Data.Traversable/foreign.js
   var traverseArrayImpl = function() {
     function array1(a) {
@@ -328,6 +504,36 @@
     };
   }();
 
+  // output/Data.Traversable/index.js
+  var identity2 = /* @__PURE__ */ identity(categoryFn);
+  var traverse = function(dict) {
+    return dict.traverse;
+  };
+  var sequenceDefault = function(dictTraversable) {
+    var traverse2 = traverse(dictTraversable);
+    return function(dictApplicative) {
+      return traverse2(dictApplicative)(identity2);
+    };
+  };
+  var traversableArray = {
+    traverse: function(dictApplicative) {
+      var Apply0 = dictApplicative.Apply0();
+      return traverseArrayImpl(apply(Apply0))(map(Apply0.Functor0()))(pure(dictApplicative));
+    },
+    sequence: function(dictApplicative) {
+      return sequenceDefault(traversableArray)(dictApplicative);
+    },
+    Functor0: function() {
+      return functorArray;
+    },
+    Foldable1: function() {
+      return foldableArray;
+    }
+  };
+  var sequence = function(dict) {
+    return dict.sequence;
+  };
+
   // output/Data.Array/index.js
   var concatMap = /* @__PURE__ */ flip(/* @__PURE__ */ bind(bindArray));
 
@@ -362,8 +568,8 @@
       lifeLeft: germ.lifeLeft - 1 | 0,
       dir: germ.dir
     };
-    var $12 = germ.lifeLeft === 0;
-    if ($12) {
+    var $14 = germ.lifeLeft === 0;
+    if ($14) {
       return {
         germs: [],
         foods: [g.pos]
@@ -405,10 +611,10 @@
       lifeLeft: 25
     }];
     return function __do2() {
-      var food1 = random_food();
+      var foods = sequence(traversableArray)(applicativeEffect)(replicate(100)(random_food))();
       return simulate({
         germs,
-        foods: [food1]
+        foods
       })(tick2)();
     };
   }();
