@@ -4,6 +4,7 @@ import Prelude
 import Effect (Effect)
 import Data.Number (cos, sin)
 import Data.Array (concatMap)
+import Effect.Random (randomRange)
 
 type Model =
   { germs :: Array Germ
@@ -47,7 +48,17 @@ tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else 
 main :: Effect Unit
 main = do
   let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
-  simulate { germs: germs, foods: [ { x: 1.0, y: 1.0 } ] } tick
+  food1 <- random_food
+  simulate { germs: germs, foods: [ food1 ] } tick
+
+random_food :: Effect { x :: Number, y :: Number }
+random_food = random_pos
+
+random_pos :: Effect { x :: Number, y :: Number }
+random_pos = do
+  x <- randomRange 0.0 500.0
+  y <- randomRange 0.0 500.0
+  pure { x, y }
 
 foreign import simulate :: Model -> (Model -> Model) -> Effect Unit
 

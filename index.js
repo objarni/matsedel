@@ -335,6 +335,19 @@
   var cos = Math.cos;
   var sin = Math.sin;
 
+  // output/Effect.Random/foreign.js
+  var random = Math.random;
+
+  // output/Effect.Random/index.js
+  var randomRange = function(min3) {
+    return function(max3) {
+      return function __do2() {
+        var n = random();
+        return n * (max3 - min3) + min3;
+      };
+    };
+  };
+
   // output/Main/index.js
   var map2 = /* @__PURE__ */ map(functorArray);
   var append2 = /* @__PURE__ */ append(semigroupArray);
@@ -349,8 +362,8 @@
       lifeLeft: germ.lifeLeft - 1 | 0,
       dir: germ.dir
     };
-    var $10 = germ.lifeLeft === 0;
-    if ($10) {
+    var $12 = germ.lifeLeft === 0;
+    if ($12) {
       return {
         germs: [],
         foods: [g.pos]
@@ -373,6 +386,15 @@
       })(result))(m.foods)
     };
   };
+  var random_pos = function __do() {
+    var x = randomRange(0)(500)();
+    var y = randomRange(0)(500)();
+    return {
+      x,
+      y
+    };
+  };
+  var random_food = random_pos;
   var main = /* @__PURE__ */ function() {
     var germs = [{
       pos: {
@@ -382,13 +404,13 @@
       dir: 0.15,
       lifeLeft: 25
     }];
-    return simulate({
-      germs,
-      foods: [{
-        x: 1,
-        y: 1
-      }]
-    })(tick2);
+    return function __do2() {
+      var food1 = random_food();
+      return simulate({
+        germs,
+        foods: [food1]
+      })(tick2)();
+    };
   }();
 
   // <stdin>
