@@ -32,14 +32,14 @@ tick m = m
   result = map tickGerm m.germs
 
 tickGerm :: Germ -> Model
-tickGerm germ = { germs: [ g ], foods: [] }
+tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else { germs: [ g ], foods: [] }
   where
   g = germ
     { pos = germ.pos
         { x = germ.pos.x + dx
         , y = germ.pos.y + dy
         }
-    , lifeLeft = germ.lifeLeft + 1
+    , lifeLeft = germ.lifeLeft - 1
     }
   dx = cos germ.dir
   dy = sin germ.dir
