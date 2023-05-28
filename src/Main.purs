@@ -6,19 +6,21 @@ import Data.Number (cos, sin)
 
 type Model =
   { germs :: Array Germ
-  , foods :: Array Position
+  , foods :: Array Food
   }
+
+type Position =
+  { x :: Number
+  , y :: Number
+  }
+
+type Food = Position
 
 type Germ =
   { pos :: Position
   , dir :: Number
   , age :: Int
   , maxAge :: Int
-  }
-
-type Position =
-  { x :: Number
-  , y :: Number
   }
 
 tick :: Model -> Model
