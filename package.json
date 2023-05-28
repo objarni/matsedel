@@ -2,7 +2,8 @@
   "name": "puregerm",
   "version": "1.0.0",
   "scripts": {
-    "start": "spago bundle-app --watch"
+    "start": "spago bundle-app --watch",
+    "format": "purs-tidy format-in-place **/*.purs"
   },
   "dependencies": {
   }
