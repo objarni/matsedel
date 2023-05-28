@@ -20,23 +20,23 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
   describe "Germs" do
     it "can move horisontally" do
       tick
-        { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 0.0, age: 0, maxAge: 10 } ]
+        { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 0.0, lifeLeft: 0} ]
         , foods: []
         } # shouldEqual
-        { germs: [ { pos: { x: 1.0, y: 0.0 }, dir: 0.0, age: 1, maxAge: 10 } ]
+        { germs: [ { pos: { x: 1.0, y: 0.0 }, dir: 0.0, lifeLeft: 1 } ]
         , foods: []
         }
     it "can move vertically" do
       let
         nextState = tick
-          { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 3.1415 / 2.0, age: 0, maxAge: 10 } ]
+          { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 3.1415 / 2.0, lifeLeft: 10 } ]
           , foods: []
           }
       nextState.germs <#> _.pos.y <#> toStringWith (fixed 1) # shouldEqual [ "1.0" ]
     pending' "produce food when dying of age" do
       let
         nextState = tick
-          { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 3.1415 / 2.0, age: 50, maxAge: 50 } ]
+          { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 3.1415 / 2.0, lifeLeft: 50 } ]
           , foods: []
           }
       [ length nextState.germs, length nextState.foods ] # shouldEqual [ 0, 1 ]

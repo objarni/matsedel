@@ -20,8 +20,7 @@ type Food = Position
 type Germ =
   { pos :: Position
   , dir :: Number
-  , age :: Int
-  , maxAge :: Int
+  , lifeLeft :: Int
   }
 
 tick :: Model -> Model
@@ -40,14 +39,14 @@ tickGerm germ = { germs: [ g ], foods: [] }
         { x = germ.pos.x + dx
         , y = germ.pos.y + dy
         }
-    , age = germ.age + 1
+    , lifeLeft = germ.lifeLeft + 1
     }
   dx = cos germ.dir
   dy = sin germ.dir
 
 main :: Effect Unit
 main = do
-  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, age: 25, maxAge: 50 } ] :: Array Germ
+  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
   simulate { germs: germs, foods: [ { x: 1.0, y: 1.0 } ] } tick
 
 foreign import simulate :: Model -> (Model -> Model) -> Effect Unit
