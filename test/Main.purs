@@ -20,7 +20,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
   describe "Germs" do
     it "can move horisontally" do
       tick
-        { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 0.0, age: 0, maxAge: 10} ]
+        { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 0.0, age: 0, maxAge: 10 } ]
         , foods: []
         } # shouldEqual
         { germs: [ { pos: { x: 1.0, y: 0.0 }, dir: 0.0, age: 1, maxAge: 10 } ]

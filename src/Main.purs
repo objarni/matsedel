@@ -22,7 +22,10 @@ type Position =
   }
 
 tick :: Model -> Model
-tick m = m { germs = map tickGerm m.germs }
+tick m = m
+  { germs = map tickGerm m.germs
+  , foods = m.foods
+  }
 
 tickGerm :: Germ -> Germ
 tickGerm germ = germ
