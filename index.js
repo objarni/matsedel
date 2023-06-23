@@ -723,18 +723,28 @@
   var append2 = /* @__PURE__ */ append(semigroupArray);
   var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
   var tickGerm = function(germ) {
+    var hitWall = germ.pos.x < 1 && (germ.pos.x > 499 && (germ.pos.y > 1 && germ.pos.y < 499));
+    var newDir = function() {
+      var $19 = !hitWall;
+      if ($19) {
+        return germ.dir;
+      }
+      ;
+      return germ.dir + 3.14 / 2;
+    }();
     var dy = sin(germ.dir);
     var dx = cos(germ.dir);
-    var g = {
-      pos: {
-        x: germ.pos.x + dx,
-        y: germ.pos.y + dy
-      },
-      lifeLeft: germ.lifeLeft - 1 | 0,
-      dir: germ.dir
+    var newPos = {
+      x: germ.pos.x + dx,
+      y: germ.pos.y + dy
     };
-    var $15 = germ.lifeLeft === 0;
-    if ($15) {
+    var g = {
+      pos: newPos,
+      lifeLeft: germ.lifeLeft - 1 | 0,
+      dir: newDir
+    };
+    var $20 = germ.lifeLeft === 0;
+    if ($20) {
       return {
         germs: [],
         foods: [g.pos]
@@ -768,7 +778,7 @@
   var random_germ = function __do2() {
     var pos = random_pos();
     var dir = randomRange(0)(2 * pi)();
-    var ll = randomRange(10)(100)();
+    var ll = randomRange(100)(500)();
     return {
       pos,
       dir,

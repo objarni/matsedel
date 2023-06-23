@@ -54,10 +54,17 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
           , foods: []
           }
       [ length nextState.germs, length nextState.foods ] # shouldEqual [ 0, 1 ]
--- moving germß
+    it "turns 90 degrees if moving into wall" do
+      let
+        nextState = tick
+          { germs: [ { pos: { x: 499.9, y: 0.0 }, dir: 0.0, lifeLeft: 10 } ]
+          , foods: []
+          }
+      nextState.germs <#> _.dir <#> toStringWith (fixed 1) # shouldEqual ["1.6"]
+-- moving germ
 -- - ordinary move
--- - eating food
+-- - die of age
 -- - onto wall
 -- - splitting in two
--- - die of age
 -- - die of hunger
+-- - eating food

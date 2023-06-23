@@ -37,19 +37,19 @@ tick m = m
 tickGerm :: Germ -> Model
 tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else { germs: [ g ], foods: [] }
   where
-  g = germ
-    { pos = germ.pos
-        { x = germ.pos.x + dx
-        , y = germ.pos.y + dy
-        }
-    , lifeLeft = germ.lifeLeft - 1
-    }
+  g = { pos: newPos, lifeLeft: germ.lifeLeft - 1, dir: newDir }
   dx = cos germ.dir
   dy = sin germ.dir
+  newPos = germ.pos
+    { x = germ.pos.x + dx
+    , y = germ.pos.y + dy
+    }
+  newDir = if not hitWall then germ.dir else germ.dir + 3.14 / 2.0
+  hitWall = germ.pos.x < 1.0 && germ.pos.x > 499.0 && germ.pos.y > 1.0 && germ.pos.y < 499.0
 
 main :: Effect Unit
 main = do
---  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
+  --  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
   foods <- sequence $ replicate 100 random_food
   germs <- sequence $ replicate 100 random_germ
   simulate { germs: germs, foods: foods } tick
@@ -67,7 +67,7 @@ random_germ :: Effect Germ
 random_germ = do
   pos <- random_pos
   dir <- randomRange 0.0 (2.0 * pi)
-  ll <- randomRange 10.0 100.0
+  ll <- randomRange 100.0 500.0
   pure { pos, dir, lifeLeft: floor ll }
 
 foreign import simulate :: Model -> (Model -> Model) -> Effect Unit
