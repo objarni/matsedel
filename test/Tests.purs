@@ -36,10 +36,10 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
     it "can move vertically" do
       let
         nextState = tick
-          { germs: [ { pos: { x: 0.0, y: 0.0 }, dir: 3.1415 / 2.0, lifeLeft: 10 } ]
+          { germs: [ { pos: { x: 0.0, y: 10.0 }, dir: 3.1415 / 2.0, lifeLeft: 10 } ]
           , foods: []
           }
-      nextState.germs <#> _.pos.y <#> toStringWith (fixed 1) # shouldEqual [ "1.0" ]
+      nextState.germs <#> _.pos.y <#> toStringWith (fixed 1) # shouldEqual [ "9.0" ]
     it "age each tick (life goes down by one)" do
       let
         nextState = tick

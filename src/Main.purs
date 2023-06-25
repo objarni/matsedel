@@ -40,7 +40,7 @@ tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else 
   g = { pos: newPos, lifeLeft: germ.lifeLeft - 1, dir: newDir }
   wantedPos = germ.pos
     { x = germ.pos.x + (cos germ.dir)
-    , y = germ.pos.y + (sin germ.dir)
+    , y = germ.pos.y - (sin germ.dir)
     }
   hitWall = wantedPos.x < 0.0 || wantedPos.x > 500.0 || wantedPos.y < 0.0 || wantedPos.y > 500.0
   newPos = if hitWall then germ.pos else wantedPos

@@ -723,28 +723,32 @@
   var append2 = /* @__PURE__ */ append(semigroupArray);
   var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
   var tickGerm = function(germ) {
-    var hitWall = germ.pos.x < 1 && (germ.pos.x > 499 && (germ.pos.y > 1 && germ.pos.y < 499));
+    var wantedPos = {
+      x: germ.pos.x + cos(germ.dir),
+      y: germ.pos.y - sin(germ.dir)
+    };
+    var hitWall = wantedPos.x < 0 || (wantedPos.x > 500 || (wantedPos.y < 0 || wantedPos.y > 500));
     var newDir = function() {
-      var $19 = !hitWall;
-      if ($19) {
-        return germ.dir;
+      if (hitWall) {
+        return germ.dir + 3.14 / 2;
       }
       ;
-      return germ.dir + 3.14 / 2;
+      return germ.dir;
     }();
-    var dy = sin(germ.dir);
-    var dx = cos(germ.dir);
-    var newPos = {
-      x: germ.pos.x + dx,
-      y: germ.pos.y + dy
-    };
+    var newPos = function() {
+      if (hitWall) {
+        return germ.pos;
+      }
+      ;
+      return wantedPos;
+    }();
     var g = {
       pos: newPos,
       lifeLeft: germ.lifeLeft - 1 | 0,
       dir: newDir
     };
-    var $20 = germ.lifeLeft === 0;
-    if ($20) {
+    var $21 = germ.lifeLeft === 0;
+    if ($21) {
       return {
         germs: [],
         foods: [g.pos]
