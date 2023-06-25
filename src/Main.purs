@@ -38,14 +38,13 @@ tickGerm :: Germ -> Model
 tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else { germs: [ g ], foods: [] }
   where
   g = { pos: newPos, lifeLeft: germ.lifeLeft - 1, dir: newDir }
-  dx = cos germ.dir
-  dy = sin germ.dir
-  newPos = germ.pos
-    { x = germ.pos.x + dx
-    , y = germ.pos.y + dy
+  wantedPos = germ.pos
+    { x = germ.pos.x + (cos germ.dir)
+    , y = germ.pos.y + (sin germ.dir)
     }
-  newDir = if not hitWall then germ.dir else germ.dir + 3.14 / 2.0
-  hitWall = germ.pos.x < 1.0 && germ.pos.x > 499.0 && germ.pos.y > 1.0 && germ.pos.y < 499.0
+  hitWall = wantedPos.x < 0.0 || wantedPos.x > 500.0 || wantedPos.y < 0.0 || wantedPos.y > 500.0
+  newPos = if hitWall then germ.pos else wantedPos
+  newDir = if hitWall then germ.dir + 3.14 / 2.0 else germ.dir
 
 main :: Effect Unit
 main = do
