@@ -3,22 +3,54 @@
 <head>
     <title>Matsedel</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"></head>
-<body>
-    <canvas style="background:lightblue" id="canvas" width="500" height="500"></canvas>
-    <h1>Inköpslista</h1>
-    <div id="table"></div>
-    <script src="index.js"></script>
-
-    <h1>Köp</h1>
-    <div style="
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        div {
+            box-sizing: border-box;
+        }
+        .nicetable {
             display: flex;
             justify-content: space-between;
             background-color: aliceblue;
-    ">
-        <div style="flex-grow: 1; text-align: center">Socker</div>
-        <div style="flex-grow: 1; text-align: right">50</div>
-        <div style="flex-grow: 1; text-align: left">ml</div>
-    </div>
+        }
+        .leftist {
+            flex-grow: 1;
+            text-align: left
+        }
+        .rightist {
+            flex-grow: 1;
+            text-align: right
+        }
+        .column-head {
+            font-style: oblique;
+        }
+    </style>
+</head>
+<body>
+<canvas style="background:lightblue" id="canvas" width="500" height="500"></canvas>
+<h1>Inköpslista</h1>
+<div id="table"></div>
+<script src="index.js"></script>
+
+<h1>Maträtter</h1>
+<div class="nicetable">
+    <div class="leftist column-head">Vecka</div>
+    <div class="leftist column-head">Recept</div>
+    <div class="rightist column-head">Portioner</div>
+</div>
+
+<div class="nicetable">
+    <div class="leftist">3</div>
+    <div class="leftist">Stekt lax med rotfrukter</div>
+    <button>+</button>
+    <div>0</div>
+    <button>-</button>
+</div>
+
+<h1>Köp</h1>
+<div class="nicetable">
+    <div class="leftist">Socker</div>
+    <div class="rightist">50 ml</div>
+</div>
 </body>
 </html>
