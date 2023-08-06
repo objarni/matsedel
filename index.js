@@ -5,17 +5,23 @@
     tick = tickGerms;
     window.requestAnimationFrame(step);
   };
+  function spanWithText(text) {
+    const span = document.createElement("span");
+    span.innerText = text;
+    return span;
+  }
   var setIngredients = (ingredients) => () => {
     ingredients.forEach((ingredient) => {
       console.log(ingredient);
-      const table = document.getElementById("table");
-      let row = table.insertRow(-1);
-      let c1 = row.insertCell(0);
-      let c2 = row.insertCell(1);
-      let c3 = row.insertCell(2);
-      c1.innerText = ingredient.name;
-      c2.innerText = ingredient.amount;
-      c3.innerText = ingredient.unit;
+      const tableDiv = document.getElementById("table");
+      const row = document.createElement("div");
+      const name = spanWithText(ingredient.name);
+      const amount = spanWithText(ingredient.amount);
+      const unit2 = spanWithText(ingredient.unit);
+      row.appendChild(name);
+      row.appendChild(amount);
+      row.appendChild(unit2);
+      tableDiv.appendChild(row);
     });
     console.log("hello from setIngredients");
   };
@@ -806,9 +812,9 @@
   var random_food = random_pos;
   var main = function __do3() {
     setIngredients([{
-      name: "sugar",
-      amount: 1,
-      unit: "cup"
+      name: "socker",
+      amount: 50,
+      unit: "ml"
     }])();
     var foods = sequence2(replicate(100)(random_food))();
     var germs = sequence2(replicate(100)(random_germ))();

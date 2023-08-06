@@ -29,7 +29,7 @@ type Germ =
 main :: Effect Unit
 main = do
   --  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
-  setIngredients [ { name: "sugar", amount: 1.0, unit: "cup" } ]
+  setIngredients [ { name: "socker", amount: 50.0, unit: "ml" } ]
   foods <- sequence $ replicate 100 random_food
   germs <- sequence $ replicate 100 random_germ
   simulate { germs: germs, foods: foods } tick
