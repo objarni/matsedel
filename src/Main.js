@@ -1,32 +1,36 @@
-export const simulate = (initialGerms) => (tickGerms) => () => {
-    state = initialGerms
-    tick = tickGerms
-    window.requestAnimationFrame(step)
+
+function leftist(text) {
+    const div = document.createElement('div')
+    div.className = 'leftist';
+    div.innerText = text
+    return div
 }
-function spanWithText(text) {
-    const span = document.createElement('span')
-    span.style = 'width:30%'
-    span.innerText = text
-    return span
+function rightist(text) {
+    const div = document.createElement('div')
+    div.className = 'rightist'
+    div.innerText = text
+    return div
 }
 export const setMeals = (meals) => () => {
 
 }
 export const setIngredients = (ingredients) => () => {
     ingredients.forEach(ingredient => {
-        const name = spanWithText(ingredient.name)
-        const amount = spanWithText(ingredient.amount)
-        const unit = spanWithText(ingredient.unit)
-
-        const row = document.createElement('div')
-        row.style['width'] = '100vw'
-        row.style['backgroundColor'] = 'lightgrey'
-        row.append(name, amount, unit)
-        document.getElementById('table').appendChild(row)
+        const name = leftist(ingredient.name)
+        const amount = rightist(`${ingredient.amount}${ingredient.unit}`)
+        let table = document.getElementById('ingredientsTable');
+        console.log(table)
+        table.append(name, amount)
     })
     console.log("hello from setIngredients")
 }
 
+// puregerm code below
+export const simulate = (initialGerms) => (tickGerms) => () => {
+    state = initialGerms
+    tick = tickGerms
+    window.requestAnimationFrame(step)
+}
 function render(model) {
 
     // Clear canvas

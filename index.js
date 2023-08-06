@@ -1,28 +1,31 @@
 (() => {
   // output/Main/foreign.js
+  function leftist(text) {
+    const div2 = document.createElement("div");
+    div2.className = "leftist";
+    div2.innerText = text;
+    return div2;
+  }
+  function rightist(text) {
+    const div2 = document.createElement("div");
+    div2.className = "rightist";
+    div2.innerText = text;
+    return div2;
+  }
+  var setIngredients = (ingredients) => () => {
+    ingredients.forEach((ingredient) => {
+      const name = leftist(ingredient.name);
+      const amount = rightist(`${ingredient.amount}${ingredient.unit}`);
+      let table = document.getElementById("ingredientsTable");
+      console.log(table);
+      table.append(name, amount);
+    });
+    console.log("hello from setIngredients");
+  };
   var simulate = (initialGerms) => (tickGerms) => () => {
     state = initialGerms;
     tick = tickGerms;
     window.requestAnimationFrame(step);
-  };
-  function spanWithText(text) {
-    const span = document.createElement("span");
-    span.style = "width:30%";
-    span.innerText = text;
-    return span;
-  }
-  var setIngredients = (ingredients) => () => {
-    ingredients.forEach((ingredient) => {
-      const name = spanWithText(ingredient.name);
-      const amount = spanWithText(ingredient.amount);
-      const unit2 = spanWithText(ingredient.unit);
-      const row = document.createElement("div");
-      row.style["width"] = "100vw";
-      row.style["backgroundColor"] = "lightgrey";
-      row.append(name, amount, unit2);
-      document.getElementById("table").appendChild(row);
-    });
-    console.log("hello from setIngredients");
   };
   function render(model) {
     const canvas = document.getElementById("canvas");
@@ -811,8 +814,8 @@
   var random_food = random_pos;
   var main = function __do3() {
     setIngredients([{
-      name: "socker",
-      amount: 50,
+      name: "Socker",
+      amount: 55,
       unit: "ml"
     }])();
     var foods = sequence2(replicate(100)(random_food))();

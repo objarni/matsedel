@@ -29,11 +29,8 @@
 </head>
 <body>
 <canvas style="background:lightblue" id="canvas" width="500" height="500"></canvas>
-<h1>Inköpslista</h1>
-<div id="table"></div>
-<script src="index.js"></script>
 
-<h1>Maträtter</h1>
+<h1>Standardmiddagar</h1>
 <div class="nicetable">
     <div class="leftist column-head">Vecka</div>
     <div class="leftist column-head">Recept</div>
@@ -48,10 +45,11 @@
     <button>-</button>
 </div>
 
-<h1>Köp</h1>
-<div class="nicetable">
-    <div class="leftist">Socker</div>
-    <div class="rightist">50 ml</div>
+<h1>Inköpslista</h1>
+<div class="nicetable" id="ingredientsTable">
 </div>
+
+<script src="index.js"></script>
+
 </body>
 </html>

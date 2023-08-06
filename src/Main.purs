@@ -10,7 +10,7 @@ import Data.Int (floor)
 
 main :: Effect Unit
 main = do
-  setIngredients [ { name: "socker", amount: 50.0, unit: "ml" } ]
+  setIngredients [ { name: "Socker", amount: 55.0, unit: "ml" } ]
   foods <- sequence $ replicate 100 random_food
   germs <- sequence $ replicate 100 random_germ
   simulate { germs: germs, foods: foods } tick
