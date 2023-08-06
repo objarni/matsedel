@@ -8,6 +8,30 @@ import Effect.Random (randomRange)
 import Data.Traversable (sequence)
 import Data.Int (floor)
 
+main :: Effect Unit
+main = do
+  setIngredients [ { name: "socker", amount: 50.0, unit: "ml" } ]
+  foods <- sequence $ replicate 100 random_food
+  germs <- sequence $ replicate 100 random_germ
+  simulate { germs: germs, foods: foods } tick
+
+type Meal = {
+        id :: String,
+        ingredients :: Ingredients
+    }
+
+type Meals = Array Meal
+
+type Ingredient = { name :: String, amount :: Number, unit :: String }
+
+type Ingredients = Array Ingredient
+
+foreign import setMeals :: Meals -> Effect Unit
+foreign import setIngredients :: Ingredients -> Effect Unit
+
+
+-- Below: puregerm code
+
 type Model =
   { germs :: Array Germ
   , foods :: Array Food
@@ -25,14 +49,6 @@ type Germ =
   , dir :: Number
   , lifeLeft :: Int
   }
-
-main :: Effect Unit
-main = do
-  --  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
-  setIngredients [ { name: "socker", amount: 50.0, unit: "ml" } ]
-  foods <- sequence $ replicate 100 random_food
-  germs <- sequence $ replicate 100 random_germ
-  simulate { germs: germs, foods: foods } tick
 
 tick :: Model -> Model
 tick m = m
@@ -71,9 +87,3 @@ random_germ = do
   pure { pos, dir, lifeLeft: floor ll }
 
 foreign import simulate :: Model -> (Model -> Model) -> Effect Unit
-
-type Ingredient = { name :: String, amount :: Number, unit :: String }
-
-type Ingredients = Array Ingredient
-
-foreign import setIngredients :: Ingredients -> Effect Unit

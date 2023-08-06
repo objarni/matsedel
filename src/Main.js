@@ -9,6 +9,9 @@ function spanWithText(text) {
     span.innerText = text
     return span
 }
+export const setMeals = (meals) => () => {
+
+}
 export const setIngredients = (ingredients) => () => {
     ingredients.forEach(ingredient => {
         const name = spanWithText(ingredient.name)
