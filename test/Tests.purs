@@ -60,10 +60,10 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
           { germs: [ { pos: { x: 499.9, y: 100.0 }, dir: 0.0, lifeLeft: 10 } ]
           , foods: []
           }
---      nextState # shouldEqual { germs: [ { pos: { x: 499.9, y: 100.0 }, dir: 0.0, lifeLeft: 10 } ]
---                                        , foods: []
---                                        }
-      nextState.germs <#> _.dir <#> toStringWith (fixed 1) # shouldEqual ["1.6"]
+      --      nextState # shouldEqual { germs: [ { pos: { x: 499.9, y: 100.0 }, dir: 0.0, lifeLeft: 10 } ]
+      --                                        , foods: []
+      --                                        }
+      nextState.germs <#> _.dir <#> toStringWith (fixed 1) # shouldEqual [ "1.6" ]
 -- moving germ
 -- - ordinary move
 -- - die of age

@@ -26,6 +26,14 @@ type Germ =
   , lifeLeft :: Int
   }
 
+main :: Effect Unit
+main = do
+  --  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
+  setIngredients [ { name: "sugar", amount: 1.0, unit: "cup" } ]
+  foods <- sequence $ replicate 100 random_food
+  germs <- sequence $ replicate 100 random_germ
+  simulate { germs: germs, foods: foods } tick
+
 tick :: Model -> Model
 tick m = m
   { germs = concatMap _.germs result
@@ -46,13 +54,6 @@ tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else 
   newPos = if hitWall then germ.pos else wantedPos
   newDir = if hitWall then germ.dir + 3.14 / 2.0 else germ.dir
 
-main :: Effect Unit
-main = do
-  --  let germs = [ { pos: { x: 50.0, y: 50.0 }, dir: 0.15, lifeLeft: 25 } ] :: Array Germ
-  foods <- sequence $ replicate 100 random_food
-  germs <- sequence $ replicate 100 random_germ
-  simulate { germs: germs, foods: foods } tick
-
 random_food :: Effect { x :: Number, y :: Number }
 random_food = random_pos
 
@@ -71,3 +72,8 @@ random_germ = do
 
 foreign import simulate :: Model -> (Model -> Model) -> Effect Unit
 
+type Ingredient = { name :: String, amount :: Number, unit :: String }
+
+type Ingredients = Array Ingredient
+
+foreign import setIngredients :: Ingredients -> Effect Unit
