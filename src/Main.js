@@ -5,46 +5,21 @@ export const simulate = (initialGerms) => (tickGerms) => () => {
 }
 function spanWithText(text) {
     const span = document.createElement('span')
+    span.style = 'width:30%'
     span.innerText = text
     return span
 }
 export const setIngredients = (ingredients) => () => {
     ingredients.forEach(ingredient => {
-        console.log(ingredient)
-
-        const tableDiv = document.getElementById('table')
-        // let name = tableDiv.createElement("span")
-        // name.innerText = ingredient.name
-
-        const row = document.createElement('div')
-
         const name = spanWithText(ingredient.name)
         const amount = spanWithText(ingredient.amount)
         const unit = spanWithText(ingredient.unit)
-        row.appendChild(name)
-        row.appendChild(amount)
-        row.appendChild(unit)
-        tableDiv.appendChild(row)
-        // const name = document.createElement('span')
-        // name.innerText = ingredient.name
-        // const amount = document.createElement('span')
-        // amount.innerText = '' + ingredient.amount
-        // // span.classList.add('bullet');
-        // row.appendChild(name);
-        // row.appendChild(amount);
-        // tableDiv.appendChild(row)
 
-        // let row = table.insertRow(-1);
-        // // Create table cells
-        // let c1 = row.insertCell(0);
-        // let c2 = row.insertCell(1);
-        // let c3 = row.insertCell(2);
-        //
-        // // Add data to c1 and c2
-        // c1.innerText = ingredient.name
-        // c2.innerText = ingredient.amount
-        // c3.innerText = ingredient.unit
-
+        const row = document.createElement('div')
+        row.style['width'] = '100vw'
+        row.style['backgroundColor'] = 'lightgrey'
+        row.append(name, amount, unit)
+        document.getElementById('table').appendChild(row)
     })
     console.log("hello from setIngredients")
 }

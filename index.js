@@ -7,21 +7,20 @@
   };
   function spanWithText(text) {
     const span = document.createElement("span");
+    span.style = "width:30%";
     span.innerText = text;
     return span;
   }
   var setIngredients = (ingredients) => () => {
     ingredients.forEach((ingredient) => {
-      console.log(ingredient);
-      const tableDiv = document.getElementById("table");
-      const row = document.createElement("div");
       const name = spanWithText(ingredient.name);
       const amount = spanWithText(ingredient.amount);
       const unit2 = spanWithText(ingredient.unit);
-      row.appendChild(name);
-      row.appendChild(amount);
-      row.appendChild(unit2);
-      tableDiv.appendChild(row);
+      const row = document.createElement("div");
+      row.style["width"] = "100vw";
+      row.style["backgroundColor"] = "lightgrey";
+      row.append(name, amount, unit2);
+      document.getElementById("table").appendChild(row);
     });
     console.log("hello from setIngredients");
   };
