@@ -15,12 +15,14 @@ export const setMeals = (meals) => () => {
 
 }
 export const setIngredients = (ingredients) => () => {
+    let table = document.getElementById('ingredientsTable');
     ingredients.forEach(ingredient => {
         const name = leftist(ingredient.name)
-        const amount = rightist(`${ingredient.amount}${ingredient.unit}`)
-        let table = document.getElementById('ingredientsTable');
-        console.log(table)
-        table.append(name, amount)
+        const amount = rightist(`${ingredient.amount} ${ingredient.unit}`)
+        let div = document.createElement('div');
+        div.className = 'nice-row'
+        div.append(name, amount)
+        table.append(div)
     })
     console.log("hello from setIngredients")
 }

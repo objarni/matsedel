@@ -10,15 +10,19 @@ import Data.Int (floor)
 
 main :: Effect Unit
 main = do
-  setIngredients [ { name: "Socker", amount: 55.0, unit: "ml" } ]
+  setIngredients
+    [ { name: "Tortillabröd", amount: 2.0, unit: "paket" }
+    , { name: "Salsa", amount: 2.0, unit: "dl" }
+    , { name: "Fast potatis", amount: 4.0, unit: "st" }
+    ]
   foods <- sequence $ replicate 100 random_food
   germs <- sequence $ replicate 100 random_germ
   simulate { germs: germs, foods: foods } tick
 
-type Meal = {
-        id :: String,
-        ingredients :: Ingredients
-    }
+type Meal =
+  { id :: String
+  , ingredients :: Ingredients
+  }
 
 type Meals = Array Meal
 
@@ -28,7 +32,6 @@ type Ingredients = Array Ingredient
 
 foreign import setMeals :: Meals -> Effect Unit
 foreign import setIngredients :: Ingredients -> Effect Unit
-
 
 -- Below: puregerm code
 

@@ -9,19 +9,23 @@
             box-sizing: border-box;
             padding: 5px;
         }
-        .nicetable {
+
+        .nice-row {
             display: flex;
             justify-content: space-between;
             background-color: lightpink;
         }
+
         .leftist {
             flex-grow: 1;
             text-align: left
         }
+
         .rightist {
             flex-grow: 1;
             text-align: right
         }
+
         .column-head {
             font-style: oblique;
         }
@@ -31,22 +35,26 @@
 <canvas style="background:lightblue" id="canvas" width="500" height="500"></canvas>
 
 <h1>Standardmiddagar</h1>
-<div class="nicetable">
-    <div class="leftist column-head">Vecka</div>
-    <div class="leftist column-head">Recept</div>
-    <div class="rightist column-head">Portioner</div>
-</div>
+<div id="standardmiddagar">
 
-<div class="nicetable">
-    <div class="leftist">3</div>
-    <div class="leftist">Stekt lax med rotfrukter</div>
-    <button>+</button>
-    <div>0</div>
-    <button>-</button>
+    <div class="nice-row">
+        <div class="leftist column-head">Vecka</div>
+        <div class="leftist column-head">Recept</div>
+        <div class="rightist column-head">Portioner</div>
+    </div>
+
+    <div class="nice-row">
+        <div class="leftist">3</div>
+        <div class="leftist">Stekt lax med rotfrukter</div>
+        <button>+</button>
+        <div>0</div>
+        <button>-</button>
+    </div>
+
 </div>
 
 <h1>Inköpslista</h1>
-<div class="nicetable" id="ingredientsTable">
+<div id="ingredientsTable">
 </div>
 
 <script src="index.js"></script>

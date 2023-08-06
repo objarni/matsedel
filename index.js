@@ -13,12 +13,14 @@
     return div2;
   }
   var setIngredients = (ingredients) => () => {
+    let table = document.getElementById("ingredientsTable");
     ingredients.forEach((ingredient) => {
       const name = leftist(ingredient.name);
-      const amount = rightist(`${ingredient.amount}${ingredient.unit}`);
-      let table = document.getElementById("ingredientsTable");
-      console.log(table);
-      table.append(name, amount);
+      const amount = rightist(`${ingredient.amount} ${ingredient.unit}`);
+      let div2 = document.createElement("div");
+      div2.className = "nice-row";
+      div2.append(name, amount);
+      table.append(div2);
     });
     console.log("hello from setIngredients");
   };
@@ -814,9 +816,17 @@
   var random_food = random_pos;
   var main = function __do3() {
     setIngredients([{
-      name: "Socker",
-      amount: 55,
-      unit: "ml"
+      name: "Tortillabr\xF6d",
+      amount: 2,
+      unit: "paket"
+    }, {
+      name: "Salsa",
+      amount: 2,
+      unit: "dl"
+    }, {
+      name: "Fast potatis",
+      amount: 4,
+      unit: "st"
     }])();
     var foods = sequence2(replicate(100)(random_food))();
     var germs = sequence2(replicate(100)(random_germ))();
