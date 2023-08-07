@@ -1,3 +1,11 @@
+function niceRow() {
+    let div = document.createElement('div');
+    div.className = 'nice-row'
+    for (let i = 0; i < arguments.length; i++) {
+        div.append(arguments[i])
+    }
+    return div
+}
 
 function leftist(text) {
     const div = document.createElement('div')
@@ -5,22 +13,22 @@ function leftist(text) {
     div.innerText = text
     return div
 }
+
 function rightist(text) {
     const div = document.createElement('div')
     div.className = 'rightist'
     div.innerText = text
     return div
 }
+
 export const setMeals = (meals) => () => {
     console.log("setting meals = ", meals)
     let table = document.getElementById('mealsTable');
     meals.forEach(meal => {
         const name = leftist(meal.meal)
         const amount = rightist(`${meal.servings}`)
-        let div = document.createElement('div');
-        div.className = 'nice-row'
-        div.append(name, amount)
-        table.append(div)
+        const row = niceRow(name, amount)
+        table.append(row)
     })
 }
 export const setIngredients = (ingredients) => () => {
@@ -29,10 +37,7 @@ export const setIngredients = (ingredients) => () => {
     ingredients.forEach(ingredient => {
         const name = leftist(ingredient.name)
         const amount = rightist(`${ingredient.amount} ${ingredient.unit}`)
-        let div = document.createElement('div');
-        div.className = 'nice-row'
-        div.append(name, amount)
-        table.append(div)
+        table.append(niceRow(name, amount))
     })
 }
 
@@ -42,6 +47,7 @@ export const simulate = (initialGerms) => (tickGerms) => () => {
     tick = tickGerms
     window.requestAnimationFrame(step)
 }
+
 function render(model) {
 
     // Clear canvas

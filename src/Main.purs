@@ -25,6 +25,9 @@ main = do
   germs <- sequence $ replicate 100 random_germ
   simulate { germs: germs, foods: foods } tick
 
+worldSize :: Number
+worldSize = 300.0
+
 type Meals = Array Meal
 
 type Meal =
@@ -76,7 +79,7 @@ tickGerm germ = if germ.lifeLeft == 0 then { germs: [], foods: [ g.pos ] } else 
     { x = germ.pos.x + (cos germ.dir)
     , y = germ.pos.y - (sin germ.dir)
     }
-  hitWall = wantedPos.x < 0.0 || wantedPos.x > 500.0 || wantedPos.y < 0.0 || wantedPos.y > 500.0
+  hitWall = wantedPos.x < 0.0 || wantedPos.x > worldSize || wantedPos.y < 0.0 || wantedPos.y > worldSize
   newPos = if hitWall then germ.pos else wantedPos
   newDir = if hitWall then germ.dir + 3.14 / 2.0 else germ.dir
 
@@ -85,15 +88,15 @@ random_food = random_pos
 
 random_pos :: Effect { x :: Number, y :: Number }
 random_pos = do
-  x <- randomRange 0.0 500.0
-  y <- randomRange 0.0 500.0
+  x <- randomRange 0.0 worldSize
+  y <- randomRange 0.0 worldSize
   pure { x, y }
 
 random_germ :: Effect Germ
 random_germ = do
   pos <- random_pos
   dir <- randomRange 0.0 (2.0 * pi)
-  ll <- randomRange 100.0 500.0
+  ll <- randomRange 100.0 worldSize
   pure { pos, dir, lifeLeft: floor ll }
 
 foreign import simulate :: Model -> (Model -> Model) -> Effect Unit

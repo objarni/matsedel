@@ -1,5 +1,13 @@
 (() => {
   // output/Main/foreign.js
+  function niceRow() {
+    let div2 = document.createElement("div");
+    div2.className = "nice-row";
+    for (let i = 0; i < arguments.length; i++) {
+      div2.append(arguments[i]);
+    }
+    return div2;
+  }
   function leftist(text) {
     const div2 = document.createElement("div");
     div2.className = "leftist";
@@ -18,10 +26,8 @@
     meals.forEach((meal) => {
       const name = leftist(meal.meal);
       const amount = rightist(`${meal.servings}`);
-      let div2 = document.createElement("div");
-      div2.className = "nice-row";
-      div2.append(name, amount);
-      table.append(div2);
+      const row = niceRow(name, amount);
+      table.append(row);
     });
   };
   var setIngredients = (ingredients) => () => {
@@ -30,10 +36,7 @@
     ingredients.forEach((ingredient) => {
       const name = leftist(ingredient.name);
       const amount = rightist(`${ingredient.amount} ${ingredient.unit}`);
-      let div2 = document.createElement("div");
-      div2.className = "nice-row";
-      div2.append(name, amount);
-      table.append(div2);
+      table.append(niceRow(name, amount));
     });
   };
   var simulate = (initialGerms) => (tickGerms) => () => {
@@ -758,12 +761,13 @@
   var map2 = /* @__PURE__ */ map(functorArray);
   var append2 = /* @__PURE__ */ append(semigroupArray);
   var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
+  var worldSize = 300;
   var tickGerm = function(germ) {
     var wantedPos = {
       x: germ.pos.x + cos(germ.dir),
       y: germ.pos.y - sin(germ.dir)
     };
-    var hitWall = wantedPos.x < 0 || (wantedPos.x > 500 || (wantedPos.y < 0 || wantedPos.y > 500));
+    var hitWall = wantedPos.x < 0 || (wantedPos.x > worldSize || (wantedPos.y < 0 || wantedPos.y > worldSize));
     var newDir = function() {
       if (hitWall) {
         return germ.dir + 3.14 / 2;
@@ -808,8 +812,8 @@
     };
   };
   var random_pos = function __do() {
-    var x = randomRange(0)(500)();
-    var y = randomRange(0)(500)();
+    var x = randomRange(0)(worldSize)();
+    var y = randomRange(0)(worldSize)();
     return {
       x,
       y
@@ -818,7 +822,7 @@
   var random_germ = function __do2() {
     var pos = random_pos();
     var dir = randomRange(0)(2 * pi)();
-    var ll = randomRange(100)(500)();
+    var ll = randomRange(100)(worldSize)();
     return {
       pos,
       dir,
