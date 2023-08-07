@@ -15,6 +15,10 @@ main = do
       , servings: 0
       , ingredients: [ { name: "Lax", amount: 1.0, unit: "kg" }, { name: "Rotfrukter", amount: 1.0, unit: "kg" } ]
       }
+    , { meal: "Äggröra med fetaost och pasta"
+      , servings: 0
+      , ingredients: [ { name: "Lax", amount: 1.0, unit: "kg" }, { name: "Rotfrukter", amount: 1.0, unit: "kg" } ]
+      }
     ]
   setIngredients
     [ { name: "Tortillabröd", amount: 2.0, unit: "paket" }

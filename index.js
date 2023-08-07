@@ -1,11 +1,43 @@
 (() => {
   // output/Main/foreign.js
-  function niceRow() {
+  var setMeals = (meals) => () => {
+    console.log("setting meals = ", meals);
+    let table = document.getElementById("mealsTable");
+    meals.forEach((meal) => {
+      const week = leftist(3);
+      const name = leftist(meal.meal);
+      let minusButton = aButton("-");
+      let plusButton = aButton("+");
+      const servingsDiv = aDiv(minusButton, meal.servings, plusButton);
+      const row = niceRow(week, name, servingsDiv);
+      table.append(row);
+    });
+  };
+  var setIngredients = (ingredients) => () => {
+    let table = document.getElementById("ingredientsTable");
+    console.log("setting ingredients = ", ingredients);
+    ingredients.forEach((ingredient) => {
+      const name = leftist(ingredient.name);
+      const amount = rightist(`${ingredient.amount} ${ingredient.unit}`);
+      table.append(niceRow(name, amount));
+    });
+  };
+  function aDiv() {
     let div2 = document.createElement("div");
-    div2.className = "nice-row";
     for (let i = 0; i < arguments.length; i++) {
       div2.append(arguments[i]);
     }
+    return div2;
+  }
+  function aButton(text) {
+    let theButton = document.createElement("button");
+    theButton.style["fontSize"] = "large";
+    theButton.innerText = text;
+    return theButton;
+  }
+  function niceRow() {
+    let div2 = aDiv(...arguments);
+    div2.className = "nice-row";
     return div2;
   }
   function leftist(text) {
@@ -20,25 +52,6 @@
     div2.innerText = text;
     return div2;
   }
-  var setMeals = (meals) => () => {
-    console.log("setting meals = ", meals);
-    let table = document.getElementById("mealsTable");
-    meals.forEach((meal) => {
-      const name = leftist(meal.meal);
-      const amount = rightist(`${meal.servings}`);
-      const row = niceRow(name, amount);
-      table.append(row);
-    });
-  };
-  var setIngredients = (ingredients) => () => {
-    let table = document.getElementById("ingredientsTable");
-    console.log("setting ingredients = ", ingredients);
-    ingredients.forEach((ingredient) => {
-      const name = leftist(ingredient.name);
-      const amount = rightist(`${ingredient.amount} ${ingredient.unit}`);
-      table.append(niceRow(name, amount));
-    });
-  };
   var simulate = (initialGerms) => (tickGerms) => () => {
     state = initialGerms;
     tick = tickGerms;
@@ -833,6 +846,18 @@
   var main = function __do3() {
     setMeals([{
       meal: "Stekt lax med rotfrukter",
+      servings: 0,
+      ingredients: [{
+        name: "Lax",
+        amount: 1,
+        unit: "kg"
+      }, {
+        name: "Rotfrukter",
+        amount: 1,
+        unit: "kg"
+      }]
+    }, {
+      meal: "\xC4ggr\xF6ra med fetaost och pasta",
       servings: 0,
       ingredients: [{
         name: "Lax",
