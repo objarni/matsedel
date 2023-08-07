@@ -10,6 +10,12 @@ import Data.Int (floor)
 
 main :: Effect Unit
 main = do
+  setMeals
+    [ { meal: "Stekt lax med rotfrukter"
+      , servings: 0
+      , ingredients: [ { name: "Lax", amount: 1.0, unit: "kg" }, { name: "Rotfrukter", amount: 1.0, unit: "kg" } ]
+      }
+    ]
   setIngredients
     [ { name: "Tortillabröd", amount: 2.0, unit: "paket" }
     , { name: "Salsa", amount: 2.0, unit: "dl" }
@@ -19,12 +25,13 @@ main = do
   germs <- sequence $ replicate 100 random_germ
   simulate { germs: germs, foods: foods } tick
 
-type Meal =
-  { id :: String
-  , ingredients :: Ingredients
-  }
-
 type Meals = Array Meal
+
+type Meal =
+  { meal :: String
+  , ingredients :: Ingredients
+  , servings :: Int
+  }
 
 type Ingredient = { name :: String, amount :: Number, unit :: String }
 

@@ -12,10 +12,20 @@ function rightist(text) {
     return div
 }
 export const setMeals = (meals) => () => {
-
+    console.log("setting meals = ", meals)
+    let table = document.getElementById('mealsTable');
+    meals.forEach(meal => {
+        const name = leftist(meal.meal)
+        const amount = rightist(`${meal.servings}`)
+        let div = document.createElement('div');
+        div.className = 'nice-row'
+        div.append(name, amount)
+        table.append(div)
+    })
 }
 export const setIngredients = (ingredients) => () => {
     let table = document.getElementById('ingredientsTable');
+    console.log("setting ingredients = ", ingredients)
     ingredients.forEach(ingredient => {
         const name = leftist(ingredient.name)
         const amount = rightist(`${ingredient.amount} ${ingredient.unit}`)
@@ -24,7 +34,6 @@ export const setIngredients = (ingredients) => () => {
         div.append(name, amount)
         table.append(div)
     })
-    console.log("hello from setIngredients")
 }
 
 // puregerm code below

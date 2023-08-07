@@ -12,8 +12,21 @@
     div2.innerText = text;
     return div2;
   }
+  var setMeals = (meals) => () => {
+    console.log("setting meals = ", meals);
+    let table = document.getElementById("mealsTable");
+    meals.forEach((meal) => {
+      const name = leftist(meal.meal);
+      const amount = rightist(`${meal.servings}`);
+      let div2 = document.createElement("div");
+      div2.className = "nice-row";
+      div2.append(name, amount);
+      table.append(div2);
+    });
+  };
   var setIngredients = (ingredients) => () => {
     let table = document.getElementById("ingredientsTable");
+    console.log("setting ingredients = ", ingredients);
     ingredients.forEach((ingredient) => {
       const name = leftist(ingredient.name);
       const amount = rightist(`${ingredient.amount} ${ingredient.unit}`);
@@ -22,7 +35,6 @@
       div2.append(name, amount);
       table.append(div2);
     });
-    console.log("hello from setIngredients");
   };
   var simulate = (initialGerms) => (tickGerms) => () => {
     state = initialGerms;
@@ -815,6 +827,19 @@
   };
   var random_food = random_pos;
   var main = function __do3() {
+    setMeals([{
+      meal: "Stekt lax med rotfrukter",
+      servings: 0,
+      ingredients: [{
+        name: "Lax",
+        amount: 1,
+        unit: "kg"
+      }, {
+        name: "Rotfrukter",
+        amount: 1,
+        unit: "kg"
+      }]
+    }])();
     setIngredients([{
       name: "Tortillabr\xF6d",
       amount: 2,
