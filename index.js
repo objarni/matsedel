@@ -1,9 +1,10 @@
 (() => {
   // output/Main/foreign.js
-  var run = (meals) => (incFn) => (decFn) => () => {
+  var run = (meals) => (meals2ingredients2) => (incFn) => (decFn) => () => {
     console.log("running");
     setMeals(meals);
-    setIngredients([]);
+    var ingredients = meals2ingredients2(meals);
+    setIngredients(ingredients);
   };
   function setMeals(meals) {
     console.log("setting meals = ", meals);
@@ -57,6 +58,126 @@
     div2.innerText = text;
     return div2;
   }
+
+  // output/Control.Bind/foreign.js
+  var arrayBind = function(arr) {
+    return function(f) {
+      var result = [];
+      for (var i = 0, l = arr.length; i < l; i++) {
+        Array.prototype.push.apply(result, f(arr[i]));
+      }
+      return result;
+    };
+  };
+
+  // output/Control.Apply/foreign.js
+  var arrayApply = function(fs) {
+    return function(xs) {
+      var l = fs.length;
+      var k = xs.length;
+      var result = new Array(l * k);
+      var n = 0;
+      for (var i = 0; i < l; i++) {
+        var f = fs[i];
+        for (var j = 0; j < k; j++) {
+          result[n++] = f(xs[j]);
+        }
+      }
+      return result;
+    };
+  };
+
+  // output/Control.Semigroupoid/index.js
+  var semigroupoidFn = {
+    compose: function(f) {
+      return function(g) {
+        return function(x) {
+          return f(g(x));
+        };
+      };
+    }
+  };
+
+  // output/Control.Category/index.js
+  var identity = function(dict) {
+    return dict.identity;
+  };
+  var categoryFn = {
+    identity: function(x) {
+      return x;
+    },
+    Semigroupoid0: function() {
+      return semigroupoidFn;
+    }
+  };
+
+  // output/Data.Boolean/index.js
+  var otherwise = true;
+
+  // output/Data.Function/index.js
+  var flip = function(f) {
+    return function(b) {
+      return function(a) {
+        return f(a)(b);
+      };
+    };
+  };
+
+  // output/Data.Functor/foreign.js
+  var arrayMap = function(f) {
+    return function(arr) {
+      var l = arr.length;
+      var result = new Array(l);
+      for (var i = 0; i < l; i++) {
+        result[i] = f(arr[i]);
+      }
+      return result;
+    };
+  };
+
+  // output/Data.Functor/index.js
+  var map = function(dict) {
+    return dict.map;
+  };
+  var functorArray = {
+    map: arrayMap
+  };
+
+  // output/Control.Apply/index.js
+  var applyArray = {
+    apply: arrayApply,
+    Functor0: function() {
+      return functorArray;
+    }
+  };
+  var apply = function(dict) {
+    return dict.apply;
+  };
+
+  // output/Control.Applicative/index.js
+  var pure = function(dict) {
+    return dict.pure;
+  };
+  var liftA1 = function(dictApplicative) {
+    var apply2 = apply(dictApplicative.Apply0());
+    var pure1 = pure(dictApplicative);
+    return function(f) {
+      return function(a) {
+        return apply2(pure1(f))(a);
+      };
+    };
+  };
+
+  // output/Control.Bind/index.js
+  var bindArray = {
+    bind: arrayBind,
+    Apply0: function() {
+      return applyArray;
+    }
+  };
+  var bind = function(dict) {
+    return dict.bind;
+  };
 
   // output/PureGerm/foreign.js
   var simulate = (initialGerms) => (tickGerms) => () => {
@@ -185,62 +306,6 @@
     };
   }();
 
-  // output/Data.Functor/foreign.js
-  var arrayMap = function(f) {
-    return function(arr) {
-      var l = arr.length;
-      var result = new Array(l);
-      for (var i = 0; i < l; i++) {
-        result[i] = f(arr[i]);
-      }
-      return result;
-    };
-  };
-
-  // output/Control.Semigroupoid/index.js
-  var semigroupoidFn = {
-    compose: function(f) {
-      return function(g) {
-        return function(x) {
-          return f(g(x));
-        };
-      };
-    }
-  };
-
-  // output/Control.Category/index.js
-  var identity = function(dict) {
-    return dict.identity;
-  };
-  var categoryFn = {
-    identity: function(x) {
-      return x;
-    },
-    Semigroupoid0: function() {
-      return semigroupoidFn;
-    }
-  };
-
-  // output/Data.Boolean/index.js
-  var otherwise = true;
-
-  // output/Data.Function/index.js
-  var flip = function(f) {
-    return function(b) {
-      return function(a) {
-        return f(a)(b);
-      };
-    };
-  };
-
-  // output/Data.Functor/index.js
-  var map = function(dict) {
-    return dict.map;
-  };
-  var functorArray = {
-    map: arrayMap
-  };
-
   // output/Data.Semigroup/foreign.js
   var concatArray = function(xs) {
     return function(ys) {
@@ -260,78 +325,14 @@
     return dict.append;
   };
 
-  // output/Control.Apply/foreign.js
-  var arrayApply = function(fs) {
-    return function(xs) {
-      var l = fs.length;
-      var k = xs.length;
-      var result = new Array(l * k);
-      var n = 0;
-      for (var i = 0; i < l; i++) {
-        var f = fs[i];
-        for (var j = 0; j < k; j++) {
-          result[n++] = f(xs[j]);
-        }
-      }
-      return result;
-    };
-  };
-
-  // output/Control.Apply/index.js
-  var applyArray = {
-    apply: arrayApply,
-    Functor0: function() {
-      return functorArray;
-    }
-  };
-  var apply = function(dict) {
-    return dict.apply;
-  };
-
-  // output/Control.Applicative/index.js
-  var pure = function(dict) {
-    return dict.pure;
-  };
-  var liftA1 = function(dictApplicative) {
-    var apply2 = apply(dictApplicative.Apply0());
-    var pure1 = pure(dictApplicative);
-    return function(f) {
-      return function(a) {
-        return apply2(pure1(f))(a);
-      };
-    };
-  };
-
-  // output/Control.Bind/foreign.js
-  var arrayBind = function(arr) {
-    return function(f) {
-      var result = [];
-      for (var i = 0, l = arr.length; i < l; i++) {
-        Array.prototype.push.apply(result, f(arr[i]));
-      }
-      return result;
-    };
-  };
-
-  // output/Control.Bind/index.js
-  var bindArray = {
-    bind: arrayBind,
-    Apply0: function() {
-      return applyArray;
-    }
-  };
-  var bind = function(dict) {
-    return dict.bind;
-  };
-
   // output/Control.Monad/index.js
   var ap = function(dictMonad) {
-    var bind2 = bind(dictMonad.Bind1());
+    var bind3 = bind(dictMonad.Bind1());
     var pure2 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a) {
-        return bind2(f)(function(f$prime) {
-          return bind2(a)(function(a$prime) {
+        return bind3(f)(function(f$prime) {
+          return bind3(a)(function(a$prime) {
             return pure2(f$prime(a$prime));
           });
         });
@@ -860,10 +861,16 @@
   };
 
   // output/Main/index.js
-  var removeServingOfMeal = function(mealName) {
+  var bind2 = /* @__PURE__ */ bind(bindArray);
+  var removeServingOfMeal = function(v) {
     return function(meals) {
       return meals;
     };
+  };
+  var meals2ingredients = function(meals) {
+    return bind2(meals)(function(meal) {
+      return meal.ingredients;
+    });
   };
   var initialMeals = [{
     meal: "Stekt lax med rotfrukter i ugn",
@@ -918,13 +925,13 @@
     }],
     servings: 2
   }];
-  var addServingOfMeal = function(mealName) {
+  var addServingOfMeal = function(v) {
     return function(meals) {
       return meals;
     };
   };
   var main = function __do4() {
-    run(initialMeals)(addServingOfMeal)(removeServingOfMeal)();
+    run(initialMeals)(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 

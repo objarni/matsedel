@@ -35,10 +35,10 @@ meals2ingredients :: IngredientsFromMealsFn
 meals2ingredients meals = meals >>= \meal -> meal.ingredients
 
 addServingOfMeal :: IncFn
-addServingOfMeal mealName meals = meals
+addServingOfMeal _ meals = meals
 
 removeServingOfMeal :: DecFn
-removeServingOfMeal mealName meals = meals
+removeServingOfMeal _ meals = meals
 
 type Meals = Array Meal
 
