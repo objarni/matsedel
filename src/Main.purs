@@ -7,19 +7,32 @@ import PureGerm (runGerms)
 
 main :: Effect Unit
 main = do
-  run initialMeals addServingOfMeal removeServingOfMeal
+  run initialMeals meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
 
 initialMeals :: Meals
 initialMeals =
-  [ { meal: "Pasta"
+  [ { meal: "Stekt lax med rotfrukter i ugn"
     , ingredients:
-        [ { name: "Pasta", amount: 100.0, unit: "g" }
-        , { name: "Tomato", amount: 1.0, unit: "pcs" }
+        [ { name: "Laxfilé", amount: 1.0, unit: "st" }
+        , { name: "Fast potatis", amount: 1.0, unit: "st" }
+        , { name: "Morot", amount: 1.0, unit: "st" }
+        , { name: "Sötpotatis", amount: 1.0, unit: "st" }
+        , { name: "Rödlök", amount: 0.5, unit: "st" }
+        , { name: "Vitlök", amount: 2.25, unit: "st" }
+        , { name: "Olivolja", amount: 0.5, unit: "msk" }
+        , { name: "Smör", amount: 1.0, unit: "msk" }
+        , { name: "Citronpeppar", amount: 0.0, unit: "-" }
+        , { name: "Yoghurt", amount: 0.4, unit: "dl" }
+        , { name: "Fetaost", amount: 40.0, unit: "g" }
+        , { name: "Örter", amount: 0.25, unit: "dl" }
         ]
     , servings: 2
     }
   ]
+
+meals2ingredients :: IngredientsFromMealsFn
+meals2ingredients meals = meals >>= \meal -> meal.ingredients
 
 addServingOfMeal :: IncFn
 addServingOfMeal mealName meals = meals
@@ -40,5 +53,6 @@ type Ingredient = { name :: String, amount :: Number, unit :: String }
 type Ingredients = Array Ingredient
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
+type IngredientsFromMealsFn = Meals -> Ingredients
 
-foreign import run :: Meals -> IncFn -> DecFn -> Effect Unit
+foreign import run :: Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit
