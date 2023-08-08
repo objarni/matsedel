@@ -43,9 +43,11 @@ type Meal =
 type Ingredient = { name :: String, amount :: Number, unit :: String }
 
 type Ingredients = Array Ingredient
+type IncFn = String -> Meals -> Meals
+type DecFn = String -> Meals -> Meals
 
 foreign import setMeals :: Meals -> Effect Unit
-foreign import setIngredients :: Ingredients -> Effect Unit
+foreign import run :: Meals -> IncFn -> DecFn -> Effect Unit
 
 -- Below: puregerm code
 
