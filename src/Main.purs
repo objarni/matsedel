@@ -3,31 +3,30 @@ module Main where
 import Prelude
 import Effect (Effect)
 import Data.Number (cos, pi, sin)
-import Data.Array (concatMap, replicate)
+import Data.Array (concatMap, filter, replicate)
 import Effect.Random (randomRange)
 import Data.Traversable (sequence)
 import Data.Int (floor)
 
 main :: Effect Unit
 main = do
-  setMeals
-    [ { meal: "Stekt lax med rotfrukter"
-      , servings: 0
-      , ingredients: [ { name: "Lax", amount: 1.0, unit: "kg" }, { name: "Rotfrukter", amount: 1.0, unit: "kg" } ]
-      }
-    , { meal: "Äggröra med fetaost och pasta"
-      , servings: 0
-      , ingredients: [ { name: "Lax", amount: 1.0, unit: "kg" }, { name: "Rotfrukter", amount: 1.0, unit: "kg" } ]
-      }
-    ]
-  setIngredients
-    [ { name: "Tortillabröd", amount: 2.0, unit: "paket" }
-    , { name: "Salsa", amount: 2.0, unit: "dl" }
-    , { name: "Fast potatis", amount: 4.0, unit: "st" }
-    ]
   foods <- sequence $ replicate 100 random_food
   germs <- sequence $ replicate 100 random_germ
+  run [{
+    meal: "Pasta",
+    ingredients: [
+      { name: "Pasta", amount: 100.0, unit: "g" },
+      { name: "Tomato", amount: 1.0, unit: "pcs" }
+    ],
+    servings: 2
+  }] addMeal removeMeal
   simulate { germs: germs, foods: foods } tick
+
+addMeal :: IncFn
+addMeal name meals = meals
+
+removeMeal :: DecFn
+removeMeal name meals = meals
 
 worldSize :: Number
 worldSize = 300.0
@@ -46,10 +45,11 @@ type Ingredients = Array Ingredient
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
 
-foreign import setMeals :: Meals -> Effect Unit
 foreign import run :: Meals -> IncFn -> DecFn -> Effect Unit
 
+----------------------------------
 -- Below: puregerm code
+----------------------------------
 
 type Model =
   { germs :: Array Germ

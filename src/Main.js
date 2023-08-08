@@ -1,4 +1,11 @@
-export const setMeals = (meals) => () => {
+
+export const run = (meals) => (incFn) => (decFn) => () => {
+    console.log("running")
+    setMeals(meals)
+    setIngredients([])
+}
+
+function setMeals(meals) {
     console.log("setting meals = ", meals)
     let table = document.getElementById('mealsTable');
     meals.forEach(meal => {
@@ -12,11 +19,7 @@ export const setMeals = (meals) => () => {
     })
 }
 
-export const run = (meals) => (incFn) => (decFn) => () => {
-
-}
-
-const setIngredients = (ingredients) => () => {
+function setIngredients(ingredients) {
     let table = document.getElementById('ingredientsTable');
     console.log("setting ingredients = ", ingredients)
     ingredients.forEach(ingredient => {

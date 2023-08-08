@@ -1,6 +1,11 @@
 (() => {
   // output/Main/foreign.js
-  var setMeals = (meals) => () => {
+  var run = (meals) => (incFn) => (decFn) => () => {
+    console.log("running");
+    setMeals(meals);
+    setIngredients([]);
+  };
+  function setMeals(meals) {
     console.log("setting meals = ", meals);
     let table = document.getElementById("mealsTable");
     meals.forEach((meal) => {
@@ -12,8 +17,8 @@
       const row = niceRow(week, name, servingsDiv);
       table.append(row);
     });
-  };
-  var setIngredients = (ingredients) => () => {
+  }
+  function setIngredients(ingredients) {
     let table = document.getElementById("ingredientsTable");
     console.log("setting ingredients = ", ingredients);
     ingredients.forEach((ingredient) => {
@@ -21,7 +26,7 @@
       const amount = rightist(`${ingredient.amount} ${ingredient.unit}`);
       table.append(niceRow(name, amount));
     });
-  };
+  }
   function aDiv() {
     let div2 = document.createElement("div");
     for (let i = 0; i < arguments.length; i++) {
@@ -824,6 +829,11 @@
       })(result))(m.foods)
     };
   };
+  var removeMeal = function(name) {
+    return function(meals) {
+      return meals;
+    };
+  };
   var random_pos = function __do() {
     var x = randomRange(0)(worldSize)();
     var y = randomRange(0)(worldSize)();
@@ -843,47 +853,27 @@
     };
   };
   var random_food = random_pos;
+  var addMeal = function(name) {
+    return function(meals) {
+      return meals;
+    };
+  };
   var main = function __do3() {
-    setMeals([{
-      meal: "Stekt lax med rotfrukter",
-      servings: 0,
-      ingredients: [{
-        name: "Lax",
-        amount: 1,
-        unit: "kg"
-      }, {
-        name: "Rotfrukter",
-        amount: 1,
-        unit: "kg"
-      }]
-    }, {
-      meal: "\xC4ggr\xF6ra med fetaost och pasta",
-      servings: 0,
-      ingredients: [{
-        name: "Lax",
-        amount: 1,
-        unit: "kg"
-      }, {
-        name: "Rotfrukter",
-        amount: 1,
-        unit: "kg"
-      }]
-    }])();
-    setIngredients([{
-      name: "Tortillabr\xF6d",
-      amount: 2,
-      unit: "paket"
-    }, {
-      name: "Salsa",
-      amount: 2,
-      unit: "dl"
-    }, {
-      name: "Fast potatis",
-      amount: 4,
-      unit: "st"
-    }])();
     var foods = sequence2(replicate(100)(random_food))();
     var germs = sequence2(replicate(100)(random_germ))();
+    run([{
+      meal: "Pasta",
+      ingredients: [{
+        name: "Pasta",
+        amount: 100,
+        unit: "g"
+      }, {
+        name: "Tomato",
+        amount: 1,
+        unit: "pcs"
+      }],
+      servings: 2
+    }])(addMeal)(removeMeal)();
     return simulate({
       germs,
       foods
