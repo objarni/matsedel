@@ -860,7 +860,7 @@
   };
 
   // output/Main/index.js
-  var removeMeal = function(name) {
+  var removeServingOfMeal = function(mealName) {
     return function(meals) {
       return meals;
     };
@@ -878,13 +878,13 @@
     }],
     servings: 2
   }];
-  var addMeal = function(name) {
+  var addServingOfMeal = function(mealName) {
     return function(meals) {
       return meals;
     };
   };
   var main = function __do4() {
-    run(initialMeals)(addMeal)(removeMeal)();
+    run(initialMeals)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 

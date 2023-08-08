@@ -1,4 +1,4 @@
-module Tests where
+module PureGermTests where
 
 import Prelude
 

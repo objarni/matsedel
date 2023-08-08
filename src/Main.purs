@@ -7,7 +7,7 @@ import PureGerm (runGerms)
 
 main :: Effect Unit
 main = do
-  run initialMeals addMeal removeMeal
+  run initialMeals addServingOfMeal removeServingOfMeal
   runGerms
 
 initialMeals :: Meals
@@ -21,11 +21,11 @@ initialMeals =
     }
   ]
 
-addMeal :: IncFn
-addMeal name meals = meals
+addServingOfMeal :: IncFn
+addServingOfMeal mealName meals = meals
 
-removeMeal :: DecFn
-removeMeal name meals = meals
+removeServingOfMeal :: DecFn
+removeServingOfMeal mealName meals = meals
 
 type Meals = Array Meal
 
