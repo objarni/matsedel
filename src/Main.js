@@ -64,8 +64,9 @@ function rightist(text) {
     return div
 }
 
-
+//
 // puregerm code below
+//
 export const simulate = (initialGerms) => (tickGerms) => () => {
     state = initialGerms
     tick = tickGerms
