@@ -11,6 +11,12 @@ import Data.Int (floor)
 worldSize :: Number
 worldSize = 300.0
 
+runGerms :: Effect Unit
+runGerms = do
+  foods <- sequence $ replicate 100 random_food
+  germs <- sequence $ replicate 100 random_germ
+  simulate { germs: germs, foods: foods } tick
+
 type Model =
   { germs :: Array Germ
   , foods :: Array Food

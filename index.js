@@ -58,6 +58,35 @@
     return div2;
   }
 
+  // output/PureGerm/foreign.js
+  var simulate = (initialGerms) => (tickGerms) => () => {
+    state = initialGerms;
+    tick = tickGerms;
+    window.requestAnimationFrame(step);
+  };
+  function render(model) {
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const germs = model.germs;
+    ctx.fillStyle = "green";
+    germs.forEach((germ) => {
+      ctx.fillRect(germ.pos.x, germ.pos.y, 2, 2);
+    });
+    const foods = model.foods;
+    ctx.fillStyle = "#ffffff";
+    foods.forEach((food) => {
+      ctx.fillRect(food.x, food.y, 2, 2);
+    });
+  }
+  var state = [];
+  var tick = void 0;
+  function step() {
+    state = tick(state);
+    render(state);
+    window.requestAnimationFrame(step);
+  }
+
   // output/Data.Array/foreign.js
   var replicateFill = function(count) {
     return function(value) {
@@ -685,35 +714,6 @@
   // output/Data.Array/index.js
   var concatMap = /* @__PURE__ */ flip(/* @__PURE__ */ bind(bindArray));
 
-  // output/PureGerm/foreign.js
-  var simulate = (initialGerms) => (tickGerms) => () => {
-    state = initialGerms;
-    tick = tickGerms;
-    window.requestAnimationFrame(step);
-  };
-  function render(model) {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const germs = model.germs;
-    ctx.fillStyle = "green";
-    germs.forEach((germ) => {
-      ctx.fillRect(germ.pos.x, germ.pos.y, 2, 2);
-    });
-    const foods = model.foods;
-    ctx.fillStyle = "#ffffff";
-    foods.forEach((food) => {
-      ctx.fillRect(food.x, food.y, 2, 2);
-    });
-  }
-  var state = [];
-  var tick = void 0;
-  function step() {
-    state = tick(state);
-    render(state);
-    window.requestAnimationFrame(step);
-  }
-
   // output/Data.Int/foreign.js
   var fromNumberImpl = function(just) {
     return function(nothing) {
@@ -770,7 +770,7 @@
   // output/Effect.Random/index.js
   var randomRange = function(min3) {
     return function(max3) {
-      return function __do4() {
+      return function __do5() {
         var n = random();
         return n * (max3 - min3) + min3;
       };
@@ -780,6 +780,7 @@
   // output/PureGerm/index.js
   var map2 = /* @__PURE__ */ map(functorArray);
   var append2 = /* @__PURE__ */ append(semigroupArray);
+  var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
   var worldSize = 300;
   var tickGerm = function(germ) {
     var wantedPos = {
@@ -806,8 +807,8 @@
       lifeLeft: germ.lifeLeft - 1 | 0,
       dir: newDir
     };
-    var $19 = germ.lifeLeft === 0;
-    if ($19) {
+    var $21 = germ.lifeLeft === 0;
+    if ($21) {
       return {
         germs: [],
         foods: [g.pos]
@@ -849,39 +850,42 @@
     };
   };
   var random_food = random_pos;
-
-  // output/Main/index.js
-  var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
-  var removeMeal = function(name) {
-    return function(meals) {
-      return meals;
-    };
-  };
-  var addMeal = function(name) {
-    return function(meals) {
-      return meals;
-    };
-  };
-  var main = function __do3() {
-    run([{
-      meal: "Pasta",
-      ingredients: [{
-        name: "Pasta",
-        amount: 100,
-        unit: "g"
-      }, {
-        name: "Tomato",
-        amount: 1,
-        unit: "pcs"
-      }],
-      servings: 2
-    }])(addMeal)(removeMeal)();
+  var runGerms = function __do3() {
     var foods = sequence2(replicate(100)(random_food))();
     var germs = sequence2(replicate(100)(random_germ))();
     return simulate({
       germs,
       foods
     })(tick2)();
+  };
+
+  // output/Main/index.js
+  var removeMeal = function(name) {
+    return function(meals) {
+      return meals;
+    };
+  };
+  var initialMeals = [{
+    meal: "Pasta",
+    ingredients: [{
+      name: "Pasta",
+      amount: 100,
+      unit: "g"
+    }, {
+      name: "Tomato",
+      amount: 1,
+      unit: "pcs"
+    }],
+    servings: 2
+  }];
+  var addMeal = function(name) {
+    return function(meals) {
+      return meals;
+    };
+  };
+  var main = function __do4() {
+    run(initialMeals)(addMeal)(removeMeal)();
+    return runGerms();
   };
 
   // <stdin>

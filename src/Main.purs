@@ -2,31 +2,30 @@ module Main where
 
 import Prelude
 
-import Data.Array (replicate)
-import Data.Traversable (sequence)
 import Effect (Effect)
-import PureGerm (random_food, random_germ, simulate, tick)
+import PureGerm (runGerms)
 
 main :: Effect Unit
 main = do
-  run [{
-    meal: "Pasta",
-    ingredients: [
-      { name: "Pasta", amount: 100.0, unit: "g" },
-      { name: "Tomato", amount: 1.0, unit: "pcs" }
-    ],
-    servings: 2
-  }] addMeal removeMeal
-  foods <- sequence $ replicate 100 random_food
-  germs <- sequence $ replicate 100 random_germ
-  simulate { germs: germs, foods: foods } tick
+  run initialMeals addMeal removeMeal
+  runGerms
+
+initialMeals :: Meals
+initialMeals =
+  [ { meal: "Pasta"
+    , ingredients:
+        [ { name: "Pasta", amount: 100.0, unit: "g" }
+        , { name: "Tomato", amount: 1.0, unit: "pcs" }
+        ]
+    , servings: 2
+    }
+  ]
 
 addMeal :: IncFn
 addMeal name meals = meals
 
 removeMeal :: DecFn
 removeMeal name meals = meals
-
 
 type Meals = Array Meal
 
