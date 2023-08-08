@@ -4,7 +4,7 @@ import Prelude
 
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Main (tick)
+import PureGerm (tick)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
