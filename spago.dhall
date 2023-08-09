@@ -17,10 +17,13 @@ to generate this file without the comments in this block.
   , "effect"
   , "foldable-traversable"
   , "integers"
+  , "lists"
   , "numbers"
+  , "ordered-collections"
   , "prelude"
   , "random"
   , "spec"
+  , "tuples"
   ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", "test/**/*.purs" ]

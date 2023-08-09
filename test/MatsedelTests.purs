@@ -10,6 +10,11 @@ import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
 import Test.Spec.Runner (runSpec)
 import Data.Int (toNumber) as Data.Int
+import Data.Map (fromFoldable)
+import Data.Tuple (Tuple(Tuple))
+import Data.Map.Internal (Map, toUnfoldable, values)
+import Data.List as List
+import Data.Map as Map
 
 toNumber :: Int -> Number
 toNumber = Data.Int.toNumber
@@ -27,8 +32,34 @@ flattenMeal meal =
           , unit: ingredient.unit
           }
 
+list = List.fromFoldable
+
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do
+
+  describe "PureScript Map data structure" do
+    it "can access values via values function" do
+      let
+        aMap :: Map Int String
+        aMap = Map.fromFoldable [Tuple 1 "one", Tuple 2 "two"]
+      values aMap # shouldEqual (list ["one",  "two"])
+    it "can access keys and values via toUnfoldable" do
+      let
+        aMap = fromFoldable [Tuple 1 "one", Tuple 2 "two"]
+        pairs = toUnfoldable aMap
+        allkeys = map (\(Tuple k _) -> k) pairs
+        allvalues = map (\(Tuple _ v) -> v) pairs
+      allkeys # shouldEqual [ 1, 2 ]
+      allvalues # shouldEqual [ "one", "two" ]
+    it "can access keys and values via toUnfoldable" do
+      let
+        aMap = fromFoldable [Tuple 1 "one", Tuple 2 "two"]
+        pairs = toUnfoldable aMap
+        allkeys = map (\(Tuple k _) -> k) pairs
+        allvalues = map (\(Tuple _ v) -> v) pairs
+      allkeys # shouldEqual [ 1, 2 ]
+      allvalues # shouldEqual [ "one", "two" ]
+
   describe "flattenMeal" do
     it "uses servings to compute ingredients" do
       let
