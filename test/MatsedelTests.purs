@@ -53,7 +53,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
       allvalues # shouldEqual [ "one", "two" ]
     it "can be merged with another map given a merge function" do
       let
-        aMap = fromFoldable [ Tuple "morot" 2 , Tuple "broccoli" 1]
+        aMap = fromFoldable [ Tuple "morot" 2, Tuple "broccoli" 1 ]
         bMap = fromFoldable [ Tuple "broccoli" 5, Tuple "pilsner" 3 ]
         combinedMap = Map.unionWith (+) aMap bMap
         combinedAsList = toUnfoldable combinedMap

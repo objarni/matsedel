@@ -4,6 +4,7 @@ import Prelude
 
 import Effect (Effect)
 import PureGerm (runGerms)
+import Data.Map.Internal (Map)
 
 main :: Effect Unit
 main = do
@@ -54,5 +55,12 @@ type Ingredients = Array Ingredient
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
 type IngredientsFromMealsFn = Meals -> Ingredients
+
+type MealName2 = String
+type IngredientName2 = String
+type Meal2 = { ingredients :: Ingredients2, servings :: Int }
+type Meals2 = Map MealName2 Meal2
+type Ingredient2 = { amount :: Number, unit :: String }
+type Ingredients2 = Map MealName2 Ingredient2
 
 foreign import run :: Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit
