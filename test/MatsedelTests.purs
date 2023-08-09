@@ -41,24 +41,23 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
     it "can access values via values function" do
       let
         aMap :: Map Int String
-        aMap = Map.fromFoldable [Tuple 1 "one", Tuple 2 "two"]
-      values aMap # shouldEqual (list ["one",  "two"])
+        aMap = Map.fromFoldable [ Tuple 1 "one", Tuple 2 "two" ]
+      values aMap # shouldEqual (list [ "one", "two" ])
     it "can access keys and values via toUnfoldable" do
       let
-        aMap = fromFoldable [Tuple 1 "one", Tuple 2 "two"]
+        aMap = fromFoldable [ Tuple 1 "one", Tuple 2 "two" ]
         pairs = toUnfoldable aMap
         allkeys = map (\(Tuple k _) -> k) pairs
         allvalues = map (\(Tuple _ v) -> v) pairs
       allkeys # shouldEqual [ 1, 2 ]
       allvalues # shouldEqual [ "one", "two" ]
-    it "can access keys and values via toUnfoldable" do
+    it "can be merged with another map given a merge function" do
       let
-        aMap = fromFoldable [Tuple 1 "one", Tuple 2 "two"]
-        pairs = toUnfoldable aMap
-        allkeys = map (\(Tuple k _) -> k) pairs
-        allvalues = map (\(Tuple _ v) -> v) pairs
-      allkeys # shouldEqual [ 1, 2 ]
-      allvalues # shouldEqual [ "one", "two" ]
+        aMap = fromFoldable [ Tuple "morot" 2 , Tuple "broccoli" 1]
+        bMap = fromFoldable [ Tuple "broccoli" 5, Tuple "pilsner" 3 ]
+        combinedMap = Map.unionWith (+) aMap bMap
+        combinedAsList = toUnfoldable combinedMap
+      combinedAsList # shouldEqual [ Tuple "broccoli" 6, Tuple "morot" 2, Tuple "pilsner" 3 ]
 
   describe "flattenMeal" do
     it "uses servings to compute ingredients" do
