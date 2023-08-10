@@ -1,15 +1,15 @@
 (() => {
   // output/Main/foreign.js
-  var run = (meals2) => (meals) => (meals2ingredients2) => (incFn) => (decFn) => () => {
+  var run = (meals2) => (meals2ingredients2) => (incFn) => (decFn) => () => {
     console.log("running");
     setMeals(meals2);
     var ingredients = meals2ingredients2(meals);
     setIngredients(ingredients);
   };
-  function setMeals(meals) {
-    console.log("setting meals = ", meals);
+  function setMeals(meals2) {
+    console.log("setting meals = ", meals2);
     let table = document.getElementById("mealsTable");
-    meals.forEach((meal) => {
+    meals2.forEach((meal) => {
       const week = leftist(3);
       const name = leftist(meal.meal);
       let minusButton = aButton("-");
@@ -245,7 +245,6 @@
     };
   };
   var ordIntImpl = unsafeCompareImpl;
-  var ordStringImpl = unsafeCompareImpl;
 
   // output/Data.Eq/foreign.js
   var refEq = function(r1) {
@@ -254,12 +253,8 @@
     };
   };
   var eqIntImpl = refEq;
-  var eqStringImpl = refEq;
 
   // output/Data.Eq/index.js
-  var eqString = {
-    eq: eqStringImpl
-  };
   var eqInt = {
     eq: eqIntImpl
   };
@@ -288,14 +283,6 @@
   }();
 
   // output/Data.Ord/index.js
-  var ordString = /* @__PURE__ */ function() {
-    return {
-      compare: ordStringImpl(LT.value)(EQ.value)(GT.value),
-      Eq0: function() {
-        return eqString;
-      }
-    };
-  }();
   var ordInt = /* @__PURE__ */ function() {
     return {
       compare: ordIntImpl(LT.value)(EQ.value)(GT.value),
@@ -304,9 +291,6 @@
       }
     };
   }();
-  var compare = function(dict) {
-    return dict.compare;
-  };
 
   // output/Data.Bounded/index.js
   var top = function(dict) {
@@ -366,27 +350,9 @@
     return dict.mempty;
   };
 
-  // output/Data.Tuple/index.js
-  var Tuple = /* @__PURE__ */ function() {
-    function Tuple2(value0, value1) {
-      this.value0 = value0;
-      this.value1 = value1;
-    }
-    ;
-    Tuple2.create = function(value0) {
-      return function(value1) {
-        return new Tuple2(value0, value1);
-      };
-    };
-    return Tuple2;
-  }();
-
   // output/Data.Foldable/index.js
   var foldr = function(dict) {
     return dict.foldr;
-  };
-  var foldl = function(dict) {
-    return dict.foldl;
   };
   var foldMapDefaultR = function(dictFoldable) {
     var foldr2 = foldr(dictFoldable);
@@ -511,7 +477,7 @@
       };
     }
     return function(apply2) {
-      return function(map4) {
+      return function(map3) {
         return function(pure2) {
           return function(f) {
             return function(array) {
@@ -520,14 +486,14 @@
                   case 0:
                     return pure2([]);
                   case 1:
-                    return map4(array1)(f(array[bot]));
+                    return map3(array1)(f(array[bot]));
                   case 2:
-                    return apply2(map4(array2)(f(array[bot])))(f(array[bot + 1]));
+                    return apply2(map3(array2)(f(array[bot])))(f(array[bot + 1]));
                   case 3:
-                    return apply2(apply2(map4(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
+                    return apply2(apply2(map3(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
                   default:
                     var pivot = bot + Math.floor((top3 - bot) / 4) * 2;
-                    return apply2(map4(concat2)(go(bot, pivot)))(go(pivot, top3));
+                    return apply2(map3(concat2)(go(bot, pivot)))(go(pivot, top3));
                 }
               }
               return go(0, array.length);
@@ -566,417 +532,6 @@
   };
   var sequence = function(dict) {
     return dict.sequence;
-  };
-
-  // output/Data.List.Types/index.js
-  var Nil = /* @__PURE__ */ function() {
-    function Nil3() {
-    }
-    ;
-    Nil3.value = new Nil3();
-    return Nil3;
-  }();
-  var Cons = /* @__PURE__ */ function() {
-    function Cons3(value0, value1) {
-      this.value0 = value0;
-      this.value1 = value1;
-    }
-    ;
-    Cons3.create = function(value0) {
-      return function(value1) {
-        return new Cons3(value0, value1);
-      };
-    };
-    return Cons3;
-  }();
-
-  // output/Data.Map.Internal/index.js
-  var Leaf = /* @__PURE__ */ function() {
-    function Leaf2() {
-    }
-    ;
-    Leaf2.value = new Leaf2();
-    return Leaf2;
-  }();
-  var Two = /* @__PURE__ */ function() {
-    function Two2(value0, value1, value2, value3) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-      this.value3 = value3;
-    }
-    ;
-    Two2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return function(value3) {
-            return new Two2(value0, value1, value2, value3);
-          };
-        };
-      };
-    };
-    return Two2;
-  }();
-  var Three = /* @__PURE__ */ function() {
-    function Three2(value0, value1, value2, value3, value4, value5, value6) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-      this.value3 = value3;
-      this.value4 = value4;
-      this.value5 = value5;
-      this.value6 = value6;
-    }
-    ;
-    Three2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return function(value3) {
-            return function(value4) {
-              return function(value5) {
-                return function(value6) {
-                  return new Three2(value0, value1, value2, value3, value4, value5, value6);
-                };
-              };
-            };
-          };
-        };
-      };
-    };
-    return Three2;
-  }();
-  var TwoLeft = /* @__PURE__ */ function() {
-    function TwoLeft2(value0, value1, value2) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-    }
-    ;
-    TwoLeft2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return new TwoLeft2(value0, value1, value2);
-        };
-      };
-    };
-    return TwoLeft2;
-  }();
-  var TwoRight = /* @__PURE__ */ function() {
-    function TwoRight2(value0, value1, value2) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-    }
-    ;
-    TwoRight2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return new TwoRight2(value0, value1, value2);
-        };
-      };
-    };
-    return TwoRight2;
-  }();
-  var ThreeLeft = /* @__PURE__ */ function() {
-    function ThreeLeft2(value0, value1, value2, value3, value4, value5) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-      this.value3 = value3;
-      this.value4 = value4;
-      this.value5 = value5;
-    }
-    ;
-    ThreeLeft2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return function(value3) {
-            return function(value4) {
-              return function(value5) {
-                return new ThreeLeft2(value0, value1, value2, value3, value4, value5);
-              };
-            };
-          };
-        };
-      };
-    };
-    return ThreeLeft2;
-  }();
-  var ThreeMiddle = /* @__PURE__ */ function() {
-    function ThreeMiddle2(value0, value1, value2, value3, value4, value5) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-      this.value3 = value3;
-      this.value4 = value4;
-      this.value5 = value5;
-    }
-    ;
-    ThreeMiddle2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return function(value3) {
-            return function(value4) {
-              return function(value5) {
-                return new ThreeMiddle2(value0, value1, value2, value3, value4, value5);
-              };
-            };
-          };
-        };
-      };
-    };
-    return ThreeMiddle2;
-  }();
-  var ThreeRight = /* @__PURE__ */ function() {
-    function ThreeRight2(value0, value1, value2, value3, value4, value5) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-      this.value3 = value3;
-      this.value4 = value4;
-      this.value5 = value5;
-    }
-    ;
-    ThreeRight2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return function(value3) {
-            return function(value4) {
-              return function(value5) {
-                return new ThreeRight2(value0, value1, value2, value3, value4, value5);
-              };
-            };
-          };
-        };
-      };
-    };
-    return ThreeRight2;
-  }();
-  var KickUp = /* @__PURE__ */ function() {
-    function KickUp2(value0, value1, value2, value3) {
-      this.value0 = value0;
-      this.value1 = value1;
-      this.value2 = value2;
-      this.value3 = value3;
-    }
-    ;
-    KickUp2.create = function(value0) {
-      return function(value1) {
-        return function(value2) {
-          return function(value3) {
-            return new KickUp2(value0, value1, value2, value3);
-          };
-        };
-      };
-    };
-    return KickUp2;
-  }();
-  var fromZipper = function($copy_dictOrd) {
-    return function($copy_v) {
-      return function($copy_v1) {
-        var $tco_var_dictOrd = $copy_dictOrd;
-        var $tco_var_v = $copy_v;
-        var $tco_done = false;
-        var $tco_result;
-        function $tco_loop(dictOrd, v, v1) {
-          if (v instanceof Nil) {
-            $tco_done = true;
-            return v1;
-          }
-          ;
-          if (v instanceof Cons) {
-            if (v.value0 instanceof TwoLeft) {
-              $tco_var_dictOrd = dictOrd;
-              $tco_var_v = v.value1;
-              $copy_v1 = new Two(v1, v.value0.value0, v.value0.value1, v.value0.value2);
-              return;
-            }
-            ;
-            if (v.value0 instanceof TwoRight) {
-              $tco_var_dictOrd = dictOrd;
-              $tco_var_v = v.value1;
-              $copy_v1 = new Two(v.value0.value0, v.value0.value1, v.value0.value2, v1);
-              return;
-            }
-            ;
-            if (v.value0 instanceof ThreeLeft) {
-              $tco_var_dictOrd = dictOrd;
-              $tco_var_v = v.value1;
-              $copy_v1 = new Three(v1, v.value0.value0, v.value0.value1, v.value0.value2, v.value0.value3, v.value0.value4, v.value0.value5);
-              return;
-            }
-            ;
-            if (v.value0 instanceof ThreeMiddle) {
-              $tco_var_dictOrd = dictOrd;
-              $tco_var_v = v.value1;
-              $copy_v1 = new Three(v.value0.value0, v.value0.value1, v.value0.value2, v1, v.value0.value3, v.value0.value4, v.value0.value5);
-              return;
-            }
-            ;
-            if (v.value0 instanceof ThreeRight) {
-              $tco_var_dictOrd = dictOrd;
-              $tco_var_v = v.value1;
-              $copy_v1 = new Three(v.value0.value0, v.value0.value1, v.value0.value2, v.value0.value3, v.value0.value4, v.value0.value5, v1);
-              return;
-            }
-            ;
-            throw new Error("Failed pattern match at Data.Map.Internal (line 462, column 3 - line 467, column 88): " + [v.value0.constructor.name]);
-          }
-          ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 459, column 1 - line 459, column 80): " + [v.constructor.name, v1.constructor.name]);
-        }
-        ;
-        while (!$tco_done) {
-          $tco_result = $tco_loop($tco_var_dictOrd, $tco_var_v, $copy_v1);
-        }
-        ;
-        return $tco_result;
-      };
-    };
-  };
-  var insert = function(dictOrd) {
-    var fromZipper1 = fromZipper(dictOrd);
-    var compare2 = compare(dictOrd);
-    return function(k) {
-      return function(v) {
-        var up = function($copy_v1) {
-          return function($copy_v2) {
-            var $tco_var_v1 = $copy_v1;
-            var $tco_done = false;
-            var $tco_result;
-            function $tco_loop(v1, v2) {
-              if (v1 instanceof Nil) {
-                $tco_done = true;
-                return new Two(v2.value0, v2.value1, v2.value2, v2.value3);
-              }
-              ;
-              if (v1 instanceof Cons) {
-                if (v1.value0 instanceof TwoLeft) {
-                  $tco_done = true;
-                  return fromZipper1(v1.value1)(new Three(v2.value0, v2.value1, v2.value2, v2.value3, v1.value0.value0, v1.value0.value1, v1.value0.value2));
-                }
-                ;
-                if (v1.value0 instanceof TwoRight) {
-                  $tco_done = true;
-                  return fromZipper1(v1.value1)(new Three(v1.value0.value0, v1.value0.value1, v1.value0.value2, v2.value0, v2.value1, v2.value2, v2.value3));
-                }
-                ;
-                if (v1.value0 instanceof ThreeLeft) {
-                  $tco_var_v1 = v1.value1;
-                  $copy_v2 = new KickUp(new Two(v2.value0, v2.value1, v2.value2, v2.value3), v1.value0.value0, v1.value0.value1, new Two(v1.value0.value2, v1.value0.value3, v1.value0.value4, v1.value0.value5));
-                  return;
-                }
-                ;
-                if (v1.value0 instanceof ThreeMiddle) {
-                  $tco_var_v1 = v1.value1;
-                  $copy_v2 = new KickUp(new Two(v1.value0.value0, v1.value0.value1, v1.value0.value2, v2.value0), v2.value1, v2.value2, new Two(v2.value3, v1.value0.value3, v1.value0.value4, v1.value0.value5));
-                  return;
-                }
-                ;
-                if (v1.value0 instanceof ThreeRight) {
-                  $tco_var_v1 = v1.value1;
-                  $copy_v2 = new KickUp(new Two(v1.value0.value0, v1.value0.value1, v1.value0.value2, v1.value0.value3), v1.value0.value4, v1.value0.value5, new Two(v2.value0, v2.value1, v2.value2, v2.value3));
-                  return;
-                }
-                ;
-                throw new Error("Failed pattern match at Data.Map.Internal (line 498, column 5 - line 503, column 108): " + [v1.value0.constructor.name, v2.constructor.name]);
-              }
-              ;
-              throw new Error("Failed pattern match at Data.Map.Internal (line 495, column 3 - line 495, column 56): " + [v1.constructor.name, v2.constructor.name]);
-            }
-            ;
-            while (!$tco_done) {
-              $tco_result = $tco_loop($tco_var_v1, $copy_v2);
-            }
-            ;
-            return $tco_result;
-          };
-        };
-        var down = function($copy_v1) {
-          return function($copy_v2) {
-            var $tco_var_v1 = $copy_v1;
-            var $tco_done1 = false;
-            var $tco_result;
-            function $tco_loop(v1, v2) {
-              if (v2 instanceof Leaf) {
-                $tco_done1 = true;
-                return up(v1)(new KickUp(Leaf.value, k, v, Leaf.value));
-              }
-              ;
-              if (v2 instanceof Two) {
-                var v3 = compare2(k)(v2.value1);
-                if (v3 instanceof EQ) {
-                  $tco_done1 = true;
-                  return fromZipper1(v1)(new Two(v2.value0, k, v, v2.value3));
-                }
-                ;
-                if (v3 instanceof LT) {
-                  $tco_var_v1 = new Cons(new TwoLeft(v2.value1, v2.value2, v2.value3), v1);
-                  $copy_v2 = v2.value0;
-                  return;
-                }
-                ;
-                $tco_var_v1 = new Cons(new TwoRight(v2.value0, v2.value1, v2.value2), v1);
-                $copy_v2 = v2.value3;
-                return;
-              }
-              ;
-              if (v2 instanceof Three) {
-                var v3 = compare2(k)(v2.value1);
-                if (v3 instanceof EQ) {
-                  $tco_done1 = true;
-                  return fromZipper1(v1)(new Three(v2.value0, k, v, v2.value3, v2.value4, v2.value5, v2.value6));
-                }
-                ;
-                var v4 = compare2(k)(v2.value4);
-                if (v4 instanceof EQ) {
-                  $tco_done1 = true;
-                  return fromZipper1(v1)(new Three(v2.value0, v2.value1, v2.value2, v2.value3, k, v, v2.value6));
-                }
-                ;
-                if (v3 instanceof LT) {
-                  $tco_var_v1 = new Cons(new ThreeLeft(v2.value1, v2.value2, v2.value3, v2.value4, v2.value5, v2.value6), v1);
-                  $copy_v2 = v2.value0;
-                  return;
-                }
-                ;
-                if (v3 instanceof GT && v4 instanceof LT) {
-                  $tco_var_v1 = new Cons(new ThreeMiddle(v2.value0, v2.value1, v2.value2, v2.value4, v2.value5, v2.value6), v1);
-                  $copy_v2 = v2.value3;
-                  return;
-                }
-                ;
-                $tco_var_v1 = new Cons(new ThreeRight(v2.value0, v2.value1, v2.value2, v2.value3, v2.value4, v2.value5), v1);
-                $copy_v2 = v2.value6;
-                return;
-              }
-              ;
-              throw new Error("Failed pattern match at Data.Map.Internal (line 478, column 3 - line 478, column 55): " + [v1.constructor.name, v2.constructor.name]);
-            }
-            ;
-            while (!$tco_done1) {
-              $tco_result = $tco_loop($tco_var_v1, $copy_v2);
-            }
-            ;
-            return $tco_result;
-          };
-        };
-        return down(Nil.value);
-      };
-    };
-  };
-  var empty2 = /* @__PURE__ */ function() {
-    return Leaf.value;
-  }();
-  var fromFoldable = function(dictOrd) {
-    var insert1 = insert(dictOrd);
-    return function(dictFoldable) {
-      return foldl(dictFoldable)(function(m) {
-        return function(v) {
-          return insert1(v.value0)(v.value1)(m);
-        };
-      })(empty2);
-    };
   };
 
   // output/PureGerm/foreign.js
@@ -1306,34 +861,14 @@
   };
 
   // output/Main/index.js
-  var fromFoldable2 = /* @__PURE__ */ fromFoldable(ordString)(foldableArray);
-  var map3 = /* @__PURE__ */ map(functorArray);
   var bind2 = /* @__PURE__ */ bind(bindArray);
-  var upgradeIngredient = function(ingredient) {
-    return new Tuple(ingredient.name, {
-      amount: ingredient.amount,
-      unit: ingredient.unit
-    });
-  };
-  var upgradeIngredients = function(ingredients) {
-    return fromFoldable2(map3(upgradeIngredient)(ingredients));
-  };
-  var upgradeMeal = function(meal) {
-    return new Tuple(meal.meal, {
-      ingredients: upgradeIngredients(meal.ingredients),
-      servings: meal.servings
-    });
-  };
-  var upgradeMeals = function(meals) {
-    return fromFoldable2(map3(upgradeMeal)(meals));
-  };
   var removeServingOfMeal = function(v) {
-    return function(meals) {
-      return meals;
+    return function(meals2) {
+      return meals2;
     };
   };
-  var meals2ingredients = function(meals) {
-    return bind2(meals)(function(meal) {
+  var meals2ingredients = function(meals2) {
+    return bind2(meals2)(function(meal) {
       return meal.ingredients;
     });
   };
@@ -1388,16 +923,16 @@
       amount: 0.25,
       unit: "dl"
     }],
-    servings: 2
+    servings: 2,
+    webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
   }];
-  var initialMeals2 = /* @__PURE__ */ upgradeMeals(initialMeals);
   var addServingOfMeal = function(v) {
-    return function(meals) {
-      return meals;
+    return function(meals2) {
+      return meals2;
     };
   };
   var main = function __do4() {
-    run(initialMeals2)(initialMeals)(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
+    run(initialMeals)(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 

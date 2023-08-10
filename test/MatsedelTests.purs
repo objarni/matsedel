@@ -1,11 +1,11 @@
 module MatsedelTests where
 
-import Prelude
-
 import Data.List
 import Data.Map
-import Data.Map.Internal (Map, values)
 import Data.Tuple
+import Prelude
+
+import Data.Map.Internal (Map, values)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Main (Ingredient, Ingredients2, Meal, Meal2, initialMeals, upgradeMeals)
@@ -16,6 +16,7 @@ import Test.Spec.Runner (runSpec)
 import Data.Int (toNumber) as Data.Int
 import Data.List as List
 import Data.Map as Map
+import Data.Foldable (class Foldable)
 
 toNumber :: Int -> Number
 toNumber = Data.Int.toNumber
@@ -45,6 +46,7 @@ flattenMeal2 meal =
           , unit: ingredient.unit
           }
 
+list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
 
 main :: Effect Unit
@@ -92,6 +94,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
                   , Tuple "Örter" { amount: 0.25, unit: "dl" }
                   ]
             , servings: 2
+            , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
             }
         ]
 
@@ -115,6 +118,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
               , { name: "Örter", amount: 0.25, unit: "dl" }
               ]
           , servings: 2
+          , webPage: ""
           }
       flattened # shouldEqual
         [ { name: "Laxfilé", amount: 2.0, unit: "st" }
@@ -145,7 +149,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
           , Tuple "Fetaost" { amount: 40.0, unit: "g" }
           , Tuple "Örter" { amount: 0.25, unit: "dl" }
           ]
-        meal = { ingredients: mealIngredients, servings: 2 }
+        meal = { ingredients: mealIngredients, servings: 2, webPage: "" }
         flattenedMap = flattenMeal2 meal
         flattenedPairs = Map.toUnfoldable flattenedMap
       flattenedPairs # shouldEqual

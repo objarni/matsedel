@@ -1,17 +1,17 @@
 module Main where
 
+import Data.Array
+import Data.Tuple
 import Prelude
 
+import Data.Map (Map)
 import Effect (Effect)
 import PureGerm (runGerms)
-import Data.Map (Map)
 import Data.Map (fromFoldable) as Map
-import Data.Tuple
-import Data.Array
 
 main :: Effect Unit
 main = do
-  run initialMeals2 initialMeals meals2ingredients addServingOfMeal removeServingOfMeal
+  run initialMeals meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
 
 -- Old types
@@ -20,6 +20,7 @@ type Meal =
   { meal :: String
   , ingredients :: Ingredients
   , servings :: Int
+  , webPage :: String
   }
 
 type Ingredient = { name :: String, amount :: Number, unit :: String }
@@ -28,7 +29,7 @@ type Ingredients = Array Ingredient
 -- New types
 type Ingredient2 = { amount :: Number, unit :: String }
 type Ingredients2 = Map String Ingredient2
-type Meal2 = { ingredients :: Ingredients2, servings :: Int }
+type Meal2 = { ingredients :: Ingredients2, servings :: Int, webPage :: String }
 type Meals2 = Map String Meal2
 
 upgradeIngredient :: Ingredient -> Tuple String Ingredient2
@@ -38,7 +39,11 @@ upgradeIngredients :: Ingredients -> Ingredients2
 upgradeIngredients ingredients = Map.fromFoldable (upgradeIngredient <$> ingredients)
 
 upgradeMeal :: Meal -> Tuple String Meal2
-upgradeMeal meal = Tuple meal.meal { ingredients: upgradeIngredients meal.ingredients, servings: meal.servings }
+upgradeMeal meal = Tuple meal.meal
+  { ingredients: upgradeIngredients meal.ingredients
+  , servings: meal.servings
+  , webPage: meal.webPage
+  }
 
 upgradeMeals :: Meals -> Meals2
 upgradeMeals meals = Map.fromFoldable (upgradeMeal <$> meals)
@@ -64,6 +69,7 @@ initialMeals =
         , { name: "Örter", amount: 0.25, unit: "dl" }
         ]
     , servings: 2
+    , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
     }
   ]
 
@@ -80,4 +86,4 @@ type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
 type IngredientsFromMealsFn = Meals -> Ingredients
 
-foreign import run :: Meals2 -> Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit
+foreign import run :: Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit
