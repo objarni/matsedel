@@ -3,15 +3,15 @@
   var run = (meals2) => (meals2ingredients2) => (incFn) => (decFn) => () => {
     console.log("running");
     setMeals(meals2);
-    var ingredients = meals2ingredients2(meals);
+    var ingredients = meals2ingredients2(meals2);
     setIngredients(ingredients);
   };
-  function setMeals(meals2) {
-    console.log("setting meals = ", meals2);
+  function setMeals(meals) {
+    console.log("setting meals = ", meals);
     let table = document.getElementById("mealsTable");
-    meals2.forEach((meal) => {
+    meals.forEach((meal) => {
       const week = leftist(3);
-      const name = leftist(meal.meal);
+      const name = leftist(`<a target="_blank" href="${meal.webPage}">${meal.meal}</a>`);
       let minusButton = aButton("-");
       let plusButton = aButton("+");
       const servingsDiv = aDiv(minusButton, meal.servings, plusButton);
@@ -49,13 +49,13 @@
   function leftist(text) {
     const div2 = document.createElement("div");
     div2.className = "leftist";
-    div2.innerText = text;
+    div2.innerHTML = text;
     return div2;
   }
   function rightist(text) {
     const div2 = document.createElement("div");
     div2.className = "rightist";
-    div2.innerText = text;
+    div2.innerHTML = text;
     return div2;
   }
 
@@ -863,12 +863,12 @@
   // output/Main/index.js
   var bind2 = /* @__PURE__ */ bind(bindArray);
   var removeServingOfMeal = function(v) {
-    return function(meals2) {
-      return meals2;
+    return function(meals) {
+      return meals;
     };
   };
-  var meals2ingredients = function(meals2) {
-    return bind2(meals2)(function(meal) {
+  var meals2ingredients = function(meals) {
+    return bind2(meals)(function(meal) {
       return meal.ingredients;
     });
   };
@@ -927,8 +927,8 @@
     webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
   }];
   var addServingOfMeal = function(v) {
-    return function(meals2) {
-      return meals2;
+    return function(meals) {
+      return meals;
     };
   };
   var main = function __do4() {
