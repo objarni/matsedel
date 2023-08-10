@@ -1,7 +1,7 @@
 
-export const run = (meals) => (meals2ingredients) => (incFn) => (decFn) => () => {
+export const run = (meals2) => (meals) => (meals2ingredients) => (incFn) => (decFn) => () => {
     console.log("running")
-    setMeals(meals)
+    setMeals(meals2)
     var ingredients = meals2ingredients(meals)
     setIngredients(ingredients)
 }

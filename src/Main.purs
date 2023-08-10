@@ -4,12 +4,47 @@ import Prelude
 
 import Effect (Effect)
 import PureGerm (runGerms)
-import Data.Map.Internal (Map)
+import Data.Map (Map)
+import Data.Map (fromFoldable) as Map
+import Data.Tuple
+import Data.Array
 
 main :: Effect Unit
 main = do
-  run initialMeals meals2ingredients addServingOfMeal removeServingOfMeal
+  run initialMeals2 initialMeals meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
+
+-- Old types
+type Meals = Array Meal
+type Meal =
+  { meal :: String
+  , ingredients :: Ingredients
+  , servings :: Int
+  }
+
+type Ingredient = { name :: String, amount :: Number, unit :: String }
+type Ingredients = Array Ingredient
+
+-- New types
+type Ingredient2 = { amount :: Number, unit :: String }
+type Ingredients2 = Map String Ingredient2
+type Meal2 = { ingredients :: Ingredients2, servings :: Int }
+type Meals2 = Map String Meal2
+
+upgradeIngredient :: Ingredient -> Tuple String Ingredient2
+upgradeIngredient ingredient = Tuple ingredient.name { amount: ingredient.amount, unit: ingredient.unit }
+
+upgradeIngredients :: Ingredients -> Ingredients2
+upgradeIngredients ingredients = Map.fromFoldable (upgradeIngredient <$> ingredients)
+
+upgradeMeal :: Meal -> Tuple String Meal2
+upgradeMeal meal = Tuple meal.meal { ingredients: upgradeIngredients meal.ingredients, servings: meal.servings }
+
+upgradeMeals :: Meals -> Meals2
+upgradeMeals meals = Map.fromFoldable (upgradeMeal <$> meals)
+
+initialMeals2 :: Meals2
+initialMeals2 = upgradeMeals initialMeals
 
 initialMeals :: Meals
 initialMeals =
@@ -41,26 +76,8 @@ addServingOfMeal _ meals = meals
 removeServingOfMeal :: DecFn
 removeServingOfMeal _ meals = meals
 
-type Meals = Array Meal
-
-type Meal =
-  { meal :: String
-  , ingredients :: Ingredients
-  , servings :: Int
-  }
-
-type Ingredient = { name :: String, amount :: Number, unit :: String }
-
-type Ingredients = Array Ingredient
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
 type IngredientsFromMealsFn = Meals -> Ingredients
 
-type IngredientName2 = String
-type Ingredient2 = { amount :: Number, unit :: String }
-type Ingredients2 = Map IngredientName2 Ingredient2
-type MealName2 = String
-type Meal2 = { ingredients :: Ingredients2, servings :: Int }
-type Meals2 = Map MealName2 Meal2
-
-foreign import run :: Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit
+foreign import run :: Meals2 -> Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit

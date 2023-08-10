@@ -2,13 +2,13 @@ module MatsedelTests where
 
 import Prelude
 
-import Data.List (fromFoldable)
-import Data.Map (fromFoldable)
-import Data.Map.Internal (Map, toUnfoldable, values)
-import Data.Tuple (Tuple(Tuple))
+import Data.List
+import Data.Map
+import Data.Map.Internal (Map, values)
+import Data.Tuple
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Main (Ingredient, Ingredients2, Meal, Meal2)
+import Main (Ingredient, Ingredients2, Meal, Meal2, initialMeals, upgradeMeals)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
@@ -59,7 +59,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
     it "can access keys and values via toUnfoldable" do
       let
         aMap = Map.fromFoldable [ Tuple 1 "one", Tuple 2 "two" ]
-        pairs = toUnfoldable aMap
+        pairs = Map.toUnfoldable aMap
         allkeys = map (\(Tuple k _) -> k) pairs
         allvalues = map (\(Tuple _ v) -> v) pairs
       allkeys # shouldEqual [ 1, 2 ]
@@ -69,8 +69,31 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
         aMap = Map.fromFoldable [ Tuple "morot" 2, Tuple "broccoli" 1 ]
         bMap = Map.fromFoldable [ Tuple "broccoli" 5, Tuple "pilsner" 3 ]
         combinedMap = Map.unionWith (+) aMap bMap
-        combinedAsList = toUnfoldable combinedMap
+        combinedAsList = Map.toUnfoldable combinedMap
       combinedAsList # shouldEqual [ Tuple "broccoli" 6, Tuple "morot" 2, Tuple "pilsner" 3 ]
+
+  describe "upgradeMeals" do
+    it "upgrades example initial meals" do
+      Map.toUnfoldable (upgradeMeals initialMeals) # shouldEqual
+        [ Tuple "Stekt lax med rotfrukter i ugn"
+            { ingredients:
+                Map.fromFoldable
+                  [ Tuple "Citronpeppar" { amount: 0.0, unit: "-" }
+                  , Tuple "Fast potatis" { amount: 1.0, unit: "st" }
+                  , Tuple "Fetaost" { amount: 40.0, unit: "g" }
+                  , Tuple "Laxfilé" { amount: 1.0, unit: "st" }
+                  , Tuple "Morot" { amount: 1.0, unit: "st" }
+                  , Tuple "Olivolja" { amount: 0.5, unit: "msk" }
+                  , Tuple "Rödlök" { amount: 0.5, unit: "st" }
+                  , Tuple "Smör" { amount: 1.0, unit: "msk" }
+                  , Tuple "Sötpotatis" { amount: 1.0, unit: "st" }
+                  , Tuple "Vitlök" { amount: 2.25, unit: "st" }
+                  , Tuple "Yoghurt" { amount: 0.4, unit: "dl" }
+                  , Tuple "Örter" { amount: 0.25, unit: "dl" }
+                  ]
+            , servings: 2
+            }
+        ]
 
   describe "flattenMeal" do
     it "uses servings to compute ingredients" do
@@ -124,7 +147,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
           ]
         meal = { ingredients: mealIngredients, servings: 2 }
         flattenedMap = flattenMeal2 meal
-        flattenedPairs = toUnfoldable flattenedMap
+        flattenedPairs = Map.toUnfoldable flattenedMap
       flattenedPairs # shouldEqual
         [ Tuple "Citronpeppar" { amount: 0.0, unit: "-" }
         , Tuple "Fast potatis" { amount: 2.0, unit: "st" }
