@@ -8,7 +8,7 @@ import Prelude
 import Data.Map.Internal (Map, values)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Main (Ingredient, Ingredients2, Meal, Meal2, initialMeals, upgradeMeals)
+import Main (Ingredient, Ingredient2, Ingredients, Ingredients2, Meal, Meal2, Meals, initialMeals, upgradeIngredients, upgradeMeals)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
@@ -17,6 +17,9 @@ import Data.Int (toNumber) as Data.Int
 import Data.List as List
 import Data.Map as Map
 import Data.Foldable (class Foldable)
+import Control.Bind (bind) as Array
+import Debug (spy)
+import Data.Foldable (foldMap) as Map
 
 toNumber :: Int -> Number
 toNumber = Data.Int.toNumber
@@ -166,13 +169,47 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
         , Tuple "Yoghurt" { amount: 0.8, unit: "dl" }
         , Tuple "Örter" { amount: 0.5, unit: "dl" }
         ]
---    describe "summedIngredients" do
---      it "sums same ingredients" do
---        let
---          summed = summedIngredients
---            [ { name: "Laxfilé", amount: 1.0, unit: "st" } ]
---            [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
---        summed # shouldEqual [ { name: "Laxfilé", amount: 4.0, unit: "st" } ]
+    describe "sumIngredients" do
+      it "sums same ingredients" do
+        let
+          allIngredients :: Meals -> Array Ingredients2
+          allIngredients meals = meals <#> (\m -> upgradeIngredients m.ingredients)
+          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
+          unionMaps maps = foldl (\acc value -> acc { acc.amount + value.amount }) {name: "Laxfilé", amount: 0.0} maps
+
+          twoMeals = [ { meal: "Stekt lax med rotfrukter i ugn"
+                                   , ingredients:
+                                       [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
+                                   , servings: 2
+                                   , webPage: ""
+                                   }
+                                 , { meal: "Stekt lax med ris"
+                                   , ingredients:
+                                       [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+                                   , servings: 2
+                                   , webPage: ""
+                                   }
+                                 ]
+        allIngredients twoMeals # shouldEqual []
+
+--          sumIngredients :: Meals -> Ingredients
+--          sumIngredients meals = summedIngredients (flattenMeal2 (upgradeMeals meals)
+--          summed = sumIngredients
+--            [ { meal: "Stekt lax med rotfrukter i ugn"
+--              , ingredients:
+--                  [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
+--              , servings: 2
+--              , webPage: ""
+--              }
+--            , { meal: "Stekt lax med ris"
+--              , ingredients:
+--                  [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+--              , servings: 2
+--              , webPage: ""
+--              }
+--            ]
+--        summed # shouldEqual [ { name: "Laxfilé", amount: 5.0*2.0 + 3.0*2.0, unit: "st" } ]
+--
 --      it "combines different ingredients" do
 --        let
 --          summed = summedIngredients

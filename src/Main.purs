@@ -7,11 +7,13 @@ import Prelude
 import Data.Map (Map)
 import Effect (Effect)
 import PureGerm (runGerms)
-import Data.Map (fromFoldable) as Map
+import Data.Map (empty, fromFoldable) as Map
+import Data.Array (foldMap) as Map
+import Debug (spy)
 
 main :: Effect Unit
 main = do
-  run initialMeals meals2ingredients addServingOfMeal removeServingOfMeal
+  run (spy "initialMeals" initialMeals) meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
 
 -- Old types
@@ -74,15 +76,17 @@ initialMeals =
   ]
 
 meals2ingredients :: IngredientsFromMealsFn
-meals2ingredients meals = meals >>= \meal -> meal.ingredients
+meals2ingredients meals = []
 
 addServingOfMeal :: IncFn
 addServingOfMeal meal meals = incMeal <$> meals
-    where incMeal meal = meal { servings = meal.servings + 1 }
+  where
+  incMeal meal = meal { servings = meal.servings + 1 }
 
 removeServingOfMeal :: DecFn
 removeServingOfMeal meal meals = decMeal <$> meals
-    where decMeal meal = meal { servings = meal.servings - 1 }
+  where
+  decMeal meal = meal { servings = meal.servings - 1 }
 
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals

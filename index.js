@@ -74,29 +74,39 @@
     return div2;
   }
 
-  // output/Control.Bind/foreign.js
-  var arrayBind = function(arr) {
-    return function(f) {
-      var result = [];
-      for (var i = 0, l = arr.length; i < l; i++) {
-        Array.prototype.push.apply(result, f(arr[i]));
-      }
-      return result;
+  // output/Data.Foldable/foreign.js
+  var foldrArray = function(f) {
+    return function(init) {
+      return function(xs) {
+        var acc = init;
+        var len = xs.length;
+        for (var i = len - 1; i >= 0; i--) {
+          acc = f(xs[i])(acc);
+        }
+        return acc;
+      };
+    };
+  };
+  var foldlArray = function(f) {
+    return function(init) {
+      return function(xs) {
+        var acc = init;
+        var len = xs.length;
+        for (var i = 0; i < len; i++) {
+          acc = f(acc)(xs[i]);
+        }
+        return acc;
+      };
     };
   };
 
-  // output/Control.Apply/foreign.js
-  var arrayApply = function(fs) {
-    return function(xs) {
-      var l = fs.length;
-      var k = xs.length;
-      var result = new Array(l * k);
-      var n = 0;
+  // output/Data.Functor/foreign.js
+  var arrayMap = function(f) {
+    return function(arr) {
+      var l = arr.length;
+      var result = new Array(l);
       for (var i = 0; i < l; i++) {
-        var f = fs[i];
-        for (var j = 0; j < k; j++) {
-          result[n++] = f(xs[j]);
-        }
+        result[i] = f(arr[i]);
       }
       return result;
     };
@@ -138,24 +148,48 @@
     };
   };
 
-  // output/Data.Functor/foreign.js
-  var arrayMap = function(f) {
-    return function(arr) {
-      var l = arr.length;
-      var result = new Array(l);
-      for (var i = 0; i < l; i++) {
-        result[i] = f(arr[i]);
-      }
-      return result;
-    };
-  };
-
   // output/Data.Functor/index.js
   var map = function(dict) {
     return dict.map;
   };
   var functorArray = {
     map: arrayMap
+  };
+
+  // output/Data.Semigroup/foreign.js
+  var concatArray = function(xs) {
+    return function(ys) {
+      if (xs.length === 0)
+        return ys;
+      if (ys.length === 0)
+        return xs;
+      return xs.concat(ys);
+    };
+  };
+
+  // output/Data.Semigroup/index.js
+  var semigroupArray = {
+    append: concatArray
+  };
+  var append = function(dict) {
+    return dict.append;
+  };
+
+  // output/Control.Apply/foreign.js
+  var arrayApply = function(fs) {
+    return function(xs) {
+      var l = fs.length;
+      var k = xs.length;
+      var result = new Array(l * k);
+      var n = 0;
+      for (var i = 0; i < l; i++) {
+        var f = fs[i];
+        for (var j = 0; j < k; j++) {
+          result[n++] = f(xs[j]);
+        }
+      }
+      return result;
+    };
   };
 
   // output/Control.Apply/index.js
@@ -183,6 +217,17 @@
     };
   };
 
+  // output/Control.Bind/foreign.js
+  var arrayBind = function(arr) {
+    return function(f) {
+      var result = [];
+      for (var i = 0, l = arr.length; i < l; i++) {
+        Array.prototype.push.apply(result, f(arr[i]));
+      }
+      return result;
+    };
+  };
+
   // output/Control.Bind/index.js
   var bindArray = {
     bind: arrayBind,
@@ -192,51 +237,6 @@
   };
   var bind = function(dict) {
     return dict.bind;
-  };
-
-  // output/Data.Foldable/foreign.js
-  var foldrArray = function(f) {
-    return function(init) {
-      return function(xs) {
-        var acc = init;
-        var len = xs.length;
-        for (var i = len - 1; i >= 0; i--) {
-          acc = f(xs[i])(acc);
-        }
-        return acc;
-      };
-    };
-  };
-  var foldlArray = function(f) {
-    return function(init) {
-      return function(xs) {
-        var acc = init;
-        var len = xs.length;
-        for (var i = 0; i < len; i++) {
-          acc = f(acc)(xs[i]);
-        }
-        return acc;
-      };
-    };
-  };
-
-  // output/Data.Semigroup/foreign.js
-  var concatArray = function(xs) {
-    return function(ys) {
-      if (xs.length === 0)
-        return ys;
-      if (ys.length === 0)
-        return xs;
-      return xs.concat(ys);
-    };
-  };
-
-  // output/Data.Semigroup/index.js
-  var semigroupArray = {
-    append: concatArray
-  };
-  var append = function(dict) {
-    return dict.append;
   };
 
   // output/Data.Bounded/foreign.js
@@ -393,12 +393,12 @@
 
   // output/Control.Monad/index.js
   var ap = function(dictMonad) {
-    var bind3 = bind(dictMonad.Bind1());
+    var bind2 = bind(dictMonad.Bind1());
     var pure2 = pure(dictMonad.Applicative0());
     return function(f) {
       return function(a) {
-        return bind3(f)(function(f$prime) {
-          return bind3(a)(function(a$prime) {
+        return bind2(f)(function(f$prime) {
+          return bind2(a)(function(a$prime) {
             return pure2(f$prime(a$prime));
           });
         });
@@ -547,6 +547,47 @@
   };
   var sequence = function(dict) {
     return dict.sequence;
+  };
+
+  // output/Debug/foreign.js
+  var req = typeof module === "undefined" ? void 0 : module.require;
+  var util = function() {
+    try {
+      return req === void 0 ? void 0 : req("util");
+    } catch (e) {
+      return void 0;
+    }
+  }();
+  function _spy(tag, x) {
+    if (util !== void 0) {
+      console.log(tag + ":", util.inspect(x, { depth: null, colors: true }));
+    } else {
+      console.log(tag + ":", x);
+    }
+    return x;
+  }
+  var now = function() {
+    var perf;
+    if (typeof performance !== "undefined") {
+      perf = performance;
+    } else if (req) {
+      try {
+        perf = req("perf_hooks").performance;
+      } catch (e) {
+      }
+    }
+    return function() {
+      return (perf || Date).now();
+    };
+  }();
+
+  // output/Debug/index.js
+  var spy = function() {
+    return function(tag) {
+      return function(a) {
+        return _spy(tag, a);
+      };
+    };
   };
 
   // output/PureGerm/foreign.js
@@ -877,7 +918,6 @@
 
   // output/Main/index.js
   var map3 = /* @__PURE__ */ map(functorArray);
-  var bind2 = /* @__PURE__ */ bind(bindArray);
   var removeServingOfMeal = function(meal) {
     return function(meals) {
       var decMeal = function(meal1) {
@@ -892,9 +932,7 @@
     };
   };
   var meals2ingredients = function(meals) {
-    return bind2(meals)(function(meal) {
-      return meal.ingredients;
-    });
+    return [];
   };
   var initialMeals = [{
     meal: "Stekt lax med rotfrukter i ugn",
@@ -964,7 +1002,7 @@
     };
   };
   var main = function __do4() {
-    run(initialMeals)(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
+    run(spy()("initialMeals")(initialMeals))(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 
