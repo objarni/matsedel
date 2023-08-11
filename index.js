@@ -1,19 +1,34 @@
 (() => {
   // output/Main/foreign.js
-  var run = (meals2) => (meals2ingredients2) => (incFn) => (decFn) => () => {
-    console.log("running");
-    setMeals(meals2);
-    var ingredients = meals2ingredients2(meals2);
+  var globalMeals;
+  var globalIncFn;
+  var globalDecFn;
+  var run = (meals) => (meals2ingredients2) => (incFn) => (decFn) => () => {
+    globalIncFn = incFn;
+    globalDecFn = decFn;
+    setMeals(meals);
+    var ingredients = meals2ingredients2(meals);
     setIngredients(ingredients);
   };
   function setMeals(meals) {
     console.log("setting meals = ", meals);
+    globalMeals = meals;
     let table = document.getElementById("mealsTable");
+    table.innerHTML = "";
     meals.forEach((meal) => {
       const week = leftist(3);
       const name = leftist(`<a target="_blank" href="${meal.webPage}">${meal.meal}</a>`);
       let minusButton = aButton("-");
+      if (meal.servings > 0)
+        minusButton.onclick = () => {
+          console.log("-");
+          setMeals(globalDecFn(meal.meal)(globalMeals));
+        };
       let plusButton = aButton("+");
+      plusButton.onclick = () => {
+        console.log("+");
+        setMeals(globalIncFn(meal.meal)(globalMeals));
+      };
       const servingsDiv = aDiv(minusButton, meal.servings, plusButton);
       const row = niceRow(week, name, servingsDiv);
       table.append(row);
@@ -477,7 +492,7 @@
       };
     }
     return function(apply2) {
-      return function(map3) {
+      return function(map4) {
         return function(pure2) {
           return function(f) {
             return function(array) {
@@ -486,14 +501,14 @@
                   case 0:
                     return pure2([]);
                   case 1:
-                    return map3(array1)(f(array[bot]));
+                    return map4(array1)(f(array[bot]));
                   case 2:
-                    return apply2(map3(array2)(f(array[bot])))(f(array[bot + 1]));
+                    return apply2(map4(array2)(f(array[bot])))(f(array[bot + 1]));
                   case 3:
-                    return apply2(apply2(map3(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
+                    return apply2(apply2(map4(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
                   default:
                     var pivot = bot + Math.floor((top3 - bot) / 4) * 2;
-                    return apply2(map3(concat2)(go(bot, pivot)))(go(pivot, top3));
+                    return apply2(map4(concat2)(go(bot, pivot)))(go(pivot, top3));
                 }
               }
               return go(0, array.length);
@@ -861,10 +876,19 @@
   };
 
   // output/Main/index.js
+  var map3 = /* @__PURE__ */ map(functorArray);
   var bind2 = /* @__PURE__ */ bind(bindArray);
-  var removeServingOfMeal = function(v) {
+  var removeServingOfMeal = function(meal) {
     return function(meals) {
-      return meals;
+      var decMeal = function(meal1) {
+        return {
+          servings: meal1.servings - 1 | 0,
+          ingredients: meal1.ingredients,
+          meal: meal1.meal,
+          webPage: meal1.webPage
+        };
+      };
+      return map3(decMeal)(meals);
     };
   };
   var meals2ingredients = function(meals) {
@@ -926,9 +950,17 @@
     servings: 2,
     webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
   }];
-  var addServingOfMeal = function(v) {
+  var addServingOfMeal = function(meal) {
     return function(meals) {
-      return meals;
+      var incMeal = function(meal1) {
+        return {
+          servings: meal1.servings + 1 | 0,
+          ingredients: meal1.ingredients,
+          meal: meal1.meal,
+          webPage: meal1.webPage
+        };
+      };
+      return map3(incMeal)(meals);
     };
   };
   var main = function __do4() {

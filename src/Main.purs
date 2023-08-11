@@ -77,10 +77,12 @@ meals2ingredients :: IngredientsFromMealsFn
 meals2ingredients meals = meals >>= \meal -> meal.ingredients
 
 addServingOfMeal :: IncFn
-addServingOfMeal _ meals = meals
+addServingOfMeal meal meals = incMeal <$> meals
+    where incMeal meal = meal { servings = meal.servings + 1 }
 
 removeServingOfMeal :: DecFn
-removeServingOfMeal _ meals = meals
+removeServingOfMeal meal meals = decMeal <$> meals
+    where decMeal meal = meal { servings = meal.servings - 1 }
 
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals

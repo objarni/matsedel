@@ -1,19 +1,34 @@
+var globalMeals
+var globalIncFn
+var globalDecFn
 
-export const run = (meals2) => (meals2ingredients) => (incFn) => (decFn) => () => {
-    console.log("running")
-    setMeals(meals2)
-    var ingredients = meals2ingredients(meals2)
+export const run = (meals) => (meals2ingredients) => (incFn) => (decFn) => () => {
+    globalIncFn = incFn
+    globalDecFn = decFn
+    setMeals(meals)
+    var ingredients = meals2ingredients(meals)
     setIngredients(ingredients)
 }
 
 function setMeals(meals) {
     console.log("setting meals = ", meals)
+    globalMeals = meals
     let table = document.getElementById('mealsTable');
+    table.innerHTML = ''
     meals.forEach(meal => {
         const week = leftist(3)
         const name = leftist(`<a target="_blank" href="${meal.webPage}">${meal.meal}</a>`)
         let minusButton = aButton('-')
+        if(meal.servings > 0)
+            minusButton.onclick = () => {
+                console.log('-')
+                setMeals(globalDecFn(meal.meal)(globalMeals))
+            }
         let plusButton = aButton('+')
+        plusButton.onclick = () => {
+            console.log('+')
+            setMeals(globalIncFn(meal.meal)(globalMeals))
+        }
         const servingsDiv = aDiv(minusButton, meal.servings, plusButton)
         const row = niceRow(week, name, servingsDiv)
         table.append(row)
