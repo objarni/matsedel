@@ -76,15 +76,15 @@ initialMeals =
   ]
 
 meals2ingredients :: IngredientsFromMealsFn
-meals2ingredients meals = []
+meals2ingredients _ = []
 
 addServingOfMeal :: IncFn
-addServingOfMeal meal meals = incMeal <$> meals
+addServingOfMeal _ meals = incMeal <$> meals
   where
   incMeal meal = meal { servings = meal.servings + 1 }
 
 removeServingOfMeal :: DecFn
-removeServingOfMeal meal meals = decMeal <$> meals
+removeServingOfMeal _ meals = decMeal <$> meals
   where
   decMeal meal = meal { servings = meal.servings - 1 }
 

@@ -176,6 +176,51 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
 
   flattenTests
 
+  describe "meals2ingredients" do
+    it "sums same ingredients" do
+      let
+        allIngredients :: Meals -> Array Ingredients
+        allIngredients meals = meals <#> (\m -> flattenMeal m)
+        twoMeals :: Meals
+        twoMeals =
+          [ { meal: "Stekt lax med rotfrukter i ugn"
+            , ingredients:
+                [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
+            , servings: 10
+            , webPage: ""
+            }
+          , { meal: "Stekt lax med ris"
+            , ingredients:
+                [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+            , servings: 2
+            , webPage: ""
+            }
+          ]
+        listOfIngredientsMaps = upgradeIngredients <$> allIngredients twoMeals
+        fn :: Ingredient2 -> Ingredient2 -> Ingredient2
+        fn i1 i2 = i1 { amount = i1.amount + i2.amount }
+        mergeIngredientsMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
+        mergeIngredientsMaps = foldl (Map.unionWith fn) empty
+        mergedIngredients = mergeIngredientsMaps listOfIngredientsMaps
+      Map.toUnfoldable mergedIngredients # shouldEqual []
+--          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
+--          unionMaps maps = foldl (\acc value -> acc { acc.amount + value.amount }) {name: "Laxfilé", amount: 0.0} maps
+--
+--          twoMeals = [ { meal: "Stekt lax med rotfrukter i ugn"
+--                                   , ingredients:
+--                                       [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
+--                                   , servings: 2
+--                                   , webPage: ""
+--                                   }
+--                                 , { meal: "Stekt lax med ris"
+--                                   , ingredients:
+--                                       [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+--                                   , servings: 2
+--                                   , webPage: ""
+--                                   }
+--                                 ]
+--        allIngredients twoMeals # shouldEqual []
+
 --  describe "sumIngredients" do
 --      it "sums same ingredients" do
 --        let
