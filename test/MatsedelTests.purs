@@ -179,8 +179,6 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
   describe "meals2ingredients" do
     it "sums same ingredients" do
       let
-        allIngredients :: Meals -> Array Ingredients
-        allIngredients meals = meals <#> (\m -> flattenMeal m)
         twoMeals :: Meals
         twoMeals =
           [ { meal: "Stekt lax med rotfrukter i ugn"
@@ -196,11 +194,13 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
             , webPage: ""
             }
           ]
+        allIngredients :: Meals -> Array Ingredients
+        allIngredients meals = meals <#> (\m -> flattenMeal m)
         listOfIngredientsMaps = upgradeIngredients <$> allIngredients twoMeals
-        fn :: Ingredient2 -> Ingredient2 -> Ingredient2
-        fn i1 i2 = i1 { amount = i1.amount + i2.amount }
+        sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
+        sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
         mergeIngredientsMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
-        mergeIngredientsMaps = foldl (Map.unionWith fn) empty
+        mergeIngredientsMaps = foldl (Map.unionWith sumIngredients) empty
         mergedIngredients = mergeIngredientsMaps listOfIngredientsMaps
       Map.toUnfoldable mergedIngredients # shouldEqual []
 --          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
