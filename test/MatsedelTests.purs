@@ -20,6 +20,7 @@ import Data.Foldable (class Foldable)
 import Control.Bind (bind) as Array
 import Debug (spy)
 import Data.Foldable (foldMap) as Map
+import Data.Unfoldable (class Unfoldable)
 
 toNumber :: Int -> Number
 toNumber = Data.Int.toNumber
@@ -189,6 +190,7 @@ arrayOfIngredientMaps = upgradeIngredients <$> allIngredients twoMeals
 mergedIngredients :: Map String { amount :: Number, unit :: String }
 mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
 
+listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
 listOfTuples = Map.toUnfoldable mergedIngredients
 
 allIngredients :: Meals -> Array Ingredients
