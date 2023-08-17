@@ -1,9 +1,9 @@
 module MatsedelTests where
 
-import Data.List
+import Data.List (List)
 import Data.Map
-import Data.Tuple
-import Prelude
+import Data.Tuple (Tuple(..))
+import Prelude (class Monad, discard, Unit, map, (#), ($), (+))
 
 import Control.Monad.Error.Class (class MonadThrow)
 import Data.Foldable (class Foldable)
