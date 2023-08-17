@@ -184,7 +184,7 @@ twoMeals =
     }
   ]
 
-arrayOfIngredientMaps :: Array (Map String { amount :: Number, unit :: String })
+arrayOfIngredientMaps :: Array (Map String Ingredient2)
 arrayOfIngredientMaps = upgradeIngredients <$> allIngredients twoMeals
 
 mergedIngredients :: Map String { amount :: Number, unit :: String }
