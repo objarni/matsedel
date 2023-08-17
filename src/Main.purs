@@ -77,6 +77,23 @@ initialMeals =
 mealsToIngredients :: Meals -> Ingredients
 mealsToIngredients meals =
   let
+
+    mealsToIngredientMaps :: Meals -> Array (Map String Ingredient2)
+    mealsToIngredientMaps meals = upgradeIngredients <$> allIngredients meals
+
+    sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
+    sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
+
+    mergeIngredientsMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
+    mergeIngredientsMaps = foldl (Map.unionWith sumIngredients) Map.empty
+
+    tupleToIngredient :: Tuple String Ingredient2 -> Ingredient
+    tupleToIngredient t = { name, amount, unit }
+      where
+      name = fst t
+      amount = (snd t).amount
+      unit = (snd t).unit
+
     listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
     listOfTuples = Map.toUnfoldable
       $ mergeIngredientsMaps
@@ -105,22 +122,6 @@ flattenMeal meal =
           , amount: ingredient.amount * (Data.Int.toNumber servings)
           , unit: ingredient.unit
           }
-
-mealsToIngredientMaps :: Meals -> Array (Map String Ingredient2)
-mealsToIngredientMaps meals = upgradeIngredients <$> allIngredients meals
-
-sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
-sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
-
-mergeIngredientsMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
-mergeIngredientsMaps = foldl (Map.unionWith sumIngredients) Map.empty
-
-tupleToIngredient :: Tuple String Ingredient2 -> Ingredient
-tupleToIngredient t = { name, amount, unit }
-  where
-  name = fst t
-  amount = (snd t).amount
-  unit = (snd t).unit
 
 addServingOfMeal :: IncFn
 addServingOfMeal _ meals = incMeal <$> meals
