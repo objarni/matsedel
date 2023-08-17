@@ -1,7 +1,7 @@
 module Main where
 
-import Data.Array
-import Data.Tuple
+import Data.Array (foldl)
+import Data.Tuple (Tuple(..), fst, snd)
 import Prelude
 
 import Data.Map (Map)
@@ -79,7 +79,7 @@ mealsToIngredients meals =
   let
 
     mealsToIngredientMaps :: Meals -> Array (Map String Ingredient2)
-    mealsToIngredientMaps meals = upgradeIngredients <$> allIngredients meals
+    mealsToIngredientMaps = \m -> upgradeIngredients <$> allIngredients m
 
     sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
     sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
