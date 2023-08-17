@@ -76,20 +76,16 @@ initialMeals =
 
 mealsToIngredients :: Meals -> Ingredients
 mealsToIngredients meals =
-    let
-      arrayOfIngredientMaps :: Array (Map String Ingredient2)
-      arrayOfIngredientMaps = mealsToIngredientMaps meals
+  let
+    listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
+    listOfTuples = Map.toUnfoldable
+      $ mergeIngredientsMaps
+      $ mealsToIngredientMaps meals
 
-      mergedIngredients :: Map String { amount :: Number, unit :: String }
-      mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
-
-      listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
-      listOfTuples = Map.toUnfoldable mergedIngredients
-
-      listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
-      listOfIngredients = tupleToIngredient <$> listOfTuples
-    in
-      listOfIngredients
+    listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
+    listOfIngredients = tupleToIngredient <$> listOfTuples
+  in
+    listOfIngredients
 
 meals2ingredients :: IngredientsFromMealsFn
 meals2ingredients = mealsToIngredients
