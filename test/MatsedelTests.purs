@@ -12,7 +12,7 @@ import Data.Unfoldable (class Unfoldable)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Exception (Error)
-import Main (Ingredient2, Ingredients, Meals, flattenMeal, initialMeals, mealsToIngredientMaps, mergeIngredientsMaps, tupleToIngredient, upgradeMeals)
+import Main (Ingredient2, Ingredients, Meals, flattenMeal, initialMeals, mealsToIngredientMaps, mealsToIngredients, mergeIngredientsMaps, tupleToIngredient, upgradeMeals)
 import Test.Spec (SpecT, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
@@ -111,6 +111,7 @@ flattenTests = describe "flattenMeal" do
       , { name: "Örter", amount: 0.5, unit: "dl" }
       ]
 
+meals2ingredientsTests :: TestSuite
 meals2ingredientsTests = describe "meals2ingredients" do
   it "sums ingredients of several served meals" do
     let
@@ -130,36 +131,7 @@ meals2ingredientsTests = describe "meals2ingredients" do
           }
         ]
 
-      mealsToIngredients :: Meals -> Ingredients
-      mealsToIngredients meals =
-        let
-          arrayOfIngredientMaps :: Array (Map String Ingredient2)
-          arrayOfIngredientMaps = mealsToIngredientMaps meals
-
-          mergedIngredients :: Map String { amount :: Number, unit :: String }
-          mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
-
-          listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
-          listOfTuples = Map.toUnfoldable mergedIngredients
-
-          listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
-          listOfIngredients = tupleToIngredient <$> listOfTuples
-        in
-          listOfIngredients
-
       ingredientsArray = mealsToIngredients twoMeals
-
-      arrayOfIngredientMaps :: Array (Map String Ingredient2)
-      arrayOfIngredientMaps = mealsToIngredientMaps twoMeals
-
-      mergedIngredients :: Map String { amount :: Number, unit :: String }
-      mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
-
-      listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
-      listOfTuples = Map.toUnfoldable mergedIngredients
-
-      listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
-      listOfIngredients = tupleToIngredient <$> listOfTuples
 
     ingredientsArray # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
 

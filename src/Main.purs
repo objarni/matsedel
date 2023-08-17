@@ -10,7 +10,8 @@ import Effect (Effect)
 import PureGerm (runGerms)
 import Data.Int (toNumber) as Data.Int
 import Data.Map (empty, fromFoldable) as Map
-import Data.Map.Internal (unionWith) as Map
+import Data.Map.Internal (toUnfoldable, unionWith) as Map
+import Data.Unfoldable (class Unfoldable)
 
 main :: Effect Unit
 main = do
@@ -73,8 +74,25 @@ initialMeals =
     }
   ]
 
+mealsToIngredients :: Meals -> Ingredients
+mealsToIngredients meals =
+    let
+      arrayOfIngredientMaps :: Array (Map String Ingredient2)
+      arrayOfIngredientMaps = mealsToIngredientMaps meals
+
+      mergedIngredients :: Map String { amount :: Number, unit :: String }
+      mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
+
+      listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
+      listOfTuples = Map.toUnfoldable mergedIngredients
+
+      listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
+      listOfIngredients = tupleToIngredient <$> listOfTuples
+    in
+      listOfIngredients
+
 meals2ingredients :: IngredientsFromMealsFn
-meals2ingredients _ = []
+meals2ingredients = mealsToIngredients
 
 allIngredients :: Meals -> Array Ingredients
 allIngredients meals = meals <#> (\m -> flattenMeal m)
