@@ -8,7 +8,7 @@ import Prelude
 import Data.Map.Internal (Map, values)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Main (Ingredient, Ingredient2, Ingredients, Ingredients2, Meal, Meal2, Meals, initialMeals, upgradeIngredients, upgradeMeals)
+import Main (Ingredient, Ingredient2, Ingredients, Ingredients2, Meal, Meal2, Meals, initialMeals, meals2ingredients, upgradeIngredients, upgradeMeals)
 import Test.Spec (describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
@@ -168,36 +168,13 @@ flattenTests = describe "flattenMeal" do
       , Tuple "Örter" { amount: 0.5, unit: "dl" }
       ]
 
-twoMeals :: Meals
-twoMeals =
-  [ { meal: "Stekt lax med rotfrukter i ugn"
-    , ingredients:
-        [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
-    , servings: 10
-    , webPage: ""
-    }
-  , { meal: "Stekt lax med ris"
-    , ingredients:
-        [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
-    , servings: 2
-    , webPage: ""
-    }
-  ]
-
-arrayOfIngredientMaps :: Array (Map String Ingredient2)
-arrayOfIngredientMaps = upgradeIngredients <$> allIngredients twoMeals
-
-mergedIngredients :: Map String { amount :: Number, unit :: String }
-mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
-
-listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
-listOfTuples = Map.toUnfoldable mergedIngredients
-
--- concrete/test above
 -- abstract below
 
 allIngredients :: Meals -> Array Ingredients
 allIngredients meals = meals <#> (\m -> flattenMeal m)
+
+mealsToIngredientMaps :: Meals -> Array (Map String Ingredient2)
+mealsToIngredientMaps meals = upgradeIngredients <$> allIngredients meals
 
 sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
 sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
@@ -212,8 +189,38 @@ tupleToIngredient t = { name, amount, unit }
   amount = (snd t).amount
   unit = (snd t).unit
 
-listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
-listOfIngredients = tupleToIngredient <$> listOfTuples
+meals2ingredientsTests = describe "meals2ingredients" do
+  it "sums ingredients of several served meals" do
+    let
+      twoMeals :: Meals
+      twoMeals =
+        [ { meal: "Stekt lax med rotfrukter i ugn"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
+          , servings: 10
+          , webPage: ""
+          }
+        , { meal: "Stekt lax med ris"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+          , servings: 2
+          , webPage: ""
+          }
+        ]
+
+      arrayOfIngredientMaps :: Array (Map String Ingredient2)
+      arrayOfIngredientMaps = mealsToIngredientMaps twoMeals
+
+      mergedIngredients :: Map String { amount :: Number, unit :: String }
+      mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
+
+      listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
+      listOfTuples = Map.toUnfoldable mergedIngredients
+
+      listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
+      listOfIngredients = tupleToIngredient <$> listOfTuples
+
+    listOfIngredients # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do
@@ -224,9 +231,7 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
 
   flattenTests
 
-  describe "meals2ingredients" do
-    it "sums same ingredients" do
-      listOfIngredients # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
+  meals2ingredientsTests
 --          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
 --          unionMaps maps = foldl (\acc value -> acc { acc.amount + value.amount }) {name: "Laxfilé", amount: 0.0} maps
 --
