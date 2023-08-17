@@ -193,6 +193,9 @@ mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
 listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
 listOfTuples = Map.toUnfoldable mergedIngredients
 
+-- concrete/test above
+-- abstract below
+
 allIngredients :: Meals -> Array Ingredients
 allIngredients meals = meals <#> (\m -> flattenMeal m)
 
@@ -209,6 +212,7 @@ tupleToIngredient t = { name, amount, unit }
   amount = (snd t).amount
   unit = (snd t).unit
 
+listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
 listOfIngredients = tupleToIngredient <$> listOfTuples
 
 main :: Effect Unit
