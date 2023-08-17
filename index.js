@@ -1969,6 +1969,62 @@
     };
   };
 
+  // output/Meals/index.js
+  var initialMeals = [{
+    meal: "Stekt lax med rotfrukter i ugn",
+    ingredients: [{
+      name: "Laxfil\xE9",
+      amount: 1,
+      unit: "st"
+    }, {
+      name: "Fast potatis",
+      amount: 1,
+      unit: "st"
+    }, {
+      name: "Morot",
+      amount: 1,
+      unit: "st"
+    }, {
+      name: "S\xF6tpotatis",
+      amount: 1,
+      unit: "st"
+    }, {
+      name: "R\xF6dl\xF6k",
+      amount: 0.5,
+      unit: "st"
+    }, {
+      name: "Vitl\xF6k",
+      amount: 2.25,
+      unit: "st"
+    }, {
+      name: "Olivolja",
+      amount: 0.5,
+      unit: "msk"
+    }, {
+      name: "Sm\xF6r",
+      amount: 1,
+      unit: "msk"
+    }, {
+      name: "Citronpeppar",
+      amount: 0,
+      unit: "-"
+    }, {
+      name: "Yoghurt",
+      amount: 0.4,
+      unit: "dl"
+    }, {
+      name: "Fetaost",
+      amount: 40,
+      unit: "g"
+    }, {
+      name: "\xD6rter",
+      amount: 0.25,
+      unit: "dl"
+    }],
+    servings: 2,
+    webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+  }];
+
   // output/PureGerm/foreign.js
   var simulate = (initialGerms) => (tickGerms) => () => {
     state = initialGerms;
@@ -2120,60 +2176,6 @@
       return map3(decMeal)(meals);
     };
   };
-  var initialMeals = [{
-    meal: "Stekt lax med rotfrukter i ugn",
-    ingredients: [{
-      name: "Laxfil\xE9",
-      amount: 1,
-      unit: "st"
-    }, {
-      name: "Fast potatis",
-      amount: 1,
-      unit: "st"
-    }, {
-      name: "Morot",
-      amount: 1,
-      unit: "st"
-    }, {
-      name: "S\xF6tpotatis",
-      amount: 1,
-      unit: "st"
-    }, {
-      name: "R\xF6dl\xF6k",
-      amount: 0.5,
-      unit: "st"
-    }, {
-      name: "Vitl\xF6k",
-      amount: 2.25,
-      unit: "st"
-    }, {
-      name: "Olivolja",
-      amount: 0.5,
-      unit: "msk"
-    }, {
-      name: "Sm\xF6r",
-      amount: 1,
-      unit: "msk"
-    }, {
-      name: "Citronpeppar",
-      amount: 0,
-      unit: "-"
-    }, {
-      name: "Yoghurt",
-      amount: 0.4,
-      unit: "dl"
-    }, {
-      name: "Fetaost",
-      amount: 40,
-      unit: "g"
-    }, {
-      name: "\xD6rter",
-      amount: 0.25,
-      unit: "dl"
-    }],
-    servings: 2,
-    webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
-  }];
   var flattenMeal = function(meal) {
     return map3(function(ingredient) {
       return {
