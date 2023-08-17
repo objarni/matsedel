@@ -5,11 +5,12 @@ import Data.Tuple
 import Prelude
 
 import Data.Map (Map)
+import Debug (spy)
 import Effect (Effect)
 import PureGerm (runGerms)
+import Data.Int (toNumber) as Data.Int
 import Data.Map (empty, fromFoldable) as Map
-import Data.Array (foldMap) as Map
-import Debug (spy)
+import Data.Map.Internal (unionWith) as Map
 
 main :: Effect Unit
 main = do
@@ -50,9 +51,6 @@ upgradeMeal meal = Tuple meal.meal
 upgradeMeals :: Meals -> Meals2
 upgradeMeals meals = Map.fromFoldable (upgradeMeal <$> meals)
 
-initialMeals2 :: Meals2
-initialMeals2 = upgradeMeals initialMeals
-
 initialMeals :: Meals
 initialMeals =
   [ { meal: "Stekt lax med rotfrukter i ugn"
@@ -77,6 +75,38 @@ initialMeals =
 
 meals2ingredients :: IngredientsFromMealsFn
 meals2ingredients _ = []
+
+allIngredients :: Meals -> Array Ingredients
+allIngredients meals = meals <#> (\m -> flattenMeal m)
+
+flattenMeal :: Meal -> Array Ingredient
+flattenMeal meal =
+  let
+    servings = meal.servings
+    ingredients = meal.ingredients
+  in
+    ingredients
+      # map \ingredient ->
+          { name: ingredient.name
+          , amount: ingredient.amount * (Data.Int.toNumber servings)
+          , unit: ingredient.unit
+          }
+
+mealsToIngredientMaps :: Meals -> Array (Map String Ingredient2)
+mealsToIngredientMaps meals = upgradeIngredients <$> allIngredients meals
+
+sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
+sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
+
+mergeIngredientsMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
+mergeIngredientsMaps = foldl (Map.unionWith sumIngredients) Map.empty
+
+tupleToIngredient :: Tuple String Ingredient2 -> Ingredient
+tupleToIngredient t = { name, amount, unit }
+  where
+  name = fst t
+  amount = (snd t).amount
+  unit = (snd t).unit
 
 addServingOfMeal :: IncFn
 addServingOfMeal _ meals = incMeal <$> meals

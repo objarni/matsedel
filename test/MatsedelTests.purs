@@ -5,54 +5,27 @@ import Data.Map
 import Data.Tuple
 import Prelude
 
+import Control.Monad.Error.Class (class MonadThrow)
+import Data.Foldable (class Foldable)
 import Data.Map.Internal (Map, values)
+import Data.Unfoldable (class Unfoldable)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
-import Main (Ingredient, Ingredient2, Ingredients, Ingredients2, Meal, Meal2, Meals, initialMeals, meals2ingredients, upgradeIngredients, upgradeMeals)
-import Test.Spec (describe, it)
+import Effect.Exception (Error)
+import Main (Ingredient2, Ingredients, Meals, flattenMeal, initialMeals, mealsToIngredientMaps, mergeIngredientsMaps, tupleToIngredient, upgradeMeals)
+import Test.Spec (SpecT, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
 import Test.Spec.Runner (runSpec)
-import Data.Int (toNumber) as Data.Int
 import Data.List as List
 import Data.Map as Map
-import Data.Foldable (class Foldable)
-import Control.Bind (bind) as Array
-import Debug (spy)
-import Data.Foldable (foldMap) as Map
-import Data.Unfoldable (class Unfoldable)
-
-toNumber :: Int -> Number
-toNumber = Data.Int.toNumber
-
-flattenMeal :: Meal -> Array Ingredient
-flattenMeal meal =
-  let
-    servings = meal.servings
-    ingredients = meal.ingredients
-  in
-    ingredients
-      # map \ingredient ->
-          { name: ingredient.name
-          , amount: ingredient.amount * (toNumber servings)
-          , unit: ingredient.unit
-          }
-
-flattenMeal2 :: Meal2 -> Ingredients2
-flattenMeal2 meal =
-  let
-    servings = meal.servings
-    ingredients = meal.ingredients
-  in
-    ingredients
-      # map \ingredient ->
-          { amount: ingredient.amount * (toNumber servings)
-          , unit: ingredient.unit
-          }
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
 
+type TestSuite = forall m121 g122. Monad m121 => MonadThrow Error g122 => SpecT g122 Unit m121 Unit
+
+mapTests :: TestSuite
 mapTests = describe "PureScript Map data structure" do
   it "can access values via values function" do
     let
@@ -75,6 +48,7 @@ mapTests = describe "PureScript Map data structure" do
       combinedAsList = Map.toUnfoldable combinedMap
     combinedAsList # shouldEqual [ Tuple "broccoli" 6, Tuple "morot" 2, Tuple "pilsner" 3 ]
 
+upgradeMealsTests :: TestSuite
 upgradeMealsTests = describe "upgradeMeals" do
   it "upgrades example initial meals" do
     Map.toUnfoldable (upgradeMeals initialMeals) # shouldEqual
@@ -99,6 +73,7 @@ upgradeMealsTests = describe "upgradeMeals" do
           }
       ]
 
+flattenTests :: TestSuite
 flattenTests = describe "flattenMeal" do
   it "uses servings to compute ingredients" do
     let
@@ -135,58 +110,6 @@ flattenTests = describe "flattenMeal" do
       , { name: "Fetaost", amount: 80.0, unit: "g" }
       , { name: "Örter", amount: 0.5, unit: "dl" }
       ]
-    let
-      mealIngredients = Map.fromFoldable
-        [ Tuple "Laxfilé" { amount: 1.0, unit: "st" }
-        , Tuple "Fast potatis" { amount: 1.0, unit: "st" }
-        , Tuple "Morot" { amount: 1.0, unit: "st" }
-        , Tuple "Sötpotatis" { amount: 1.0, unit: "st" }
-        , Tuple "Rödlök" { amount: 0.5, unit: "st" }
-        , Tuple "Vitlök" { amount: 2.25, unit: "st" }
-        , Tuple "Olivolja" { amount: 0.5, unit: "msk" }
-        , Tuple "Smör" { amount: 1.0, unit: "msk" }
-        , Tuple "Citronpeppar" { amount: 0.0, unit: "-" }
-        , Tuple "Yoghurt" { amount: 0.4, unit: "dl" }
-        , Tuple "Fetaost" { amount: 40.0, unit: "g" }
-        , Tuple "Örter" { amount: 0.25, unit: "dl" }
-        ]
-      meal = { ingredients: mealIngredients, servings: 2, webPage: "" }
-      flattenedMap = flattenMeal2 meal
-      flattenedPairs = Map.toUnfoldable flattenedMap
-    flattenedPairs # shouldEqual
-      [ Tuple "Citronpeppar" { amount: 0.0, unit: "-" }
-      , Tuple "Fast potatis" { amount: 2.0, unit: "st" }
-      , Tuple "Fetaost" { amount: 80.0, unit: "g" }
-      , Tuple "Laxfilé" { amount: 2.0, unit: "st" }
-      , Tuple "Morot" { amount: 2.0, unit: "st" }
-      , Tuple "Olivolja" { amount: 1.0, unit: "msk" }
-      , Tuple "Rödlök" { amount: 1.0, unit: "st" }
-      , Tuple "Smör" { amount: 2.0, unit: "msk" }
-      , Tuple "Sötpotatis" { amount: 2.0, unit: "st" }
-      , Tuple "Vitlök" { amount: 4.5, unit: "st" }
-      , Tuple "Yoghurt" { amount: 0.8, unit: "dl" }
-      , Tuple "Örter" { amount: 0.5, unit: "dl" }
-      ]
-
-
-allIngredients :: Meals -> Array Ingredients
-allIngredients meals = meals <#> (\m -> flattenMeal m)
-
-mealsToIngredientMaps :: Meals -> Array (Map String Ingredient2)
-mealsToIngredientMaps meals = upgradeIngredients <$> allIngredients meals
-
-sumIngredients :: Ingredient2 -> Ingredient2 -> Ingredient2
-sumIngredients ingredient1 ingredient2 = ingredient1 { amount = ingredient1.amount + ingredient2.amount }
-
-mergeIngredientsMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
-mergeIngredientsMaps = foldl (Map.unionWith sumIngredients) empty
-
-tupleToIngredient :: Tuple String Ingredient2 -> Ingredient
-tupleToIngredient t = { name, amount, unit }
-  where
-  name = fst t
-  amount = (snd t).amount
-  unit = (snd t).unit
 
 meals2ingredientsTests = describe "meals2ingredients" do
   it "sums ingredients of several served meals" do
@@ -208,7 +131,8 @@ meals2ingredientsTests = describe "meals2ingredients" do
         ]
 
       mealsToIngredients :: Meals -> Ingredients
-      mealsToIngredients meals = let
+      mealsToIngredients meals =
+        let
           arrayOfIngredientMaps :: Array (Map String Ingredient2)
           arrayOfIngredientMaps = mealsToIngredientMaps meals
 
@@ -220,7 +144,8 @@ meals2ingredientsTests = describe "meals2ingredients" do
 
           listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
           listOfIngredients = tupleToIngredient <$> listOfTuples
-          in listOfIngredients
+        in
+          listOfIngredients
 
       ingredientsArray = mealsToIngredients twoMeals
 
