@@ -23,7 +23,7 @@ import Data.Map as Map
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
 
-type TestSuite = forall m121 g122. Monad m121 => MonadThrow Error g122 => SpecT g122 Unit m121 Unit
+type TestSuite = forall a b. Monad a => MonadThrow Error b => SpecT b Unit a Unit
 
 mapTests :: TestSuite
 mapTests = describe "PureScript Map data structure" do
