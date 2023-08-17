@@ -1,13 +1,13 @@
 var globalMeals
 var globalIncFn
 var globalDecFn
+var globalMeals2ingredients
 
 export const run = (meals) => (meals2ingredients) => (incFn) => (decFn) => () => {
     globalIncFn = incFn
     globalDecFn = decFn
+    globalMeals2ingredients = meals2ingredients
     setMeals(meals)
-    var ingredients = meals2ingredients(meals)
-    setIngredients(ingredients)
 }
 
 function setMeals(meals) {
@@ -33,10 +33,13 @@ function setMeals(meals) {
         const row = niceRow(week, name, servingsDiv)
         table.append(row)
     })
+    const ingredients = globalMeals2ingredients(meals);
+    setIngredients(ingredients)
 }
 
 function setIngredients(ingredients) {
     let table = document.getElementById('ingredientsTable');
+    table.innerHTML = ''
     console.log("setting ingredients = ", ingredients)
     ingredients.forEach(ingredient => {
         const name = leftist(ingredient.name)
