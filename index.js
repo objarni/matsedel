@@ -1970,7 +1970,7 @@
   };
 
   // output/Meals/index.js
-  var initialMeals = [{
+  var standardMatsedel = [{
     meal: "Stekt lax med rotfrukter i ugn",
     ingredients: [{
       name: "Laxfil\xE9",
@@ -2239,7 +2239,7 @@
     };
   };
   var main = function __do4() {
-    run(spy()("initialMeals")(initialMeals))(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
+    run(spy()("initialMeals")(standardMatsedel))(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 

@@ -20,7 +20,7 @@ import Test.Spec.Runner (runSpec)
 import Data.List as List
 import Data.Map as Map
 import MealTypes (Meals)
-import Meals (initialMeals)
+import Meals (standardMatsedel)
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -53,7 +53,7 @@ mapTests = describe "PureScript Map data structure" do
 upgradeMealsTests :: TestSuite
 upgradeMealsTests = describe "upgradeMeals" do
   it "upgrades example initial meals" do
-    Map.toUnfoldable (upgradeMeals initialMeals) # shouldEqual
+    Map.toUnfoldable (upgradeMeals standardMatsedel) # shouldEqual
       [ Tuple "Stekt lax med rotfrukter i ugn"
           { ingredients:
               Map.fromFoldable

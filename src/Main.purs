@@ -13,11 +13,11 @@ import Data.Map (empty, fromFoldable) as Map
 import Data.Map.Internal (toUnfoldable, unionWith) as Map
 import Data.Unfoldable (class Unfoldable)
 import MealTypes (Ingredient, Ingredients, Meal, Meals)
-import Meals (initialMeals)
+import Meals (standardMatsedel)
 
 main :: Effect Unit
 main = do
-  run (spy "initialMeals" initialMeals) meals2ingredients addServingOfMeal removeServingOfMeal
+  run (spy "initialMeals" standardMatsedel) meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
 -- New types
 type Ingredient2 = { amount :: Number, unit :: String }
