@@ -168,7 +168,6 @@ flattenTests = describe "flattenMeal" do
       , Tuple "Örter" { amount: 0.5, unit: "dl" }
       ]
 
--- abstract below
 
 allIngredients :: Meals -> Array Ingredients
 allIngredients meals = meals <#> (\m -> flattenMeal m)
@@ -208,6 +207,23 @@ meals2ingredientsTests = describe "meals2ingredients" do
           }
         ]
 
+      mealsToIngredients :: Meals -> Ingredients
+      mealsToIngredients meals = let
+          arrayOfIngredientMaps :: Array (Map String Ingredient2)
+          arrayOfIngredientMaps = mealsToIngredientMaps meals
+
+          mergedIngredients :: Map String { amount :: Number, unit :: String }
+          mergedIngredients = mergeIngredientsMaps arrayOfIngredientMaps
+
+          listOfTuples :: forall a. Unfoldable a => a (Tuple String { amount :: Number, unit :: String })
+          listOfTuples = Map.toUnfoldable mergedIngredients
+
+          listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
+          listOfIngredients = tupleToIngredient <$> listOfTuples
+          in listOfIngredients
+
+      ingredientsArray = mealsToIngredients twoMeals
+
       arrayOfIngredientMaps :: Array (Map String Ingredient2)
       arrayOfIngredientMaps = mealsToIngredientMaps twoMeals
 
@@ -220,7 +236,7 @@ meals2ingredientsTests = describe "meals2ingredients" do
       listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
       listOfIngredients = tupleToIngredient <$> listOfTuples
 
-    listOfIngredients # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
+    ingredientsArray # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do
