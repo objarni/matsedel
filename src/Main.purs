@@ -12,24 +12,12 @@ import Data.Int (toNumber) as Data.Int
 import Data.Map (empty, fromFoldable) as Map
 import Data.Map.Internal (toUnfoldable, unionWith) as Map
 import Data.Unfoldable (class Unfoldable)
+import MealTypes (Ingredient, Ingredients, Meal, Meals)
 
 main :: Effect Unit
 main = do
   run (spy "initialMeals" initialMeals) meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
-
--- Old types
-type Meals = Array Meal
-type Meal =
-  { meal :: String
-  , ingredients :: Ingredients
-  , servings :: Int
-  , webPage :: String
-  }
-
-type Ingredient = { name :: String, amount :: Number, unit :: String }
-type Ingredients = Array Ingredient
-
 -- New types
 type Ingredient2 = { amount :: Number, unit :: String }
 type Ingredients2 = Map String Ingredient2

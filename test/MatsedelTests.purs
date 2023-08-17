@@ -12,13 +12,14 @@ import Data.Unfoldable (class Unfoldable)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Exception (Error)
-import Main (Meals, flattenMeal, initialMeals, mealsToIngredients, upgradeMeals)
+import Main (flattenMeal, initialMeals, mealsToIngredients, upgradeMeals)
 import Test.Spec (SpecT, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
 import Test.Spec.Runner (runSpec)
 import Data.List as List
 import Data.Map as Map
+import MealTypes (Meals)
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
