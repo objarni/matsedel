@@ -2023,6 +2023,39 @@
     }],
     servings: 2,
     webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+  }, {
+    meal: "\xC4ggr\xF6ra med fetaost och pasta",
+    ingredients: [{
+      name: "Gr\xE4dde",
+      amount: 0.25,
+      unit: "dl"
+    }, {
+      name: "\xC4gg",
+      amount: 2,
+      unit: "st"
+    }, {
+      name: "Fetaost",
+      amount: 25,
+      unit: "g"
+    }, {
+      name: "Sm\xF6r",
+      amount: 0,
+      unit: "-"
+    }, {
+      name: "Salt",
+      amount: 0.5,
+      unit: "-"
+    }, {
+      name: "Peppar",
+      amount: 2.25,
+      unit: "-"
+    }, {
+      name: "Pasta",
+      amount: 100,
+      unit: "g"
+    }],
+    servings: 0,
+    webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
   }];
 
   // output/PureGerm/foreign.js
