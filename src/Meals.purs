@@ -10,7 +10,7 @@ standardMatsedel =
         , { name: "Fast potatis", amount: 1.0, unit: "st" }
         , { name: "Morot", amount: 1.0, unit: "st" }
         , { name: "Sötpotatis", amount: 1.0, unit: "st" }
-        , { name: "Rödlök", amount: 0.¡¡5, unit: "st" }
+        , { name: "Rödlök", amount: 0.5, unit: "st" }
         , { name: "Vitlök", amount: 2.25, unit: "st" }
         , { name: "Olivolja", amount: 0.5, unit: "msk" }
         , { name: "Smör", amount: 1.0, unit: "msk" }

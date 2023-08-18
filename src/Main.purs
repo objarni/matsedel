@@ -19,6 +19,7 @@ main :: Effect Unit
 main = do
   run (spy "initialMeals" standardMatsedel) meals2ingredients addServingOfMeal removeServingOfMeal
   runGerms
+
 -- New types
 type Ingredient2 = { amount :: Number, unit :: String }
 type Ingredients2 = Map String Ingredient2
