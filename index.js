@@ -2196,15 +2196,20 @@
   var upgradeIngredients = function(ingredients) {
     return fromFoldable2(map3(upgradeIngredient)(ingredients));
   };
-  var removeServingOfMeal = function(v) {
+  var removeServingOfMeal = function(meal) {
     return function(meals) {
-      var decMeal = function(meal) {
-        return {
-          servings: meal.servings - 1 | 0,
-          ingredients: meal.ingredients,
-          meal: meal.meal,
-          webPage: meal.webPage
-        };
+      var decMeal = function(aMeal) {
+        var $24 = aMeal.meal === meal;
+        if ($24) {
+          return {
+            servings: aMeal.servings - 1 | 0,
+            meal: aMeal.meal,
+            ingredients: aMeal.ingredients,
+            webPage: aMeal.webPage
+          };
+        }
+        ;
+        return aMeal;
       };
       return map3(decMeal)(meals);
     };
@@ -2258,15 +2263,20 @@
     return listOfIngredients(functorArray)(unfoldableArray);
   };
   var meals2ingredients = mealsToIngredients;
-  var addServingOfMeal = function(v) {
+  var addServingOfMeal = function(meal) {
     return function(meals) {
-      var incMeal = function(meal) {
-        return {
-          servings: meal.servings + 1 | 0,
-          ingredients: meal.ingredients,
-          meal: meal.meal,
-          webPage: meal.webPage
-        };
+      var incMeal = function(aMeal) {
+        var $25 = aMeal.meal === meal;
+        if ($25) {
+          return {
+            servings: aMeal.servings + 1 | 0,
+            meal: aMeal.meal,
+            ingredients: aMeal.ingredients,
+            webPage: aMeal.webPage
+          };
+        }
+        ;
+        return aMeal;
       };
       return map3(incMeal)(meals);
     };

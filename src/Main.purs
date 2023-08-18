@@ -92,14 +92,18 @@ flattenMeal meal =
           }
 
 addServingOfMeal :: IncFn
-addServingOfMeal _ meals = incMeal <$> meals
+addServingOfMeal meal meals = incMeal <$> meals
   where
-  incMeal meal = meal { servings = meal.servings + 1 }
+  incMeal aMeal =
+    if aMeal.meal == meal then aMeal { servings = aMeal.servings + 1 }
+    else aMeal
 
 removeServingOfMeal :: DecFn
-removeServingOfMeal _ meals = decMeal <$> meals
+removeServingOfMeal meal meals = decMeal <$> meals
   where
-  decMeal meal = meal { servings = meal.servings - 1 }
+  decMeal aMeal =
+    if aMeal.meal == meal then aMeal { servings = aMeal.servings - 1 }
+    else aMeal
 
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
