@@ -21,6 +21,7 @@ import Data.List as List
 import Data.Map as Map
 import MealTypes (Meals)
 import Meals (standardMatsedel)
+import Data.Array (concatMap) as Array
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -38,8 +39,8 @@ mapTests = describe "PureScript Map data structure" do
     let
       aMap = Map.fromFoldable [ Tuple 1 "one", Tuple 2 "two" ]
       pairs = Map.toUnfoldable aMap
-      allkeys = map (\(Tuple k _) -> k) pairs
-      allvalues = map (\(Tuple _ v) -> v) pairs
+      allkeys = map \(Tuple k _) -> k pairs
+      allvalues = map \(Tuple _ v) -> v pairs
     allkeys # shouldEqual [ 1, 2 ]
     allvalues # shouldEqual [ "one", "two" ]
   it "can be merged with another map given a merge function" do
@@ -50,29 +51,40 @@ mapTests = describe "PureScript Map data structure" do
       combinedAsList = Map.toUnfoldable combinedMap
     combinedAsList # shouldEqual [ Tuple "broccoli" 6, Tuple "morot" 2, Tuple "pilsner" 3 ]
 
+--[(Tuple "Stekt lax med rotfrukter i ugn" { ingredients: (fromFoldable [(Tuple "Citronpeppar" { amount: 0.0, unit: "-" }),(Tuple "Fast potatis" { amount: 1.0, unit: "st" }),(Tuple "Fetaost" { amount: 40.0, unit: "g" }),(Tuple "Laxfilé" { amount: 1.0, unit: "st" }),(Tuple "Morot" { amount: 1.0, unit: "st" }),(Tuple "Olivolja" { amount: 0.5, unit: "msk" }),(Tuple "Rödlök" { amount: 0.5, unit: "st" }),(Tuple "Smör" { amount: 1.0, unit: "msk" }),(Tuple "Sötpotatis" { amount: 1.0, unit: "st" }),(Tuple "Vitlök" { amount: 2.25, unit: "st" }),(Tuple "Yoghurt" { amount: 0.4, unit: "dl" }),(Tuple "Örter" { amount: 0.25, unit: "dl" })]), servings: 2, webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost" })] ≠
 upgradeMealsTests :: TestSuite
 upgradeMealsTests = describe "upgradeMeals" do
-  it "upgrades example initial meals" do
+  it "upgrades example standard meals" do
     Map.toUnfoldable (upgradeMeals standardMatsedel) # shouldEqual
       [ Tuple "Stekt lax med rotfrukter i ugn"
-          { ingredients:
-              Map.fromFoldable
-                [ Tuple "Citronpeppar" { amount: 0.0, unit: "-" }
-                , Tuple "Fast potatis" { amount: 1.0, unit: "st" }
-                , Tuple "Fetaost" { amount: 40.0, unit: "g" }
-                , Tuple "Laxfilé" { amount: 1.0, unit: "st" }
-                , Tuple "Morot" { amount: 1.0, unit: "st" }
-                , Tuple "Olivolja" { amount: 0.5, unit: "msk" }
-                , Tuple "Rödlök" { amount: 0.5, unit: "st" }
-                , Tuple "Smör" { amount: 1.0, unit: "msk" }
-                , Tuple "Sötpotatis" { amount: 1.0, unit: "st" }
-                , Tuple "Vitlök" { amount: 2.25, unit: "st" }
-                , Tuple "Yoghurt" { amount: 0.4, unit: "dl" }
-                , Tuple "Örter" { amount: 0.25, unit: "dl" }
-                ]
-          , servings: 2
-          , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
-          }
+            { ingredients:
+                fromFoldable
+                    [ Tuple "Fast potatis" { amount: 1.0, unit: "st" }
+                    , Tuple "Fetaost" { amount: 40.0, unit: "g" }
+                    , Tuple "Laxfilé" { amount: 1.0, unit: "st" }
+                    , Tuple "Morot" { amount: 1.0, unit: "st" }
+                    , Tuple "Olivolja" { amount: 0.5, unit: "msk" }
+                    , Tuple "Rödlök" { amount: 0.5, unit: "st" }
+                    , Tuple "Smör" { amount: 1.0, unit: "msk" }
+                    , Tuple "Sötpotatis" { amount: 1.0, unit: "st" }
+                    , Tuple "Vitlök" { amount: 2.25, unit: "st" }
+                    , Tuple "Yoghurt" { amount: 0.4, unit: "dl" }
+                    , Tuple "Örter" { amount: 0.25, unit: "dl" }
+                    ]
+            , servings: 2
+            , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+            }
+      , Tuple "Äggröra med fetaost och pasta"
+            { ingredients:
+                fromFoldable
+                    [ Tuple "Fetaost" { amount: 25.0, unit: "g" }
+                    , Tuple "Grädde" { amount: 0.25, unit: "dl" }
+                    , Tuple "Pasta" { amount: 100.0, unit: "g" }
+                    , Tuple "Ägg" { amount: 2.0, unit: "st" }
+                    ]
+            , servings: 0
+            , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+            }
       ]
 
 flattenTests :: TestSuite
@@ -95,6 +107,7 @@ flattenTests = describe "flattenMeal" do
             , { name: "Fetaost", amount: 40.0, unit: "g" }
             , { name: "Örter", amount: 0.25, unit: "dl" }
             ]
+        , nonQuantifiableIngredients: []
         , servings: 2
         , webPage: ""
         }
@@ -124,18 +137,26 @@ meals2ingredientsTests = describe "meals2ingredients" do
               [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
           , servings: 10
           , webPage: ""
+          , nonQuantifiableIngredients: [ "Citronpeppar" ]
           }
         , { meal: "Stekt lax med ris"
           , ingredients:
               [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
           , servings: 2
           , webPage: ""
+          , nonQuantifiableIngredients: []
           }
         ]
 
+      mealsToNonQuantifiableIngredients :: Meals -> Array String
+      mealsToNonQuantifiableIngredients meals =
+        Array.concatMap \meal -> meal.nonQuantifiableIngredients meals
+
       ingredientsArray = mealsToIngredients twoMeals
+      nonQuantsArray = mealsToNonQuantifiableIngredients twoMeals
 
     ingredientsArray # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
+    nonQuantsArray # shouldEqual [ "Citronpeppar" ]
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do

@@ -4,6 +4,7 @@ type Meals = Array Meal
 type Meal =
   { meal :: String
   , ingredients :: Ingredients
+  , nonQuantifiableIngredients :: Array String
   , servings :: Int
   , webPage :: String
   }

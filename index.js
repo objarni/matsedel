@@ -2005,10 +2005,6 @@
       amount: 1,
       unit: "msk"
     }, {
-      name: "Citronpeppar",
-      amount: 0,
-      unit: "-"
-    }, {
       name: "Yoghurt",
       amount: 0.4,
       unit: "dl"
@@ -2021,6 +2017,7 @@
       amount: 0.25,
       unit: "dl"
     }],
+    nonQuantifiableIngredients: ["Salt", "Citronpeppar"],
     servings: 2,
     webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
   }, {
@@ -2038,22 +2035,11 @@
       amount: 25,
       unit: "g"
     }, {
-      name: "Sm\xF6r",
-      amount: 0,
-      unit: "-"
-    }, {
-      name: "Salt",
-      amount: 0.5,
-      unit: "-"
-    }, {
-      name: "Peppar",
-      amount: 2.25,
-      unit: "-"
-    }, {
       name: "Pasta",
       amount: 100,
       unit: "g"
     }],
+    nonQuantifiableIngredients: ["Salt", "Peppar", "Sm\xF6r"],
     servings: 0,
     webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
   }];
@@ -2205,6 +2191,7 @@
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
             ingredients: aMeal.ingredients,
+            nonQuantifiableIngredients: aMeal.nonQuantifiableIngredients,
             webPage: aMeal.webPage
           };
         }
@@ -2272,6 +2259,7 @@
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,
             ingredients: aMeal.ingredients,
+            nonQuantifiableIngredients: aMeal.nonQuantifiableIngredients,
             webPage: aMeal.webPage
           };
         }
