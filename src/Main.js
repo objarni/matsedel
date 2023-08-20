@@ -16,7 +16,6 @@ function setMeals(meals) {
     let table = document.getElementById('mealsTable');
     table.innerHTML = ''
     meals.forEach(meal => {
-        const week = leftist(3)
         const name = leftist(`<a target="_blank" href="${meal.webPage}">${meal.meal}</a>`)
         let minusButton = aButton('-')
         if(meal.servings > 0)
@@ -30,7 +29,7 @@ function setMeals(meals) {
             setMeals(globalIncFn(meal.meal)(globalMeals))
         }
         const servingsDiv = aDiv(minusButton, meal.servings, plusButton)
-        const row = niceRow(week, name, servingsDiv)
+        const row = niceRow(name, servingsDiv)
         table.append(row)
     })
     const ingredients = globalMeals2ingredients(meals);
