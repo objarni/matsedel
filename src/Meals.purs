@@ -67,4 +67,14 @@ standardMatsedel =
     , servings: 0
     , webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }
+  , { meal: "Canneloni"
+    , ingredients:
+        [ { name: "Fryst spenat", amount: 110.0, unit: "g" }
+        , { name: "Mozarella", amount: 0.5, unit: "st" }
+        , { name: "Lasagneplatta", amount: 2.0, unit: "st" }
+        , { name: "Pastasås", amount: 0.25, unit: "paket" }
+        ]
+    , servings: 0
+    , webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
+    }
   ]

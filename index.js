@@ -16,6 +16,7 @@
     let table = document.getElementById("mealsTable");
     table.innerHTML = "";
     meals.forEach((meal) => {
+      const week = leftist(3);
       const name = leftist(`<a target="_blank" href="${meal.webPage}">${meal.meal}</a>`);
       let minusButton = aButton("-");
       if (meal.servings > 0)
@@ -29,7 +30,7 @@
         setMeals(globalIncFn(meal.meal)(globalMeals));
       };
       const servingsDiv = aDiv(minusButton, meal.servings, plusButton);
-      const row = niceRow(name, servingsDiv);
+      const row = niceRow(week, name, servingsDiv);
       table.append(row);
     });
     const ingredients = globalMeals2ingredients(meals);
@@ -2123,6 +2124,27 @@
       name: "Koriander",
       amount: 0,
       unit: "st"
+    }],
+    servings: 0,
+    webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
+  }, {
+    meal: "Canneloni",
+    ingredients: [{
+      name: "Fryst spenat",
+      amount: 110,
+      unit: "g"
+    }, {
+      name: "Mozarella",
+      amount: 0.5,
+      unit: "st"
+    }, {
+      name: "Lasagneplatta",
+      amount: 2,
+      unit: "st"
+    }, {
+      name: "Pastas\xE5s",
+      amount: 0.25,
+      unit: "paket"
     }],
     servings: 0,
     webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
