@@ -21,7 +21,6 @@ import Data.List as List
 import Data.Map as Map
 import MealTypes (Meals)
 import Meals (standardMatsedel)
-import Data.Array (concatMap) as Array
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -39,8 +38,8 @@ mapTests = describe "PureScript Map data structure" do
     let
       aMap = Map.fromFoldable [ Tuple 1 "one", Tuple 2 "two" ]
       pairs = Map.toUnfoldable aMap
-      allkeys = map \(Tuple k _) -> k pairs
-      allvalues = map \(Tuple _ v) -> v pairs
+      allkeys = map (\(Tuple k _) -> k) pairs
+      allvalues = map (\(Tuple _ v) -> v) pairs
     allkeys # shouldEqual [ 1, 2 ]
     allvalues # shouldEqual [ "one", "two" ]
   it "can be merged with another map given a merge function" do
@@ -107,7 +106,6 @@ flattenTests = describe "flattenMeal" do
             , { name: "Fetaost", amount: 40.0, unit: "g" }
             , { name: "Örter", amount: 0.25, unit: "dl" }
             ]
-        , nonQuantifiableIngredients: []
         , servings: 2
         , webPage: ""
         }
@@ -137,26 +135,18 @@ meals2ingredientsTests = describe "meals2ingredients" do
               [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
           , servings: 10
           , webPage: ""
-          , nonQuantifiableIngredients: [ "Citronpeppar" ]
           }
         , { meal: "Stekt lax med ris"
           , ingredients:
               [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
           , servings: 2
           , webPage: ""
-          , nonQuantifiableIngredients: []
           }
         ]
 
-      mealsToNonQuantifiableIngredients :: Meals -> Array String
-      mealsToNonQuantifiableIngredients meals =
-        Array.concatMap \meal -> meal.nonQuantifiableIngredients meals
-
       ingredientsArray = mealsToIngredients twoMeals
-      nonQuantsArray = mealsToNonQuantifiableIngredients twoMeals
 
     ingredientsArray # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
-    nonQuantsArray # shouldEqual [ "Citronpeppar" ]
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do

@@ -18,7 +18,6 @@ standardMatsedel =
         , { name: "Fetaost", amount: 40.0, unit: "g" }
         , { name: "Örter", amount: 0.25, unit: "dl" }
         ]
-    , nonQuantifiableIngredients: [ "Salt", "Citronpeppar" ]
     , servings: 2
     , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
     }
@@ -29,7 +28,6 @@ standardMatsedel =
         , { name: "Fetaost", amount: 25.0, unit: "g" }
         , { name: "Pasta", amount: 100.0, unit: "g" }
         ]
-    , nonQuantifiableIngredients: [ "Salt", "Peppar", "Smör" ]
     , servings: 0
     , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
     }

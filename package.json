@@ -6,5 +6,6 @@
     "format": "purs-tidy format-in-place **/*.purs"
   },
   "dependencies": {
+    "esbuild": "0.19.2"
   }
 }
