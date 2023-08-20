@@ -50,40 +50,69 @@ mapTests = describe "PureScript Map data structure" do
       combinedAsList = Map.toUnfoldable combinedMap
     combinedAsList # shouldEqual [ Tuple "broccoli" 6, Tuple "morot" 2, Tuple "pilsner" 3 ]
 
---[(Tuple "Stekt lax med rotfrukter i ugn" { ingredients: (fromFoldable [(Tuple "Citronpeppar" { amount: 0.0, unit: "-" }),(Tuple "Fast potatis" { amount: 1.0, unit: "st" }),(Tuple "Fetaost" { amount: 40.0, unit: "g" }),(Tuple "Laxfilé" { amount: 1.0, unit: "st" }),(Tuple "Morot" { amount: 1.0, unit: "st" }),(Tuple "Olivolja" { amount: 0.5, unit: "msk" }),(Tuple "Rödlök" { amount: 0.5, unit: "st" }),(Tuple "Smör" { amount: 1.0, unit: "msk" }),(Tuple "Sötpotatis" { amount: 1.0, unit: "st" }),(Tuple "Vitlök" { amount: 2.25, unit: "st" }),(Tuple "Yoghurt" { amount: 0.4, unit: "dl" }),(Tuple "Örter" { amount: 0.25, unit: "dl" })]), servings: 2, webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost" })] ≠
 upgradeMealsTests :: TestSuite
 upgradeMealsTests = describe "upgradeMeals" do
-  it "upgrades example standard meals" do
-    Map.toUnfoldable (upgradeMeals standardMatsedel) # shouldEqual
+  it "upgrades example meals" do
+    let
+      exampleMeals =
+        [ { meal: "Stekt lax med rotfrukter i ugn"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 1.0, unit: "st" }
+              , { name: "Fast potatis", amount: 1.0, unit: "st" }
+              , { name: "Morot", amount: 1.0, unit: "st" }
+              , { name: "Sötpotatis", amount: 1.0, unit: "st" }
+              , { name: "Rödlök", amount: 0.5, unit: "st" }
+              , { name: "Vitlök", amount: 2.25, unit: "st" }
+              , { name: "Olivolja", amount: 0.5, unit: "msk" }
+              , { name: "Smör", amount: 1.0, unit: "msk" }
+              , { name: "Yoghurt", amount: 0.4, unit: "dl" }
+              , { name: "Fetaost", amount: 40.0, unit: "g" }
+              , { name: "Örter", amount: 0.25, unit: "dl" }
+              ]
+          , servings: 2
+          , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+          }
+        , { meal: "Äggröra med fetaost och pasta"
+          , ingredients:
+              [ { name: "Grädde", amount: 0.25, unit: "dl" }
+              , { name: "Ägg", amount: 2.0, unit: "st" }
+              , { name: "Fetaost", amount: 25.0, unit: "g" }
+              , { name: "Pasta", amount: 100.0, unit: "g" }
+              ]
+          , servings: 0
+          , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+          }
+        ]
+    Map.toUnfoldable (upgradeMeals exampleMeals) # shouldEqual
       [ Tuple "Stekt lax med rotfrukter i ugn"
-            { ingredients:
-                fromFoldable
-                    [ Tuple "Fast potatis" { amount: 1.0, unit: "st" }
-                    , Tuple "Fetaost" { amount: 40.0, unit: "g" }
-                    , Tuple "Laxfilé" { amount: 1.0, unit: "st" }
-                    , Tuple "Morot" { amount: 1.0, unit: "st" }
-                    , Tuple "Olivolja" { amount: 0.5, unit: "msk" }
-                    , Tuple "Rödlök" { amount: 0.5, unit: "st" }
-                    , Tuple "Smör" { amount: 1.0, unit: "msk" }
-                    , Tuple "Sötpotatis" { amount: 1.0, unit: "st" }
-                    , Tuple "Vitlök" { amount: 2.25, unit: "st" }
-                    , Tuple "Yoghurt" { amount: 0.4, unit: "dl" }
-                    , Tuple "Örter" { amount: 0.25, unit: "dl" }
-                    ]
-            , servings: 2
-            , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
-            }
+          { ingredients:
+              fromFoldable
+                [ Tuple "Fast potatis" { amount: 1.0, unit: "st" }
+                , Tuple "Fetaost" { amount: 40.0, unit: "g" }
+                , Tuple "Laxfilé" { amount: 1.0, unit: "st" }
+                , Tuple "Morot" { amount: 1.0, unit: "st" }
+                , Tuple "Olivolja" { amount: 0.5, unit: "msk" }
+                , Tuple "Rödlök" { amount: 0.5, unit: "st" }
+                , Tuple "Smör" { amount: 1.0, unit: "msk" }
+                , Tuple "Sötpotatis" { amount: 1.0, unit: "st" }
+                , Tuple "Vitlök" { amount: 2.25, unit: "st" }
+                , Tuple "Yoghurt" { amount: 0.4, unit: "dl" }
+                , Tuple "Örter" { amount: 0.25, unit: "dl" }
+                ]
+          , servings: 2
+          , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+          }
       , Tuple "Äggröra med fetaost och pasta"
-            { ingredients:
-                fromFoldable
-                    [ Tuple "Fetaost" { amount: 25.0, unit: "g" }
-                    , Tuple "Grädde" { amount: 0.25, unit: "dl" }
-                    , Tuple "Pasta" { amount: 100.0, unit: "g" }
-                    , Tuple "Ägg" { amount: 2.0, unit: "st" }
-                    ]
-            , servings: 0
-            , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
-            }
+          { ingredients:
+              fromFoldable
+                [ Tuple "Fetaost" { amount: 25.0, unit: "g" }
+                , Tuple "Grädde" { amount: 0.25, unit: "dl" }
+                , Tuple "Pasta" { amount: 100.0, unit: "g" }
+                , Tuple "Ägg" { amount: 2.0, unit: "st" }
+                ]
+          , servings: 0
+          , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+          }
       ]
 
 flattenTests :: TestSuite

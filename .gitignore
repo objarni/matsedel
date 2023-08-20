@@ -1,3 +1,4 @@
 /.idea/
 /.spago/
 /output/
+node_modules/
