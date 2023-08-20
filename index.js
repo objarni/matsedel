@@ -1970,185 +1970,236 @@
   };
 
   // output/Meals/index.js
-  var standardMatsedel = [{
-    meal: "Stekt lax med rotfrukter i ugn",
-    ingredients: [{
-      name: "Laxfil\xE9",
-      amount: 1,
-      unit: "st"
+  var standardMatsedel = /* @__PURE__ */ function() {
+    return [{
+      meal: "Stekt lax med rotfrukter i ugn",
+      ingredients: [{
+        name: "Laxfil\xE9",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Fast potatis",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Morot",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "S\xF6tpotatis",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "R\xF6dl\xF6k",
+        amount: 0.5,
+        unit: "st"
+      }, {
+        name: "Vitl\xF6k",
+        amount: 2.25,
+        unit: "st"
+      }, {
+        name: "Olivolja",
+        amount: 0.5,
+        unit: "msk"
+      }, {
+        name: "Sm\xF6r",
+        amount: 1,
+        unit: "msk"
+      }, {
+        name: "Yoghurt",
+        amount: 0.4,
+        unit: "dl"
+      }, {
+        name: "Fetaost",
+        amount: 40,
+        unit: "g"
+      }, {
+        name: "\xD6rter",
+        amount: 0.25,
+        unit: "dl"
+      }],
+      servings: 0,
+      webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
     }, {
-      name: "Fast potatis",
-      amount: 1,
-      unit: "st"
+      meal: "\xC4ggr\xF6ra med fetaost och pasta",
+      ingredients: [{
+        name: "Gr\xE4dde",
+        amount: 0.25,
+        unit: "dl"
+      }, {
+        name: "\xC4gg",
+        amount: 2,
+        unit: "st"
+      }, {
+        name: "Fetaost",
+        amount: 25,
+        unit: "g"
+      }, {
+        name: "Pasta",
+        amount: 100,
+        unit: "g"
+      }],
+      servings: 0,
+      webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
     }, {
-      name: "Morot",
-      amount: 1,
-      unit: "st"
+      meal: "Blocktorsk i ugn med ris och s\xE5s",
+      ingredients: [{
+        name: "Ris",
+        amount: 0.75,
+        unit: "dl"
+      }, {
+        name: "Torsk",
+        amount: 150,
+        unit: "g"
+      }, {
+        name: "Smaksatt Creme Fraiche",
+        amount: 0.75,
+        unit: "dl"
+      }, {
+        name: "Gr\xE4dde",
+        amount: 0.75,
+        unit: "dl"
+      }],
+      servings: 0,
+      webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
     }, {
-      name: "S\xF6tpotatis",
-      amount: 1,
-      unit: "st"
+      meal: "Flygande Jacob",
+      ingredients: [{
+        name: "Kycklingfil\xE9",
+        amount: 125,
+        unit: "g"
+      }, {
+        name: "Kycklingbacon",
+        amount: 35,
+        unit: "g"
+      }, {
+        name: "Banan",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Jordn\xF6tter",
+        amount: 0.5,
+        unit: "dl"
+      }, {
+        name: "Gr\xE4dde",
+        amount: 0.75,
+        unit: "dl"
+      }, {
+        name: "Chilis\xE5s",
+        amount: 0.25,
+        unit: "dl"
+      }, {
+        name: "Ris",
+        amount: 0.75,
+        unit: "dl"
+      }],
+      servings: 0,
+      webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
     }, {
-      name: "R\xF6dl\xF6k",
-      amount: 0.5,
-      unit: "st"
+      meal: "Kyklingfajitas",
+      ingredients: [{
+        name: "Kycklingfil\xE9",
+        amount: 1,
+        unit: "g"
+      }, {
+        name: "L\xF6k",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "R\xF6d paprika",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Tortillabr\xF6d",
+        amount: 0.25,
+        unit: "paket"
+      }, {
+        name: "Avokado",
+        amount: 0.5,
+        unit: "st"
+      }, {
+        name: "Lime",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Koriander",
+        amount: 0,
+        unit: "st"
+      }],
+      servings: 0,
+      webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }, {
-      name: "Vitl\xF6k",
-      amount: 2.25,
-      unit: "st"
+      meal: "Canneloni",
+      ingredients: [{
+        name: "Fryst spenat",
+        amount: 110,
+        unit: "g"
+      }, {
+        name: "Mozarella",
+        amount: 0.5,
+        unit: "st"
+      }, {
+        name: "Lasagneplatta",
+        amount: 2,
+        unit: "st"
+      }, {
+        name: "Pastas\xE5s",
+        amount: 0.25,
+        unit: "paket"
+      }],
+      servings: 0,
+      webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
     }, {
-      name: "Olivolja",
-      amount: 0.5,
-      unit: "msk"
-    }, {
-      name: "Sm\xF6r",
-      amount: 1,
-      unit: "msk"
-    }, {
-      name: "Yoghurt",
-      amount: 0.4,
-      unit: "dl"
-    }, {
-      name: "Fetaost",
-      amount: 40,
-      unit: "g"
-    }, {
-      name: "\xD6rter",
-      amount: 0.25,
-      unit: "dl"
-    }],
-    servings: 0,
-    webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
-  }, {
-    meal: "\xC4ggr\xF6ra med fetaost och pasta",
-    ingredients: [{
-      name: "Gr\xE4dde",
-      amount: 0.25,
-      unit: "dl"
-    }, {
-      name: "\xC4gg",
-      amount: 2,
-      unit: "st"
-    }, {
-      name: "Fetaost",
-      amount: 25,
-      unit: "g"
-    }, {
-      name: "Pasta",
-      amount: 100,
-      unit: "g"
-    }],
-    servings: 0,
-    webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
-  }, {
-    meal: "Blocktorsk i ugn med ris och s\xE5s",
-    ingredients: [{
-      name: "Ris",
-      amount: 0.75,
-      unit: "dl"
-    }, {
-      name: "Torsk",
-      amount: 150,
-      unit: "g"
-    }, {
-      name: "Smaksatt Creme Fraiche",
-      amount: 0.75,
-      unit: "dl"
-    }, {
-      name: "Gr\xE4dde",
-      amount: 0.75,
-      unit: "dl"
-    }],
-    servings: 0,
-    webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
-  }, {
-    meal: "Flygande Jacob",
-    ingredients: [{
-      name: "Kycklingfil\xE9",
-      amount: 125,
-      unit: "g"
-    }, {
-      name: "Kycklingbacon",
-      amount: 35,
-      unit: "g"
-    }, {
-      name: "Banan",
-      amount: 0.25,
-      unit: "st"
-    }, {
-      name: "Jordn\xF6tter",
-      amount: 0.5,
-      unit: "dl"
-    }, {
-      name: "Gr\xE4dde",
-      amount: 0.75,
-      unit: "dl"
-    }, {
-      name: "Chilis\xE5s",
-      amount: 0.25,
-      unit: "dl"
-    }, {
-      name: "Ris",
-      amount: 0.75,
-      unit: "dl"
-    }],
-    servings: 0,
-    webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
-  }, {
-    meal: "Kyklingfajitas",
-    ingredients: [{
-      name: "Kycklingfil\xE9",
-      amount: 1,
-      unit: "g"
-    }, {
-      name: "L\xF6k",
-      amount: 0.25,
-      unit: "st"
-    }, {
-      name: "R\xF6d paprika",
-      amount: 0.25,
-      unit: "st"
-    }, {
-      name: "Tortillabr\xF6d",
-      amount: 0.25,
-      unit: "paket"
-    }, {
-      name: "Avokado",
-      amount: 0.5,
-      unit: "st"
-    }, {
-      name: "Lime",
-      amount: 0.25,
-      unit: "st"
-    }, {
-      name: "Koriander",
-      amount: 0,
-      unit: "st"
-    }],
-    servings: 0,
-    webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
-  }, {
-    meal: "Canneloni",
-    ingredients: [{
-      name: "Fryst spenat",
-      amount: 110,
-      unit: "g"
-    }, {
-      name: "Mozarella",
-      amount: 0.5,
-      unit: "st"
-    }, {
-      name: "Lasagneplatta",
-      amount: 2,
-      unit: "st"
-    }, {
-      name: "Pastas\xE5s",
-      amount: 0.25,
-      unit: "paket"
-    }],
-    servings: 0,
-    webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
-  }];
+      meal: "Tacos",
+      ingredients: [{
+        name: "Tomas",
+        amount: 0.5,
+        unit: "st"
+      }, {
+        name: "Kycklingf\xE4rs",
+        amount: 125,
+        unit: "g"
+      }, {
+        name: "Gurka",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "R\xF6dl\xF6k",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Majsburk",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Isbergssallad",
+        amount: 1 / 8,
+        unit: "st"
+      }, {
+        name: "Tacokrydda",
+        amount: 1 / 4,
+        unit: "paket"
+      }, {
+        name: "Tacoskal eller tortillabr\xF6d",
+        amount: 3,
+        unit: "st"
+      }, {
+        name: "Ost",
+        amount: 0.5,
+        unit: "dl"
+      }, {
+        name: "Salsa",
+        amount: 0.5,
+        unit: "dl"
+      }, {
+        name: "Gr\xE4ddfil",
+        amount: 0.5,
+        unit: "dl"
+      }],
+      servings: 0,
+      webPage: "https://www.ica.se/recept/tacos-722416/"
+    }];
+  }();
 
   // output/PureGerm/foreign.js
   var simulate = (initialGerms) => (tickGerms) => () => {
