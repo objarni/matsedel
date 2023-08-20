@@ -43,7 +43,7 @@ standardMatsedel =
     }
   , { meal: "Flygande Jacob"
     , ingredients:
-        [ { name: "Kycklingfilé", amount: 1.0, unit: "st" }
+        [ { name: "Kycklingfilé", amount: 125.0, unit: "g" }
         , { name: "Kycklingbacon", amount: 35.0, unit: "g" }
         , { name: "Banan", amount: 0.25, unit: "st" }
         , { name: "Jordnötter", amount: 0.5, unit: "dl" }
@@ -54,6 +54,17 @@ standardMatsedel =
     , servings: 0
     , webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
     }
+  , { meal: "Kyklingfajitas"
+    , ingredients:
+        [ { name: "Kycklingfilé", amount: 1.0, unit: "g" }
+        , { name: "Lök", amount: 0.25, unit: "st" }
+        , { name: "Röd paprika", amount: 0.25, unit: "st" }
+        , { name: "Tortillabröd", amount: 0.25, unit: "paket" }
+        , { name: "Avokado", amount: 0.5, unit: "st" }
+        , { name: "Lime", amount: 0.25, unit: "st" }
+        , { name: "Koriander", amount: 0.0, unit: "st" }
+        ]
+    , servings: 0
+    , webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
+    }
   ]
-
-

@@ -2065,8 +2065,8 @@
     meal: "Flygande Jacob",
     ingredients: [{
       name: "Kycklingfil\xE9",
-      amount: 1,
-      unit: "st"
+      amount: 125,
+      unit: "g"
     }, {
       name: "Kycklingbacon",
       amount: 35,
@@ -2094,6 +2094,39 @@
     }],
     servings: 0,
     webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
+  }, {
+    meal: "Kyklingfajitas",
+    ingredients: [{
+      name: "Kycklingfil\xE9",
+      amount: 1,
+      unit: "g"
+    }, {
+      name: "L\xF6k",
+      amount: 0.25,
+      unit: "st"
+    }, {
+      name: "R\xF6d paprika",
+      amount: 0.25,
+      unit: "st"
+    }, {
+      name: "Tortillabr\xF6d",
+      amount: 0.25,
+      unit: "paket"
+    }, {
+      name: "Avokado",
+      amount: 0.5,
+      unit: "st"
+    }, {
+      name: "Lime",
+      amount: 0.25,
+      unit: "st"
+    }, {
+      name: "Koriander",
+      amount: 0,
+      unit: "st"
+    }],
+    servings: 0,
+    webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
   }];
 
   // output/PureGerm/foreign.js
