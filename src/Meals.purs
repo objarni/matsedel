@@ -75,6 +75,6 @@ standardMatsedel =
         , { name: "Pastasås", amount: 0.25, unit: "paket" }
         ]
     , servings: 0
-    , webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
+    , webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
     }
   ]
