@@ -41,5 +41,19 @@ standardMatsedel =
     , servings: 0
     , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
     }
+  , { meal: "Flygande Jacob"
+    , ingredients:
+        [ { name: "Kycklingfilé", amount: 1.0, unit: "st" }
+        , { name: "Kycklingbacon", amount: 35.0, unit: "g" }
+        , { name: "Banan", amount: 0.25, unit: "st" }
+        , { name: "Jordnötter", amount: 0.5, unit: "dl" }
+        , { name: "Grädde", amount: 0.75, unit: "dl" }
+        , { name: "Chilisås", amount: 0.25, unit: "dl" }
+        , { name: "Ris", amount: 0.75, unit: "dl" }
+        ]
+    , servings: 0
+    , webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
+    }
   ]
+
 

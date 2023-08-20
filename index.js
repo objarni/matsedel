@@ -2061,6 +2061,39 @@
     }],
     servings: 0,
     webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+  }, {
+    meal: "Flygande Jacob",
+    ingredients: [{
+      name: "Kycklingfil\xE9",
+      amount: 1,
+      unit: "st"
+    }, {
+      name: "Kycklingbacon",
+      amount: 35,
+      unit: "g"
+    }, {
+      name: "Banan",
+      amount: 0.25,
+      unit: "st"
+    }, {
+      name: "Jordn\xF6tter",
+      amount: 0.5,
+      unit: "dl"
+    }, {
+      name: "Gr\xE4dde",
+      amount: 0.75,
+      unit: "dl"
+    }, {
+      name: "Chilis\xE5s",
+      amount: 0.25,
+      unit: "dl"
+    }, {
+      name: "Ris",
+      amount: 0.75,
+      unit: "dl"
+    }],
+    servings: 0,
+    webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
   }];
 
   // output/PureGerm/foreign.js
