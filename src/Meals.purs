@@ -1,6 +1,7 @@
 module Meals where
 
 import MealTypes (Meals)
+import Data.EuclideanRing ((/))
 
 standardMatsedel :: Meals
 standardMatsedel =
@@ -77,4 +78,22 @@ standardMatsedel =
     , servings: 0
     , webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
     }
+  , { meal: "Tacos"
+    , ingredients:
+        [ { name: "Tomas", amount: 0.5, unit: "st" }
+        , { name: "Kycklingfärs", amount: 125.0, unit: "g" }
+        , { name: "Gurka", amount: 0.25, unit: "st" }
+        , { name: "Rödlök", amount: 0.25, unit: "st" }
+        , { name: "Majsburk", amount: 0.25, unit: "st" }
+        , { name: "Isbergssallad", amount: 1.0 / 8.0, unit: "st" }
+        , { name: "Tacokrydda", amount: 1.0 / 4.0, unit: "paket" }
+        , { name: "Tacoskal eller tortillabröd", amount: 3.0, unit: "st" }
+        , { name: "Ost", amount: 0.5, unit: "dl" }
+        , { name: "Salsa", amount: 0.5, unit: "dl" }
+        , { name: "Gräddfil", amount: 0.5, unit: "dl" }
+        ]
+    , servings: 0
+    , webPage: "https://www.ica.se/recept/tacos-722416/"
+    }
   ]
+--
