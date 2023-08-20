@@ -18,7 +18,7 @@ standardMatsedel =
         , { name: "Fetaost", amount: 40.0, unit: "g" }
         , { name: "Örter", amount: 0.25, unit: "dl" }
         ]
-    , servings: 2
+    , servings: 0
     , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
     }
   , { meal: "Äggröra med fetaost och pasta"
@@ -27,6 +27,16 @@ standardMatsedel =
         , { name: "Ägg", amount: 2.0, unit: "st" }
         , { name: "Fetaost", amount: 25.0, unit: "g" }
         , { name: "Pasta", amount: 100.0, unit: "g" }
+        ]
+    , servings: 0
+    , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+    }
+  , { meal: "Blocktorsk i ugn med ris och sås"
+    , ingredients:
+        [ { name: "Ris", amount: 0.75, unit: "dl" }
+        , { name: "Torsk", amount: 150.0, unit: "g" }
+        , { name: "Smaksatt Creme Fraiche", amount: 0.75, unit: "dl" }
+        , { name: "Grädde", amount: 0.75, unit: "dl" }
         ]
     , servings: 0
     , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"

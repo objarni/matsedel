@@ -2017,8 +2017,7 @@
       amount: 0.25,
       unit: "dl"
     }],
-    nonQuantifiableIngredients: ["Salt", "Citronpeppar"],
-    servings: 2,
+    servings: 0,
     webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
   }, {
     meal: "\xC4ggr\xF6ra med fetaost och pasta",
@@ -2039,7 +2038,27 @@
       amount: 100,
       unit: "g"
     }],
-    nonQuantifiableIngredients: ["Salt", "Peppar", "Sm\xF6r"],
+    servings: 0,
+    webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+  }, {
+    meal: "Blocktorsk i ugn med ris och s\xE5s",
+    ingredients: [{
+      name: "Ris",
+      amount: 0.75,
+      unit: "dl"
+    }, {
+      name: "Torsk",
+      amount: 150,
+      unit: "g"
+    }, {
+      name: "Smaksatt Creme Fraiche",
+      amount: 0.75,
+      unit: "dl"
+    }, {
+      name: "Gr\xE4dde",
+      amount: 0.75,
+      unit: "dl"
+    }],
     servings: 0,
     webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
   }];
@@ -2191,7 +2210,6 @@
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
             ingredients: aMeal.ingredients,
-            nonQuantifiableIngredients: aMeal.nonQuantifiableIngredients,
             webPage: aMeal.webPage
           };
         }
@@ -2259,7 +2277,6 @@
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,
             ingredients: aMeal.ingredients,
-            nonQuantifiableIngredients: aMeal.nonQuantifiableIngredients,
             webPage: aMeal.webPage
           };
         }
