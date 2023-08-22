@@ -181,6 +181,34 @@ meals2ingredientsTests = describe "meals2ingredients" do
 
     ingredientsArray # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
 
+meals2unitLessTests :: TestSuite
+meals2unitLessTests = describe "meals2unitLess" do
+  it "sums unitless ingredients of several served meals" do
+    let
+      twoMeals :: Meals
+      twoMeals =
+        [ { meal: "Stekt lax med rotfrukter i ugn"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
+          , servings: 10
+          , webPage: ""
+          , unitLess: ["Citronpeppar", "Salt"]
+          }
+        , { meal: "Stekt lax med ris"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+          , servings: 2
+          , webPage: ""
+          , unitLess: ["Salt", "Peppar"]
+          }
+        ]
+
+      mealsToUnitLess meals = [ "Citronpeppar", "Salt", "Peppar" ]
+
+      unitLessArray = mealsToUnitLess twoMeals
+
+    unitLessArray # shouldEqual [ "Citronpeppar", "Salt", "Peppar" ]
+
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do
 
@@ -191,6 +219,8 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
   flattenTests
 
   meals2ingredientsTests
+
+  meals2unitLessTests
 --          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
 --          unionMaps maps = foldl (\acc value -> acc { acc.amount + value.amount }) {name: "Laxfilé", amount: 0.0} maps
 --
