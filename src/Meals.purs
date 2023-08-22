@@ -21,6 +21,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+    , unitLess: []
     }
   , { meal: "Äggröra med fetaost och pasta"
     , ingredients:
@@ -31,6 +32,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+    , unitLess: []
     }
   , { meal: "Blocktorsk i ugn med ris och sås"
     , ingredients:
@@ -41,6 +43,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+    , unitLess: []
     }
   , { meal: "Flygande Jacob"
     , ingredients:
@@ -54,6 +57,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
+    , unitLess: []
     }
   , { meal: "Kyklingfajitas"
     , ingredients:
@@ -63,8 +67,8 @@ standardMatsedel =
         , { name: "Tortillabröd", amount: 0.25, unit: "paket" }
         , { name: "Avokado", amount: 0.5, unit: "st" }
         , { name: "Lime", amount: 0.25, unit: "st" }
-        , { name: "Koriander", amount: 0.0, unit: "st" }
         ]
+    , unitLess: [ "Koriander" ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }
@@ -77,6 +81,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
+    , unitLess: []
     }
   , { meal: "Tacos"
     , ingredients:
@@ -94,6 +99,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/tacos-722416/"
+    , unitLess: []
     }
   ]
 --

@@ -6,6 +6,7 @@ type Meal =
   , ingredients :: Ingredients
   , servings :: Int
   , webPage :: String
+  , unitLess :: Array String
   }
 
 type Ingredient = { name :: String, amount :: Number, unit :: String }

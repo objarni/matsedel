@@ -20,7 +20,6 @@ import Test.Spec.Runner (runSpec)
 import Data.List as List
 import Data.Map as Map
 import MealTypes (Meals)
-import Meals (standardMatsedel)
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -71,6 +70,7 @@ upgradeMealsTests = describe "upgradeMeals" do
               ]
           , servings: 2
           , webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+          , unitLess: []
           }
         , { meal: "Äggröra med fetaost och pasta"
           , ingredients:
@@ -81,6 +81,7 @@ upgradeMealsTests = describe "upgradeMeals" do
               ]
           , servings: 0
           , webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+          , unitLess: []
           }
         ]
     Map.toUnfoldable (upgradeMeals exampleMeals) # shouldEqual
@@ -137,6 +138,7 @@ flattenTests = describe "flattenMeal" do
             ]
         , servings: 2
         , webPage: ""
+        , unitLess: []
         }
     flattened # shouldEqual
       [ { name: "Laxfilé", amount: 2.0, unit: "st" }
@@ -164,12 +166,14 @@ meals2ingredientsTests = describe "meals2ingredients" do
               [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
           , servings: 10
           , webPage: ""
+          , unitLess: []
           }
         , { meal: "Stekt lax med ris"
           , ingredients:
               [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
           , servings: 2
           , webPage: ""
+          , unitLess: []
           }
         ]
 

@@ -2018,7 +2018,8 @@
         unit: "dl"
       }],
       servings: 0,
-      webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost"
+      webPage: "https://www.mathem.se/recept/lax-i-ugn-med-rotfrukter-och-fetaost",
+      unitLess: []
     }, {
       meal: "\xC4ggr\xF6ra med fetaost och pasta",
       ingredients: [{
@@ -2039,7 +2040,8 @@
         unit: "g"
       }],
       servings: 0,
-      webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+      webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/",
+      unitLess: []
     }, {
       meal: "Blocktorsk i ugn med ris och s\xE5s",
       ingredients: [{
@@ -2060,7 +2062,8 @@
         unit: "dl"
       }],
       servings: 0,
-      webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/"
+      webPage: "https://www.elinaomickesmat.se/kramig-aggrora-med-fetaost/",
+      unitLess: []
     }, {
       meal: "Flygande Jacob",
       ingredients: [{
@@ -2093,7 +2096,8 @@
         unit: "dl"
       }],
       servings: 0,
-      webPage: "https://www.ica.se/recept/flygande-jacob-717569/"
+      webPage: "https://www.ica.se/recept/flygande-jacob-717569/",
+      unitLess: []
     }, {
       meal: "Kyklingfajitas",
       ingredients: [{
@@ -2120,11 +2124,8 @@
         name: "Lime",
         amount: 0.25,
         unit: "st"
-      }, {
-        name: "Koriander",
-        amount: 0,
-        unit: "st"
       }],
+      unitLess: ["Koriander"],
       servings: 0,
       webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }, {
@@ -2147,7 +2148,8 @@
         unit: "paket"
       }],
       servings: 0,
-      webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
+      webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/",
+      unitLess: []
     }, {
       meal: "Tacos",
       ingredients: [{
@@ -2196,7 +2198,8 @@
         unit: "dl"
       }],
       servings: 0,
-      webPage: "https://www.ica.se/recept/tacos-722416/"
+      webPage: "https://www.ica.se/recept/tacos-722416/",
+      unitLess: []
     }];
   }();
 
@@ -2347,6 +2350,7 @@
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
             ingredients: aMeal.ingredients,
+            unitLess: aMeal.unitLess,
             webPage: aMeal.webPage
           };
         }
@@ -2414,6 +2418,7 @@
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,
             ingredients: aMeal.ingredients,
+            unitLess: aMeal.unitLess,
             webPage: aMeal.webPage
           };
         }
