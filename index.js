@@ -147,6 +147,11 @@
       };
     };
   };
+  var filter = function(f) {
+    return function(xs) {
+      return xs.filter(f);
+    };
+  };
   var sortByImpl = function() {
     function mergeFromTo(compare2, fromOrdering, xs1, xs2, from, to) {
       var mid;
@@ -2638,8 +2643,8 @@
   var removeServingOfMeal = function(meal) {
     return function(meals) {
       var decMeal = function(aMeal) {
-        var $25 = aMeal.meal === meal;
-        if ($25) {
+        var $26 = aMeal.meal === meal;
+        if ($26) {
           return {
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
@@ -2706,14 +2711,17 @@
         return map1(tupleToIngredient)(listOfTuples(dictUnfoldable));
       };
     };
-    return listOfIngredients(functorArray)(unfoldableArray);
+    var nonZeroIngredients = filter(function(ingredient) {
+      return ingredient.amount > 0;
+    })(listOfIngredients(functorArray)(unfoldableArray));
+    return nonZeroIngredients;
   };
   var meals2ingredients = mealsToIngredients;
   var addServingOfMeal = function(meal) {
     return function(meals) {
       var incMeal = function(aMeal) {
-        var $26 = aMeal.meal === meal;
-        if ($26) {
+        var $27 = aMeal.meal === meal;
+        if ($27) {
           return {
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,

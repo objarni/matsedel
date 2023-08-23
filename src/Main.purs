@@ -1,6 +1,6 @@
 module Main where
 
-import Data.Array (concatMap, foldl, nub)
+import Data.Array (concatMap, filter, foldl, nub)
 import Data.Tuple (Tuple(..), fst, snd)
 import Prelude
 
@@ -69,8 +69,11 @@ mealsToIngredients meals =
 
     listOfIngredients :: forall a. Functor a => Unfoldable a => a { amount :: Number, name :: String, unit :: String }
     listOfIngredients = tupleToIngredient <$> listOfTuples
+
+    nonZeroIngredients = filter (\ingredient -> ingredient.amount > 0.0) listOfIngredients
+
   in
-    listOfIngredients
+    nonZeroIngredients
 
 meals2ingredients :: IngredientsFromMealsFn
 meals2ingredients = mealsToIngredients

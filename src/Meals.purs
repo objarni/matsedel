@@ -81,7 +81,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
-    , unitLess: ["Salt"]
+    , unitLess: [ "Salt" ]
     }
   , { meal: "Tacos"
     , ingredients:

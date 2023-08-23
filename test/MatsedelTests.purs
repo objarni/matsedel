@@ -175,11 +175,21 @@ meals2ingredientsTests = describe "meals2ingredients" do
           , webPage: ""
           , unitLess: []
           }
+        , { meal: "Stekt lax med potatis"
+          , ingredients:
+              [ { name: "Potatis", amount: 5.0, unit: "st" } ]
+          , servings: 0
+          , webPage: ""
+          , unitLess: []
+          }
         ]
 
       ingredientsArray = mealsToIngredients twoMeals
 
-    ingredientsArray # shouldEqual [ { amount: 56.0, name: "Laxfilé", unit: "st" }, { amount: 30.0, name: "Morot", unit: "st" } ]
+    ingredientsArray # shouldEqual
+      [ { amount: 56.0, name: "Laxfilé", unit: "st" }
+      , { amount: 30.0, name: "Morot", unit: "st" }
+      ]
 
 meals2unitLessTests :: TestSuite
 meals2unitLessTests = describe "meals2unitLess" do
