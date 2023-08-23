@@ -192,14 +192,14 @@ meals2unitLessTests = describe "meals2unitLess" do
               [ { name: "Laxfilé", amount: 5.0, unit: "st" }, { name: "Morot", amount: 3.0, unit: "st" } ]
           , servings: 10
           , webPage: ""
-          , unitLess: ["Citronpeppar", "Salt"]
+          , unitLess: [ "Citronpeppar", "Salt" ]
           }
         , { meal: "Stekt lax med ris"
           , ingredients:
               [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
           , servings: 2
           , webPage: ""
-          , unitLess: ["Salt", "Peppar"]
+          , unitLess: [ "Salt", "Peppar" ]
           }
         ]
 
@@ -221,71 +221,3 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
   meals2ingredientsTests
 
   meals2unitLessTests
---          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
---          unionMaps maps = foldl (\acc value -> acc { acc.amount + value.amount }) {name: "Laxfilé", amount: 0.0} maps
---
---          twoMeals = [ { meal: "Stekt lax med rotfrukter i ugn"
---                                   , ingredients:
---                                       [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
---                                   , servings: 2
---                                   , webPage: ""
---                                   }
---                                 , { meal: "Stekt lax med ris"
---                                   , ingredients:
---                                       [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
---                                   , servings: 2
---                                   , webPage: ""
---                                   }
---                                 ]
---        allIngredients twoMeals # shouldEqual []
-
---  describe "sumIngredients" do
---      it "sums same ingredients" do
---        let
---          allIngredients :: Meals -> Array Ingredients2
---          allIngredients meals = meals <#> (\m -> upgradeIngredients m.ingredients)
---          unionMaps :: Array (Map String Ingredient2) -> Map String Ingredient2
---          unionMaps maps = foldl (\acc value -> acc { acc.amount + value.amount }) {name: "Laxfilé", amount: 0.0} maps
---
---          twoMeals = [ { meal: "Stekt lax med rotfrukter i ugn"
---                                   , ingredients:
---                                       [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
---                                   , servings: 2
---                                   , webPage: ""
---                                   }
---                                 , { meal: "Stekt lax med ris"
---                                   , ingredients:
---                                       [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
---                                   , servings: 2
---                                   , webPage: ""
---                                   }
---                                 ]
---        allIngredients twoMeals # shouldEqual []
-
---          sumIngredients :: Meals -> Ingredients
---          sumIngredients meals = summedIngredients (flattenMeal2 (upgradeMeals meals)
---          summed = sumIngredients
---            [ { meal: "Stekt lax med rotfrukter i ugn"
---              , ingredients:
---                  [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
---              , servings: 2
---              , webPage: ""
---              }
---            , { meal: "Stekt lax med ris"
---              , ingredients:
---                  [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
---              , servings: 2
---              , webPage: ""
---              }
---            ]
---        summed # shouldEqual [ { name: "Laxfilé", amount: 5.0*2.0 + 3.0*2.0, unit: "st" } ]
---
---      it "combines different ingredients" do
---        let
---          summed = summedIngredients
---            [ { name: "Laxfilé", amount: 1.0, unit: "st" } ]
---            [ { name: "Punchpralin", amount: 3.0, unit: "st" } ]
---        summed # shouldEqual
---          [ { name: "Laxfilé", amount: 1.0, unit: "st" }
---          , { name: "Punchpralin", amount: 3.0, unit: "st" }
---          ]

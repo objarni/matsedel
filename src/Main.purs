@@ -14,6 +14,7 @@ import Data.Map.Internal (toUnfoldable, unionWith) as Map
 import Data.Unfoldable (class Unfoldable)
 import MealTypes (Ingredient, Ingredients, Meal, Meals)
 import Meals (standardMatsedel)
+import Prim (class Int)
 
 main :: Effect Unit
 main = do
@@ -97,6 +98,12 @@ addServingOfMeal meal meals = incMeal <$> meals
   incMeal aMeal =
     if aMeal.meal == meal then aMeal { servings = aMeal.servings + 1 }
     else aMeal
+
+add :: Int -> Int -> Int
+add a b = a + b
+
+hejsan :: Int -> Int
+hejsan = add 1
 
 removeServingOfMeal :: DecFn
 removeServingOfMeal meal meals = decMeal <$> meals
