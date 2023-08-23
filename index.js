@@ -4,14 +4,16 @@
   var globalIncFn;
   var globalDecFn;
   var globalMeals2ingredients;
-  var run = (meals) => (meals2ingredients2) => (incFn) => (decFn) => () => {
+  var run = (meals) => (meals2ingredients2) => (meals2unitLess2) => (incFn) => (decFn) => () => {
     globalIncFn = incFn;
     globalDecFn = decFn;
     globalMeals2ingredients = meals2ingredients2;
-    setMeals(meals);
+    setMeals(meals, meals2unitLess2);
   };
-  function setMeals(meals) {
+  function setMeals(meals, meals2unitLess2) {
     console.log("setting meals = ", meals);
+    const unitLess = meals2unitLess2(meals);
+    setUnitLess(unitLess);
     globalMeals = meals;
     let table = document.getElementById("mealsTable");
     table.innerHTML = "";
@@ -34,6 +36,15 @@
     });
     const ingredients = globalMeals2ingredients(meals);
     setIngredients(ingredients);
+  }
+  function setUnitLess(unitLess) {
+    let table = document.getElementById("unitLessTable");
+    table.innerHTML = "";
+    console.log("setting unitLess = ", unitLess);
+    unitLess.forEach((unitLess2) => {
+      const name = leftist(unitLess2);
+      table.append(niceRow(name));
+    });
   }
   function setIngredients(ingredients) {
     let table = document.getElementById("ingredientsTable");
@@ -2344,8 +2355,8 @@
   var removeServingOfMeal = function(meal) {
     return function(meals) {
       var decMeal = function(aMeal) {
-        var $24 = aMeal.meal === meal;
-        if ($24) {
+        var $25 = aMeal.meal === meal;
+        if ($25) {
           return {
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
@@ -2360,6 +2371,10 @@
       return map3(decMeal)(meals);
     };
   };
+  var mealsToUnitLess = function(v) {
+    return ["Citronpeppar", "Salt", "Peppar"];
+  };
+  var meals2unitLess = mealsToUnitLess;
   var flattenMeal = function(meal) {
     return map3(function(ingredient) {
       return {
@@ -2412,8 +2427,8 @@
   var addServingOfMeal = function(meal) {
     return function(meals) {
       var incMeal = function(aMeal) {
-        var $25 = aMeal.meal === meal;
-        if ($25) {
+        var $26 = aMeal.meal === meal;
+        if ($26) {
           return {
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,
@@ -2429,7 +2444,7 @@
     };
   };
   var main = function __do4() {
-    run(spy()("initialMeals")(standardMatsedel))(meals2ingredients)(addServingOfMeal)(removeServingOfMeal)();
+    run(spy()("initialMeals")(standardMatsedel))(meals2ingredients)(meals2unitLess)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 

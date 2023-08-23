@@ -12,7 +12,7 @@ import Data.Unfoldable (class Unfoldable)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Exception (Error)
-import Main (flattenMeal, mealsToIngredients, upgradeMeals)
+import Main (flattenMeal, mealsToIngredients, mealsToUnitLess, upgradeMeals)
 import Test.Spec (SpecT, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
@@ -202,8 +202,6 @@ meals2unitLessTests = describe "meals2unitLess" do
           , unitLess: [ "Salt", "Peppar" ]
           }
         ]
-
-      mealsToUnitLess meals = [ "Citronpeppar", "Salt", "Peppar" ]
 
       unitLessArray = mealsToUnitLess twoMeals
 

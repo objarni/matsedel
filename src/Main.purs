@@ -14,11 +14,10 @@ import Data.Map.Internal (toUnfoldable, unionWith) as Map
 import Data.Unfoldable (class Unfoldable)
 import MealTypes (Ingredient, Ingredients, Meal, Meals)
 import Meals (standardMatsedel)
-import Prim (class Int)
 
 main :: Effect Unit
 main = do
-  run (spy "initialMeals" standardMatsedel) meals2ingredients addServingOfMeal removeServingOfMeal
+  run (spy "initialMeals" standardMatsedel) meals2ingredients meals2unitLess addServingOfMeal removeServingOfMeal
   runGerms
 
 -- New types
@@ -99,12 +98,6 @@ addServingOfMeal meal meals = incMeal <$> meals
     if aMeal.meal == meal then aMeal { servings = aMeal.servings + 1 }
     else aMeal
 
-add :: Int -> Int -> Int
-add a b = a + b
-
-hejsan :: Int -> Int
-hejsan = add 1
-
 removeServingOfMeal :: DecFn
 removeServingOfMeal meal meals = decMeal <$> meals
   where
@@ -112,8 +105,14 @@ removeServingOfMeal meal meals = decMeal <$> meals
     if aMeal.meal == meal then aMeal { servings = aMeal.servings - 1 }
     else aMeal
 
+mealsToUnitLess :: Meals -> Array String
+mealsToUnitLess _ = [ "Citronpeppar", "Salt", "Peppar" ]
+
+meals2unitLess = mealsToUnitLess
+
 type IncFn = String -> Meals -> Meals
 type DecFn = String -> Meals -> Meals
 type IngredientsFromMealsFn = Meals -> Ingredients
+type UnitLessFromMealsFn = Meals -> Array String
 
-foreign import run :: Meals -> IngredientsFromMealsFn -> IncFn -> DecFn -> Effect Unit
+foreign import run :: Meals -> IngredientsFromMealsFn -> UnitLessFromMealsFn -> IncFn -> DecFn -> Effect Unit

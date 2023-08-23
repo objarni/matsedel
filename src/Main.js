@@ -3,15 +3,19 @@ var globalIncFn
 var globalDecFn
 var globalMeals2ingredients
 
-export const run = (meals) => (meals2ingredients) => (incFn) => (decFn) => () => {
+export const run = (meals) => (meals2ingredients) => (meals2unitLess) => (incFn) => (decFn) => () => {
     globalIncFn = incFn
     globalDecFn = decFn
     globalMeals2ingredients = meals2ingredients
-    setMeals(meals)
+    setMeals(meals, meals2unitLess)
 }
 
-function setMeals(meals) {
+function setMeals(meals, meals2unitLess) {
     console.log("setting meals = ", meals)
+
+    const unitLess = meals2unitLess(meals)
+    setUnitLess(unitLess)
+
     globalMeals = meals
     let table = document.getElementById('mealsTable');
     table.innerHTML = ''
@@ -32,12 +36,23 @@ function setMeals(meals) {
         const row = niceRow(name, servingsDiv)
         table.append(row)
     })
-    const ingredients = globalMeals2ingredients(meals);
+
+    const ingredients = globalMeals2ingredients(meals)
     setIngredients(ingredients)
 }
 
+function setUnitLess(unitLess) {
+    let table = document.getElementById('unitLessTable')
+    table.innerHTML = ''
+    console.log("setting unitLess = ", unitLess)
+    unitLess.forEach(unitLess => {
+        const name = leftist(unitLess)
+        table.append(niceRow(name))
+    })
+}
+
 function setIngredients(ingredients) {
-    let table = document.getElementById('ingredientsTable');
+    let table = document.getElementById('ingredientsTable')
     table.innerHTML = ''
     console.log("setting ingredients = ", ingredients)
     ingredients.forEach(ingredient => {
