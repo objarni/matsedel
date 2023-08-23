@@ -23,12 +23,12 @@
       if (meal.servings > 0)
         minusButton.onclick = () => {
           console.log("-");
-          setMeals(globalDecFn(meal.meal)(globalMeals));
+          setMeals(globalDecFn(meal.meal)(globalMeals), meals2unitLess2);
         };
       let plusButton = aButton("+");
       plusButton.onclick = () => {
         console.log("+");
-        setMeals(globalIncFn(meal.meal)(globalMeals));
+        setMeals(globalIncFn(meal.meal)(globalMeals), meals2unitLess2);
       };
       const servingsDiv = aDiv(minusButton, meal.servings, plusButton);
       const row = niceRow(name, servingsDiv);
