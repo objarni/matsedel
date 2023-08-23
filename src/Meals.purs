@@ -68,7 +68,7 @@ standardMatsedel =
         , { name: "Avokado", amount: 0.5, unit: "st" }
         , { name: "Lime", amount: 0.25, unit: "st" }
         ]
-    , unitLess: [ "Koriander" ]
+    , unitLess: [ "Koriander", "Salt" ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }
@@ -81,7 +81,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/"
-    , unitLess: []
+    , unitLess: ["Salt"]
     }
   , { meal: "Tacos"
     , ingredients:

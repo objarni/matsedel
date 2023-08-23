@@ -109,14 +109,14 @@
   };
   var replicate = typeof Array.prototype.fill === "function" ? replicateFill : replicatePolyfill;
   var fromFoldableImpl = function() {
-    function Cons3(head2, tail) {
-      this.head = head2;
+    function Cons3(head3, tail) {
+      this.head = head3;
       this.tail = tail;
     }
     var emptyList = {};
-    function curryCons(head2) {
+    function curryCons(head3) {
       return function(tail) {
-        return new Cons3(head2, tail);
+        return new Cons3(head3, tail);
       };
     }
     function listToArray(list) {
@@ -135,6 +135,18 @@
       };
     };
   }();
+  var length = function(xs) {
+    return xs.length;
+  };
+  var indexImpl = function(just) {
+    return function(nothing) {
+      return function(xs) {
+        return function(i) {
+          return i < 0 || i >= xs.length ? nothing : just(xs[i]);
+        };
+      };
+    };
+  };
   var sortByImpl = function() {
     function mergeFromTo(compare2, fromOrdering, xs1, xs2, from, to) {
       var mid;
@@ -238,6 +250,9 @@
     };
   };
 
+  // output/Data.Unit/foreign.js
+  var unit = void 0;
+
   // output/Data.Functor/index.js
   var map = function(dict) {
     return dict.map;
@@ -249,6 +264,9 @@
         return map1(f)(fa);
       };
     };
+  };
+  var $$void = function(dictFunctor) {
+    return map(dictFunctor)($$const(unit));
   };
   var functorArray = {
     map: arrayMap
@@ -304,6 +322,22 @@
   // output/Control.Applicative/index.js
   var pure = function(dict) {
     return dict.pure;
+  };
+  var when = function(dictApplicative) {
+    var pure1 = pure(dictApplicative);
+    return function(v) {
+      return function(v1) {
+        if (v) {
+          return v1;
+        }
+        ;
+        if (!v) {
+          return pure1(unit);
+        }
+        ;
+        throw new Error("Failed pattern match at Control.Applicative (line 63, column 1 - line 63, column 63): " + [v.constructor.name, v1.constructor.name]);
+      };
+    };
   };
   var liftA1 = function(dictApplicative) {
     var apply2 = apply(dictApplicative.Apply0());
@@ -362,11 +396,11 @@
 
   // output/Data.Ord/foreign.js
   var unsafeCompareImpl = function(lt) {
-    return function(eq2) {
+    return function(eq3) {
       return function(gt) {
         return function(x) {
           return function(y) {
-            return x < y ? lt : x === y ? eq2 : gt;
+            return x < y ? lt : x === y ? eq3 : gt;
           };
         };
       };
@@ -381,6 +415,7 @@
       return r1 === r2;
     };
   };
+  var eqBooleanImpl = refEq;
   var eqIntImpl = refEq;
   var eqStringImpl = refEq;
 
@@ -390,6 +425,21 @@
   };
   var eqInt = {
     eq: eqIntImpl
+  };
+  var eqBoolean = {
+    eq: eqBooleanImpl
+  };
+  var eq = function(dict) {
+    return dict.eq;
+  };
+  var eq2 = /* @__PURE__ */ eq(eqBoolean);
+  var notEq = function(dictEq) {
+    var eq3 = eq(dictEq);
+    return function(x) {
+      return function(y) {
+        return eq2(eq3(x)(y))(false);
+      };
+    };
   };
 
   // output/Data.Ordering/index.js
@@ -414,6 +464,25 @@
     EQ2.value = new EQ2();
     return EQ2;
   }();
+  var eqOrdering = {
+    eq: function(v) {
+      return function(v1) {
+        if (v instanceof LT && v1 instanceof LT) {
+          return true;
+        }
+        ;
+        if (v instanceof GT && v1 instanceof GT) {
+          return true;
+        }
+        ;
+        if (v instanceof EQ && v1 instanceof EQ) {
+          return true;
+        }
+        ;
+        return false;
+      };
+    }
+  };
 
   // output/Data.Ord/index.js
   var ordString = /* @__PURE__ */ function() {
@@ -434,6 +503,16 @@
   }();
   var compare = function(dict) {
     return dict.compare;
+  };
+  var comparing = function(dictOrd) {
+    var compare3 = compare(dictOrd);
+    return function(f) {
+      return function(x) {
+        return function(y) {
+          return compare3(f(x))(f(y));
+        };
+      };
+    };
   };
 
   // output/Data.Bounded/index.js
@@ -567,7 +646,101 @@
     };
   });
 
+  // output/Control.Monad.ST.Internal/foreign.js
+  var map_ = function(f) {
+    return function(a) {
+      return function() {
+        return f(a());
+      };
+    };
+  };
+  var pure_ = function(a) {
+    return function() {
+      return a;
+    };
+  };
+  var bind_ = function(a) {
+    return function(f) {
+      return function() {
+        return f(a())();
+      };
+    };
+  };
+  var foreach = function(as) {
+    return function(f) {
+      return function() {
+        for (var i = 0, l = as.length; i < l; i++) {
+          f(as[i])();
+        }
+      };
+    };
+  };
+
+  // output/Control.Monad.ST.Internal/index.js
+  var $runtime_lazy2 = function(name, moduleName, init) {
+    var state2 = 0;
+    var val;
+    return function(lineNumber) {
+      if (state2 === 2)
+        return val;
+      if (state2 === 1)
+        throw new ReferenceError(name + " was needed before it finished initializing (module " + moduleName + ", line " + lineNumber + ")", moduleName, lineNumber);
+      state2 = 1;
+      val = init();
+      state2 = 2;
+      return val;
+    };
+  };
+  var functorST = {
+    map: map_
+  };
+  var monadST = {
+    Applicative0: function() {
+      return applicativeST;
+    },
+    Bind1: function() {
+      return bindST;
+    }
+  };
+  var bindST = {
+    bind: bind_,
+    Apply0: function() {
+      return $lazy_applyST(0);
+    }
+  };
+  var applicativeST = {
+    pure: pure_,
+    Apply0: function() {
+      return $lazy_applyST(0);
+    }
+  };
+  var $lazy_applyST = /* @__PURE__ */ $runtime_lazy2("applyST", "Control.Monad.ST.Internal", function() {
+    return {
+      apply: ap(monadST),
+      Functor0: function() {
+        return functorST;
+      }
+    };
+  });
+
   // output/Data.Array.ST/foreign.js
+  var pushAll = function(as) {
+    return function(xs) {
+      return function() {
+        return xs.push.apply(xs, as);
+      };
+    };
+  };
+  var unsafeFreeze = function(xs) {
+    return function() {
+      return xs;
+    };
+  };
+  var unsafeThaw = function(xs) {
+    return function() {
+      return xs;
+    };
+  };
   var sortByImpl2 = function() {
     function mergeFromTo(compare2, fromOrdering, xs1, xs2, from, to) {
       var mid;
@@ -617,6 +790,11 @@
       };
     };
   }();
+
+  // output/Data.Array.ST/index.js
+  var push = function(a) {
+    return pushAll([a]);
+  };
 
   // output/Data.Foldable/foreign.js
   var foldrArray = function(f) {
@@ -697,6 +875,29 @@
     return dict.foldMap;
   };
 
+  // output/Data.FunctorWithIndex/foreign.js
+  var mapWithIndexArray = function(f) {
+    return function(xs) {
+      var l = xs.length;
+      var result = Array(l);
+      for (var i = 0; i < l; i++) {
+        result[i] = f(i)(xs[i]);
+      }
+      return result;
+    };
+  };
+
+  // output/Data.FunctorWithIndex/index.js
+  var mapWithIndex = function(dict) {
+    return dict.mapWithIndex;
+  };
+  var functorWithIndexArray = {
+    mapWithIndex: mapWithIndexArray,
+    Functor0: function() {
+      return functorArray;
+    }
+  };
+
   // output/Data.Traversable/foreign.js
   var traverseArrayImpl = function() {
     function array1(a) {
@@ -720,7 +921,7 @@
       };
     }
     return function(apply2) {
-      return function(map4) {
+      return function(map5) {
         return function(pure2) {
           return function(f) {
             return function(array) {
@@ -729,14 +930,14 @@
                   case 0:
                     return pure2([]);
                   case 1:
-                    return map4(array1)(f(array[bot]));
+                    return map5(array1)(f(array[bot]));
                   case 2:
-                    return apply2(map4(array2)(f(array[bot])))(f(array[bot + 1]));
+                    return apply2(map5(array2)(f(array[bot])))(f(array[bot + 1]));
                   case 3:
-                    return apply2(apply2(map4(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
+                    return apply2(apply2(map5(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
                   default:
                     var pivot = bot + Math.floor((top3 - bot) / 4) * 2;
-                    return apply2(map4(concat2)(go(bot, pivot)))(go(pivot, top3));
+                    return apply2(map5(concat2)(go(bot, pivot)))(go(pivot, top3));
                 }
               }
               return go(0, array.length);
@@ -779,7 +980,7 @@
 
   // output/Data.Unfoldable/foreign.js
   var unfoldrArrayImpl = function(isNothing2) {
-    return function(fromJust4) {
+    return function(fromJust5) {
       return function(fst2) {
         return function(snd2) {
           return function(f) {
@@ -790,7 +991,7 @@
                 var maybe2 = f(value);
                 if (isNothing2(maybe2))
                   return result;
-                var tuple = fromJust4(maybe2);
+                var tuple = fromJust5(maybe2);
                 result.push(fst2(tuple));
                 value = snd2(tuple);
               }
@@ -803,7 +1004,7 @@
 
   // output/Data.Unfoldable1/foreign.js
   var unfoldr1ArrayImpl = function(isNothing2) {
-    return function(fromJust4) {
+    return function(fromJust5) {
       return function(fst2) {
         return function(snd2) {
           return function(f) {
@@ -816,7 +1017,7 @@
                 var maybe2 = snd2(tuple);
                 if (isNothing2(maybe2))
                   return result;
-                value = fromJust4(maybe2);
+                value = fromJust5(maybe2);
               }
             };
           };
@@ -844,6 +1045,87 @@
   };
 
   // output/Data.Array/index.js
+  var map2 = /* @__PURE__ */ map(functorST);
+  var when2 = /* @__PURE__ */ when(applicativeST);
+  var $$void2 = /* @__PURE__ */ $$void(functorST);
+  var map22 = /* @__PURE__ */ map(functorArray);
+  var fromJust4 = /* @__PURE__ */ fromJust();
+  var notEq2 = /* @__PURE__ */ notEq(eqOrdering);
+  var sortBy = function(comp) {
+    return sortByImpl(comp)(function(v) {
+      if (v instanceof GT) {
+        return 1;
+      }
+      ;
+      if (v instanceof EQ) {
+        return 0;
+      }
+      ;
+      if (v instanceof LT) {
+        return -1 | 0;
+      }
+      ;
+      throw new Error("Failed pattern match at Data.Array (line 870, column 31 - line 873, column 11): " + [v.constructor.name]);
+    });
+  };
+  var sortWith = function(dictOrd) {
+    var comparing2 = comparing(dictOrd);
+    return function(f) {
+      return sortBy(comparing2(f));
+    };
+  };
+  var sortWith1 = /* @__PURE__ */ sortWith(ordInt);
+  var singleton2 = function(a) {
+    return [a];
+  };
+  var mapWithIndex2 = /* @__PURE__ */ mapWithIndex(functorWithIndexArray);
+  var index = /* @__PURE__ */ function() {
+    return indexImpl(Just.create)(Nothing.value);
+  }();
+  var last = function(xs) {
+    return index(xs)(length(xs) - 1 | 0);
+  };
+  var head = function(xs) {
+    return index(xs)(0);
+  };
+  var nubBy = function(comp) {
+    return function(xs) {
+      var indexedAndSorted = sortBy(function(x) {
+        return function(y) {
+          return comp(snd(x))(snd(y));
+        };
+      })(mapWithIndex2(Tuple.create)(xs));
+      var v = head(indexedAndSorted);
+      if (v instanceof Nothing) {
+        return [];
+      }
+      ;
+      if (v instanceof Just) {
+        return map22(snd)(sortWith1(fst)(function __do5() {
+          var result = unsafeThaw(singleton2(v.value0))();
+          foreach(indexedAndSorted)(function(v1) {
+            return function __do6() {
+              var lst = map2(function() {
+                var $185 = function($187) {
+                  return fromJust4(last($187));
+                };
+                return function($186) {
+                  return snd($185($186));
+                };
+              }())(unsafeFreeze(result))();
+              return when2(notEq2(comp(lst)(v1.value1))(EQ.value))($$void2(push(v1)(result)))();
+            };
+          })();
+          return unsafeFreeze(result)();
+        }()));
+      }
+      ;
+      throw new Error("Failed pattern match at Data.Array (line 1085, column 17 - line 1093, column 29): " + [v.constructor.name]);
+    };
+  };
+  var nub = function(dictOrd) {
+    return nubBy(compare(dictOrd));
+  };
   var foldl2 = /* @__PURE__ */ foldl(foldableArray);
   var concatMap = /* @__PURE__ */ flip(/* @__PURE__ */ bind(bindArray));
 
@@ -1135,7 +1417,7 @@
     };
     return KickUp2;
   }();
-  var singleton3 = function(k) {
+  var singleton4 = function(k) {
     return function(v) {
       return new Two(Leaf.value, k, v, Leaf.value);
     };
@@ -1169,12 +1451,12 @@
             }
             ;
             if (v.value0 instanceof Two) {
-              $copy_v = new Cons(v.value0.value0, new Cons(singleton3(v.value0.value1)(v.value0.value2), new Cons(v.value0.value3, v.value1)));
+              $copy_v = new Cons(v.value0.value0, new Cons(singleton4(v.value0.value1)(v.value0.value2), new Cons(v.value0.value3, v.value1)));
               return;
             }
             ;
             if (v.value0 instanceof Three) {
-              $copy_v = new Cons(v.value0.value0, new Cons(singleton3(v.value0.value1)(v.value0.value2), new Cons(v.value0.value3, new Cons(singleton3(v.value0.value4)(v.value0.value5), new Cons(v.value0.value6, v.value1)))));
+              $copy_v = new Cons(v.value0.value0, new Cons(singleton4(v.value0.value1)(v.value0.value2), new Cons(v.value0.value3, new Cons(singleton4(v.value0.value4)(v.value0.value5), new Cons(v.value0.value6, v.value1)))));
               return;
             }
             ;
@@ -2136,7 +2418,7 @@
         amount: 0.25,
         unit: "st"
       }],
-      unitLess: ["Koriander"],
+      unitLess: ["Koriander", "Salt"],
       servings: 0,
       webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }, {
@@ -2160,7 +2442,7 @@
       }],
       servings: 0,
       webPage: "https://www.ica.se/recept/spenat-och-ricottafylld-cannelloni-med-minitomater-713753/",
-      unitLess: []
+      unitLess: ["Salt"]
     }, {
       meal: "Tacos",
       ingredients: [{
@@ -2257,7 +2539,7 @@
   };
 
   // output/PureGerm/index.js
-  var map2 = /* @__PURE__ */ map(functorArray);
+  var map3 = /* @__PURE__ */ map(functorArray);
   var append2 = /* @__PURE__ */ append(semigroupArray);
   var sequence2 = /* @__PURE__ */ sequence(traversableArray)(applicativeEffect);
   var worldSize = 300;
@@ -2300,7 +2582,7 @@
     };
   };
   var tick2 = function(m) {
-    var result = map2(tickGerm)(m.germs);
+    var result = map3(tickGerm)(m.germs);
     return {
       germs: concatMap(function(v1) {
         return v1.germs;
@@ -2340,7 +2622,8 @@
 
   // output/Main/index.js
   var fromFoldable2 = /* @__PURE__ */ fromFoldable(ordString)(foldableArray);
-  var map3 = /* @__PURE__ */ map(functorArray);
+  var map4 = /* @__PURE__ */ map(functorArray);
+  var nub3 = /* @__PURE__ */ nub(ordString);
   var mapFlipped2 = /* @__PURE__ */ mapFlipped(functorArray);
   var unionWith2 = /* @__PURE__ */ unionWith(ordString);
   var upgradeIngredient = function(ingredient) {
@@ -2350,7 +2633,7 @@
     });
   };
   var upgradeIngredients = function(ingredients) {
-    return fromFoldable2(map3(upgradeIngredient)(ingredients));
+    return fromFoldable2(map4(upgradeIngredient)(ingredients));
   };
   var removeServingOfMeal = function(meal) {
     return function(meals) {
@@ -2368,15 +2651,17 @@
         ;
         return aMeal;
       };
-      return map3(decMeal)(meals);
+      return map4(decMeal)(meals);
     };
   };
-  var mealsToUnitLess = function(v) {
-    return ["Citronpeppar", "Salt", "Peppar"];
+  var mealsToUnitLess = function(meals) {
+    return nub3(concatMap(function(meal) {
+      return meal.unitLess;
+    })(meals));
   };
   var meals2unitLess = mealsToUnitLess;
   var flattenMeal = function(meal) {
-    return map3(function(ingredient) {
+    return map4(function(ingredient) {
       return {
         name: ingredient.name,
         amount: ingredient.amount * toNumber(meal.servings),
@@ -2410,7 +2695,7 @@
     };
     var mergeIngredientsMaps = foldl2(unionWith2(sumIngredients))(empty2);
     var mealsToIngredientMaps = function(m) {
-      return map3(upgradeIngredients)(allIngredients(m));
+      return map4(upgradeIngredients)(allIngredients(m));
     };
     var listOfTuples = function(dictUnfoldable) {
       return toUnfoldable(dictUnfoldable)(mergeIngredientsMaps(mealsToIngredientMaps(meals)));
@@ -2440,7 +2725,7 @@
         ;
         return aMeal;
       };
-      return map3(incMeal)(meals);
+      return map4(incMeal)(meals);
     };
   };
   var main = function __do4() {

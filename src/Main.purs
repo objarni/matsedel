@@ -1,6 +1,6 @@
 module Main where
 
-import Data.Array (foldl)
+import Data.Array (concatMap, foldl, nub)
 import Data.Tuple (Tuple(..), fst, snd)
 import Prelude
 
@@ -106,7 +106,7 @@ removeServingOfMeal meal meals = decMeal <$> meals
     else aMeal
 
 mealsToUnitLess :: Meals -> Array String
-mealsToUnitLess _ = [ "Citronpeppar", "Salt", "Peppar" ]
+mealsToUnitLess meals = nub (concatMap (\meal -> meal.unitLess) meals)
 
 meals2unitLess = mealsToUnitLess
 
