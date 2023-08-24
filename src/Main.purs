@@ -94,6 +94,9 @@ flattenMeal meal =
           , unit: ingredient.unit
           }
 
+type IncFn = String -> Meals -> Meals
+type DecFn = String -> Meals -> Meals
+
 addServingOfMeal :: IncFn
 addServingOfMeal meal meals = incMeal <$> meals
   where
@@ -109,12 +112,12 @@ removeServingOfMeal meal meals = decMeal <$> meals
     else aMeal
 
 mealsToUnitLess :: Meals -> Array String
-mealsToUnitLess meals = nub (concatMap (\meal -> meal.unitLess) meals)
+mealsToUnitLess meals = filter (\meal -> meal.servings > 0) meals
+                        # concatMap (\meal -> meal.unitLess)
+                        # nub
 
 meals2unitLess = mealsToUnitLess
 
-type IncFn = String -> Meals -> Meals
-type DecFn = String -> Meals -> Meals
 type IngredientsFromMealsFn = Meals -> Ingredients
 type UnitLessFromMealsFn = Meals -> Array String
 

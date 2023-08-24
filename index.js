@@ -2643,8 +2643,8 @@
   var removeServingOfMeal = function(meal) {
     return function(meals) {
       var decMeal = function(aMeal) {
-        var $26 = aMeal.meal === meal;
-        if ($26) {
+        var $27 = aMeal.meal === meal;
+        if ($27) {
           return {
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
@@ -2662,7 +2662,9 @@
   var mealsToUnitLess = function(meals) {
     return nub3(concatMap(function(meal) {
       return meal.unitLess;
-    })(meals));
+    })(filter(function(meal) {
+      return meal.servings > 0;
+    })(meals)));
   };
   var meals2unitLess = mealsToUnitLess;
   var flattenMeal = function(meal) {
@@ -2720,8 +2722,8 @@
   var addServingOfMeal = function(meal) {
     return function(meals) {
       var incMeal = function(aMeal) {
-        var $27 = aMeal.meal === meal;
-        if ($27) {
+        var $28 = aMeal.meal === meal;
+        if ($28) {
           return {
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,
