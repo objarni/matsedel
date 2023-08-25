@@ -85,7 +85,7 @@ standardMatsedel =
     }
   , { meal: "Tacos"
     , ingredients:
-        [ { name: "Tomas", amount: 0.5, unit: "st" }
+        [ { name: "Tomat", amount: 0.5, unit: "st" }
         , { name: "Kycklingfärs", amount: 125.0, unit: "g" }
         , { name: "Gurka", amount: 0.25, unit: "st" }
         , { name: "Rödlök", amount: 0.25, unit: "st" }
@@ -99,6 +99,26 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://www.ica.se/recept/tacos-722416/"
+    , unitLess: []
+    }
+  , { meal: "Sagas vegetariska nudlar med ägg"
+    , ingredients:
+        [ { name: "Ägg", amount: 2.0, unit: "st" }
+        , { name: "Nudlar", amount: 1.0, unit: "paket" }
+        , { name: "Gurka", amount: 0.25, unit: "st" }
+        ]
+    , servings: 0
+    , webPage: "https://fråga.saga"
+    , unitLess: ["Ost"]
+    }
+  , { meal: "Tomatsoppa med pizzabullar"
+    , ingredients:
+        [ { name: "Färdig pizzadeg", amount: 0.25, unit: "paket" }
+        , { name: "Krossadde tomater", amount: 0.5, unit: "paket" }
+        , { name: "Färdigpastasås", amount: 0.25, unit: "burk" }
+        ]
+    , servings: 0
+    , webPage: "https://fråga.leon"
     , unitLess: []
     }
   ]

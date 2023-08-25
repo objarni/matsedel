@@ -2451,7 +2451,7 @@
     }, {
       meal: "Tacos",
       ingredients: [{
-        name: "Tomas",
+        name: "Tomat",
         amount: 0.5,
         unit: "st"
       }, {
@@ -2497,6 +2497,42 @@
       }],
       servings: 0,
       webPage: "https://www.ica.se/recept/tacos-722416/",
+      unitLess: []
+    }, {
+      meal: "Sagas vegetariska nudlar med \xE4gg",
+      ingredients: [{
+        name: "\xC4gg",
+        amount: 2,
+        unit: "st"
+      }, {
+        name: "Nudlar",
+        amount: 1,
+        unit: "paket"
+      }, {
+        name: "Gurka",
+        amount: 0.25,
+        unit: "st"
+      }],
+      servings: 0,
+      webPage: "https://fr\xE5ga.saga",
+      unitLess: ["Ost"]
+    }, {
+      meal: "Tomatsoppa med pizzabullar",
+      ingredients: [{
+        name: "F\xE4rdig pizzadeg",
+        amount: 0.25,
+        unit: "paket"
+      }, {
+        name: "Krossadde tomater",
+        amount: 0.5,
+        unit: "paket"
+      }, {
+        name: "F\xE4rdigpastas\xE5s",
+        amount: 0.25,
+        unit: "burk"
+      }],
+      servings: 0,
+      webPage: "https://fr\xE5ga.leon",
       unitLess: []
     }];
   }();
