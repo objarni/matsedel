@@ -2534,6 +2534,28 @@
       servings: 0,
       webPage: "https://fr\xE5ga.leon",
       unitLess: []
+    }, {
+      meal: "Lax med potatismos",
+      ingredients: [{
+        name: "Laxfil\xE9",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Fast potatis",
+        amount: 1.5,
+        unit: "st"
+      }, {
+        name: "Sm\xF6r",
+        amount: 1,
+        unit: "msk"
+      }, {
+        name: "\xD6rter",
+        amount: 0.25,
+        unit: "dl"
+      }],
+      servings: 0,
+      webPage: "https://fr\xE5ga.josefin",
+      unitLess: ["Citronpeppar", "Salt"]
     }];
   }();
 
