@@ -211,13 +211,13 @@ meals2unitLessTests = describe "meals2unitLess" do
           , webPage: ""
           , unitLess: [ "Salt", "Peppar" ]
           }
---        , { meal: "Stekt lax med potatis"
---          , ingredients:
---              [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
---          , servings: 0
---          , webPage: ""
---          , unitLess: [ "Salt", "Citronmeliss" ]
---          }
+        --        , { meal: "Stekt lax med potatis"
+        --          , ingredients:
+        --              [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
+        --          , servings: 0
+        --          , webPage: ""
+        --          , unitLess: [ "Salt", "Citronmeliss" ]
+        --          }
         ]
 
       unitLessArray = mealsToUnitLess twoMeals

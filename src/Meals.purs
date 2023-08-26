@@ -109,7 +109,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://fråga.saga"
-    , unitLess: ["Ost"]
+    , unitLess: [ "Ost" ]
     }
   , { meal: "Tomatsoppa med pizzabullar"
     , ingredients:
@@ -121,5 +121,15 @@ standardMatsedel =
     , webPage: "https://fråga.leon"
     , unitLess: []
     }
+  , { meal: "Lax med potatismos"
+    , ingredients:
+        [ { name: "Laxfilé", amount: 1.0, unit: "st" }
+        , { name: "Fast potatis", amount: 1.5, unit: "st" }
+        , { name: "Smör", amount: 1.0, unit: "msk" }
+        , { name: "Örter", amount: 0.25, unit: "dl" }
+        ]
+    , servings: 0
+    , webPage: "https://fråga.josefin"
+    , unitLess: ["Citronpeppar", "Salt"]
+    }
   ]
---

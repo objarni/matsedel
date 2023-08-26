@@ -113,8 +113,8 @@ removeServingOfMeal meal meals = decMeal <$> meals
 
 mealsToUnitLess :: Meals -> Array String
 mealsToUnitLess meals = filter (\meal -> meal.servings > 0) meals
-                        # concatMap (\meal -> meal.unitLess)
-                        # nub
+  # concatMap (\meal -> meal.unitLess)
+  # nub
 
 meals2unitLess = mealsToUnitLess
 
