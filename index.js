@@ -2399,8 +2399,8 @@
     }, {
       meal: "Kyklingfajitas",
       ingredients: [{
-        name: "Kycklingfil\xE9",
-        amount: 1,
+        name: "Strimlad kyckling",
+        amount: 150,
         unit: "g"
       }, {
         name: "L\xF6k",
@@ -2423,7 +2423,7 @@
         amount: 0.25,
         unit: "st"
       }],
-      unitLess: ["Koriander", "Salt"],
+      unitLess: ["Salt"],
       servings: 0,
       webPage: "https://www.ica.se/recept/kycklingfajitas-722693/"
     }, {
@@ -2523,39 +2523,101 @@
         amount: 0.25,
         unit: "paket"
       }, {
-        name: "Krossadde tomater",
+        name: "Krossade tomater",
         amount: 0.5,
         unit: "paket"
       }, {
         name: "F\xE4rdigpastas\xE5s",
         amount: 0.25,
         unit: "burk"
+      }, {
+        name: "L\xF6k",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Gr\xE4dde",
+        amount: 0.6,
+        unit: "dl"
+      }, {
+        name: "Gr\xF6nsaksbuljong",
+        amount: 0.5,
+        unit: "st"
+      }, {
+        name: "Vitl\xF6k",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Riven ost",
+        amount: 0.5,
+        unit: "dl"
       }],
       servings: 0,
       webPage: "https://fr\xE5ga.leon",
       unitLess: []
     }, {
-      meal: "Lax med potatismos",
+      meal: "Ugnspannkaka med kalkonbacon",
       ingredients: [{
-        name: "Laxfil\xE9",
-        amount: 1,
-        unit: "st"
-      }, {
-        name: "Fast potatis",
+        name: "\xC4gg",
         amount: 1.5,
         unit: "st"
+      }, {
+        name: "Vetemj\xF6l",
+        amount: 1,
+        unit: "dl"
+      }, {
+        name: "Mj\xF6lk",
+        amount: 2,
+        unit: "dl"
+      }, {
+        name: "Salt",
+        amount: 0.5,
+        unit: "krm"
+      }, {
+        name: "Kalkonbacon",
+        amount: 50,
+        unit: "g"
       }, {
         name: "Sm\xF6r",
         amount: 1,
         unit: "msk"
-      }, {
-        name: "\xD6rter",
-        amount: 0.25,
-        unit: "dl"
       }],
       servings: 0,
-      webPage: "https://fr\xE5ga.josefin",
-      unitLess: ["Citronpeppar", "Salt"]
+      webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon",
+      unitLess: ["Lingonsylt"]
+    }, {
+      meal: "Lax med potatis och citrons\xE5s",
+      ingredients: [{
+        name: "Fast potatis",
+        amount: 2,
+        unit: "st"
+      }, {
+        name: "Citron",
+        amount: 0.25,
+        unit: "st"
+      }, {
+        name: "Gr\xE4dde",
+        amount: 0.75,
+        unit: "dl"
+      }, {
+        name: "Majsst\xE4rkelse",
+        amount: 0.25,
+        unit: "tsk"
+      }, {
+        name: "Haricot verts",
+        amount: 40,
+        unit: "g"
+      }, {
+        name: "Laxfil\xE9",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Sm\xF6r",
+        amount: 25,
+        unit: "g"
+      }],
+      servings: 0,
+      webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon",
+      unitLess: ["Salt", "Peppar"]
     }];
   }();
 

@@ -141,7 +141,7 @@ standardMatsedel =
     }
   , { meal: "Lax med potatis och citronsås"
     , ingredients:
-        [ { name: "Fast potatis", amount: 225.0, unit: "g" }
+        [ { name: "Fast potatis", amount: 2.0, unit: "st" }
         , { name: "Citron", amount: 0.25, unit: "st" }
         , { name: "Grädde", amount: 0.75, unit: "dl" }
         , { name: "Majsstärkelse", amount: 0.25, unit: "tsk" }
