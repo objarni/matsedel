@@ -2612,8 +2612,8 @@
         unit: "st"
       }, {
         name: "Sm\xF6r",
-        amount: 25,
-        unit: "g"
+        amount: 1,
+        unit: "msk"
       }],
       servings: 0,
       webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon",

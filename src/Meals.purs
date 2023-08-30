@@ -147,7 +147,7 @@ standardMatsedel =
         , { name: "Majsstärkelse", amount: 0.25, unit: "tsk" }
         , { name: "Haricot verts", amount: 40.0, unit: "g" }
         , { name: "Laxfilé", amount: 1.0, unit: "st" }
-        , { name: "Smör", amount: 25.0, unit: "g" }
+        , { name: "Smör", amount: 1.0, unit: "msk" }
         ]
     , servings: 0
     , webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon"
