@@ -20,6 +20,7 @@ import Test.Spec.Runner (runSpec)
 import Data.List as List
 import Data.Map as Map
 import MealTypes (Meals)
+import Data.Maybe (Maybe(Just))
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -211,18 +212,40 @@ meals2unitLessTests = describe "meals2unitLess" do
           , webPage: ""
           , unitLess: [ "Salt", "Peppar" ]
           }
-        --        , { meal: "Stekt lax med potatis"
-        --          , ingredients:
-        --              [ { name: "Laxfilé", amount: 3.0, unit: "st" } ]
-        --          , servings: 0
-        --          , webPage: ""
-        --          , unitLess: [ "Salt", "Citronmeliss" ]
-        --          }
         ]
 
       unitLessArray = mealsToUnitLess twoMeals
 
     unitLessArray # shouldEqual [ "Citronpeppar", "Salt", "Peppar" ]
+
+validateMealsTests :: TestSuite
+validateMealsTests = describe "meals2unitLess" do
+  it "gives an error if the same ingredient is measured in different units" do
+    let
+      twoMeals :: Meals
+      twoMeals =
+        [ { meal: "Stekt lax med rotfrukter i ugn"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
+          , servings: 10
+          , webPage: ""
+          , unitLess: [ "Citronpeppar", "Salt" ]
+          }
+        , { meal: "Stekt lax med ris"
+          , ingredients:
+              [ { name: "Laxfilé", amount: 150.0, unit: "g" } ]
+          , servings: 2
+          , webPage: ""
+          , unitLess: [ "Salt", "Peppar" ]
+          }
+        ]
+
+      findInconsistencies :: Meals -> Maybe String
+      findInconsistencies _ = Just ""
+
+      errorMessage = findInconsistencies twoMeals
+
+    errorMessage # shouldEqual (Just "Ingrediensen Laxfilé anges i flera enheter: st g")
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do
@@ -236,3 +259,5 @@ main = launchAff_ $ runSpec [ teamcityReporter ] do
   meals2ingredientsTests
 
   meals2unitLessTests
+
+  validateMealsTests
