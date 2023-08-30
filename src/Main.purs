@@ -17,6 +17,7 @@ import Meals (standardMatsedel)
 
 main :: Effect Unit
 main = do
+  error "Error message seems to work now"
   run (spy "initialMeals" standardMatsedel) meals2ingredients meals2unitLess addServingOfMeal removeServingOfMeal
   runGerms
 
@@ -122,3 +123,4 @@ type IngredientsFromMealsFn = Meals -> Ingredients
 type UnitLessFromMealsFn = Meals -> Array String
 
 foreign import run :: Meals -> IngredientsFromMealsFn -> UnitLessFromMealsFn -> IncFn -> DecFn -> Effect Unit
+foreign import error :: String -> Effect Unit

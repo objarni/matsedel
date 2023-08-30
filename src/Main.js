@@ -1,7 +1,12 @@
-var globalMeals
-var globalIncFn
-var globalDecFn
-var globalMeals2ingredients
+let globalMeals;
+let globalIncFn;
+let globalDecFn;
+let globalMeals2ingredients;
+
+export const error = (errorMessage) => () => {
+    let errorDiv = document.getElementById("errorMessage")
+    errorDiv.innerHTML = errorMessage
+}
 
 export const run = (meals) => (meals2ingredients) => (meals2unitLess) => (incFn) => (decFn) => () => {
     globalIncFn = incFn

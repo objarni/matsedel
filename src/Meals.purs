@@ -137,7 +137,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon"
-    , unitLess: ["Lingonsylt"]
+    , unitLess: [ "Lingonsylt" ]
     }
   , { meal: "Lax med potatis och citronsås"
     , ingredients:
@@ -151,7 +151,7 @@ standardMatsedel =
         ]
     , servings: 0
     , webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon"
-    , unitLess: ["Salt", "Peppar"]
+    , unitLess: [ "Salt", "Peppar" ]
     }
   ]
 --

@@ -4,6 +4,10 @@
   var globalIncFn;
   var globalDecFn;
   var globalMeals2ingredients;
+  var error = (errorMessage) => () => {
+    let errorDiv = document.getElementById("errorMessage");
+    errorDiv.innerHTML = errorMessage;
+  };
   var run = (meals) => (meals2ingredients2) => (meals2unitLess2) => (incFn) => (decFn) => () => {
     globalIncFn = incFn;
     globalDecFn = decFn;
@@ -2751,6 +2755,7 @@
   var nub3 = /* @__PURE__ */ nub(ordString);
   var mapFlipped2 = /* @__PURE__ */ mapFlipped(functorArray);
   var unionWith2 = /* @__PURE__ */ unionWith(ordString);
+  var spy2 = /* @__PURE__ */ spy();
   var upgradeIngredient = function(ingredient) {
     return new Tuple(ingredient.name, {
       amount: ingredient.amount,
@@ -2859,7 +2864,8 @@
     };
   };
   var main = function __do4() {
-    run(spy()("initialMeals")(standardMatsedel))(meals2ingredients)(meals2unitLess)(addServingOfMeal)(removeServingOfMeal)();
+    error("Error message seems to work now")();
+    run(spy2("initialMeals")(standardMatsedel))(meals2ingredients)(meals2unitLess)(addServingOfMeal)(removeServingOfMeal)();
     return runGerms();
   };
 
