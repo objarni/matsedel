@@ -13,19 +13,16 @@ import Data.Unfoldable (class Unfoldable)
 import Effect (Effect)
 import Effect.Aff (launchAff_)
 import Effect.Exception (Error)
-import Main (flattenMeal, mealsToIngredients, mealsToUnitLess, upgradeMeals)
+import Main (findInconsistencies, flattenMeal, mealsToIngredients, mealsToUnitLess, upgradeMeals)
 import Test.Spec (SpecT, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
 import Test.Spec.Runner (runSpec)
 import Data.List as List
 import Data.Map as Map
-import MealTypes (Meal, Meals)
-import Data.Maybe (Maybe(Just), Maybe(Nothing))
-import Data.Functor ((<#>), (<$>))
-import Data.Map.Internal (fromFoldable, fromFoldableWith, toUnfoldable) as Map
-import Data.Semigroup ((<>))
-import Data.Ord ((>))
+import MealTypes (Meals)
+import Data.Maybe (Maybe(..))
+import Data.Map.Internal (fromFoldable, toUnfoldable) as Map
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -247,35 +244,8 @@ validateMealsTests = describe "meals2unitLess" do
           }
         ]
 
-      allIngredientUnitTuples :: Meals -> Array (Tuple String String)
-      allIngredientUnitTuples meals = concat (ingredientTuples <$> meals)
-
-      ingredientTuples :: Meal -> Array (Tuple String String)
-      ingredientTuples meal = meal.ingredients <#> (\ingredient -> Tuple ingredient.name ingredient.unit)
-
-      ingredientUnitsMap :: Meals -> Map String (Array String)
-      ingredientUnitsMap meals = Map.fromFoldableWith (\array1 array2 -> array1 <> array2) allIngredientsUnits
-        where
-        allIngredientsUnits :: Array (Tuple String (Array String))
-        allIngredientsUnits = (allIngredientUnitTuples meals) <#> (\(Tuple ingredient unit) -> Tuple ingredient [ unit ])
-
-      ingredientUnitsArray :: Meals -> Array (Tuple String (Array String))
-      ingredientUnitsArray meals = Map.toUnfoldable $ ingredientUnitsMap meals
-
-      ingredientsWithMultipleUnitsArray :: Meals -> Array (Tuple String (Array String))
-      ingredientsWithMultipleUnitsArray meals = filter (\(Tuple _ units) -> length units > 1) (ingredientUnitsArray meals)
-
-      findInconsistencies :: Meals -> Maybe String
-      findInconsistencies meals = case head (ingredientsWithMultipleUnitsArray meals) of
-        Just (Tuple ingredient units) ->
-            Just ("Hittade ingrediensen " <> ingredient <> " med flera enheter:" <> unitsText)
-              where unitsText = foldl (\acc unit -> acc <> " " <> unit) "" units
-        Nothing -> Nothing
-
       errorMessage = findInconsistencies twoMeals
-      ingredientTs = ingredientsWithMultipleUnitsArray twoMeals
 
-    --    ingredientTs # shouldEqual []
     errorMessage # shouldEqual (Just "Hittade ingrediensen Laxfilé med flera enheter: g st")
 
 main :: Effect Unit

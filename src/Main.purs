@@ -1,6 +1,6 @@
 module Main where
 
-import Data.Array (concatMap, filter, foldl, nub)
+import Data.Array (concat, concatMap, filter, foldl, head, length, nub)
 import Data.Tuple (Tuple(..), fst, snd)
 import Prelude
 
@@ -10,10 +10,15 @@ import Effect (Effect)
 import PureGerm (runGerms)
 import Data.Int (toNumber) as Data.Int
 import Data.Map (empty, fromFoldable) as Map
-import Data.Map.Internal (toUnfoldable, unionWith) as Map
+import Data.Map.Internal (fromFoldableWith, toUnfoldable, unionWith) as Map
 import Data.Unfoldable (class Unfoldable)
 import MealTypes (Ingredient, Ingredients, Meal, Meals)
 import Meals (standardMatsedel)
+import Data.Function (($))
+import Data.Maybe (Maybe(..))
+import Data.Semigroup ((<>))
+import Data.Ord ((>))
+import Data.Functor ((<#>), (<$>))
 
 main :: Effect Unit
 main = do
@@ -124,3 +129,28 @@ type UnitLessFromMealsFn = Meals -> Array String
 
 foreign import run :: Meals -> IngredientsFromMealsFn -> UnitLessFromMealsFn -> IncFn -> DecFn -> Effect Unit
 foreign import error :: String -> Effect Unit
+
+ingredientUnitsArray :: Meals -> Array (Tuple String (Array String))
+ingredientUnitsArray meals = Map.toUnfoldable $ ingredientUnitsMap meals
+
+findInconsistencies :: Meals -> Maybe String
+findInconsistencies meals = case head (ingredientsWithMultipleUnitsArray meals) of
+  Just (Tuple ingredient units) ->
+      Just ("Hittade ingrediensen " <> ingredient <> " med flera enheter:" <> unitsText)
+        where unitsText = foldl (\acc unit -> acc <> " " <> unit) "" units
+  Nothing -> Nothing
+
+ingredientsWithMultipleUnitsArray :: Meals -> Array (Tuple String (Array String))
+ingredientsWithMultipleUnitsArray meals = filter (\(Tuple _ units) -> length units > 1) (ingredientUnitsArray meals)
+
+ingredientUnitsMap :: Meals -> Map String (Array String)
+ingredientUnitsMap meals = Map.fromFoldableWith (\array1 array2 -> array1 <> array2) allIngredientsUnits
+  where
+  allIngredientsUnits :: Array (Tuple String (Array String))
+  allIngredientsUnits = (allIngredientUnitTuples meals) <#> (\(Tuple ingredient unit) -> Tuple ingredient [ unit ])
+
+ingredientTuples :: Meal -> Array (Tuple String String)
+ingredientTuples meal = meal.ingredients <#> (\ingredient -> Tuple ingredient.name ingredient.unit)
+
+allIngredientUnitTuples :: Meals -> Array (Tuple String String)
+allIngredientUnitTuples meals = concat (ingredientTuples <$> meals)
