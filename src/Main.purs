@@ -127,8 +127,6 @@ meals2unitLess = mealsToUnitLess
 type IngredientsFromMealsFn = Meals -> Ingredients
 type UnitLessFromMealsFn = Meals -> Array String
 
-foreign import run :: Meals -> IngredientsFromMealsFn -> UnitLessFromMealsFn -> IncFn -> DecFn -> Effect Unit
-foreign import error :: String -> Effect Unit
 
 ingredientUnitsArray :: Meals -> Array (Tuple String (Array String))
 ingredientUnitsArray meals = Map.toUnfoldable $ ingredientUnitsMap meals
@@ -154,3 +152,6 @@ ingredientTuples meal = meal.ingredients <#> (\ingredient -> Tuple ingredient.na
 
 allIngredientUnitTuples :: Meals -> Array (Tuple String String)
 allIngredientUnitTuples meals = concat (ingredientTuples <$> meals)
+
+foreign import run :: Meals -> IngredientsFromMealsFn -> UnitLessFromMealsFn -> IncFn -> DecFn -> Effect Unit
+foreign import error :: String -> Effect Unit
