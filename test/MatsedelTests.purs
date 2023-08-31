@@ -6,7 +6,6 @@ import Data.Tuple (Tuple(..))
 import Prelude (class Monad, discard, Unit, map, (#), ($), (+))
 
 import Control.Monad.Error.Class (class MonadThrow)
-import Data.Array (concat, filter, foldl, head, length)
 import Data.Foldable (class Foldable)
 import Data.Map.Internal (Map, values)
 import Data.Unfoldable (class Unfoldable)
@@ -19,7 +18,7 @@ import Test.Spec.Assertions (shouldEqual)
 import Test.Spec.Reporter.TeamCity (teamcityReporter)
 import Test.Spec.Runner (runSpec)
 import Data.List as List
-import Data.Map as Map
+import Data.Map (unionWith) as Map
 import MealTypes (Meals)
 import Data.Maybe (Maybe(..))
 import Data.Map.Internal (fromFoldable, toUnfoldable) as Map
