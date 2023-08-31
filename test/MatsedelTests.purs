@@ -6,6 +6,7 @@ import Data.Tuple (Tuple(..))
 import Prelude (class Monad, discard, Unit, map, (#), ($), (+))
 
 import Control.Monad.Error.Class (class MonadThrow)
+import Data.Array (concat, filter, foldl, head, length)
 import Data.Foldable (class Foldable)
 import Data.Map.Internal (Map, values)
 import Data.Unfoldable (class Unfoldable)
@@ -19,8 +20,12 @@ import Test.Spec.Reporter.TeamCity (teamcityReporter)
 import Test.Spec.Runner (runSpec)
 import Data.List as List
 import Data.Map as Map
-import MealTypes (Meals)
-import Data.Maybe (Maybe(Just))
+import MealTypes (Meal, Meals)
+import Data.Maybe (Maybe(Just), Maybe(Nothing))
+import Data.Functor ((<#>), (<$>))
+import Data.Map.Internal (fromFoldable, fromFoldableWith, toUnfoldable) as Map
+import Data.Semigroup ((<>))
+import Data.Ord ((>))
 
 list :: forall f. Foldable f => (forall a. f a -> List a)
 list = List.fromFoldable
@@ -233,19 +238,45 @@ validateMealsTests = describe "meals2unitLess" do
           }
         , { meal: "Stekt lax med ris"
           , ingredients:
-              [ { name: "Laxfilé", amount: 150.0, unit: "g" } ]
+              [ { name: "Laxfilé", amount: 150.0, unit: "g" }
+              , { name: "Socker", amount: 100.0, unit: "ml" }
+              ]
           , servings: 2
           , webPage: ""
           , unitLess: [ "Salt", "Peppar" ]
           }
         ]
 
+      allIngredientUnitTuples :: Meals -> Array (Tuple String String)
+      allIngredientUnitTuples meals = concat (ingredientTuples <$> meals)
+
+      ingredientTuples :: Meal -> Array (Tuple String String)
+      ingredientTuples meal = meal.ingredients <#> (\ingredient -> Tuple ingredient.name ingredient.unit)
+
+      ingredientUnitsMap :: Meals -> Map String (Array String)
+      ingredientUnitsMap meals = Map.fromFoldableWith (\array1 array2 -> array1 <> array2) allIngredientsUnits
+        where
+        allIngredientsUnits :: Array (Tuple String (Array String))
+        allIngredientsUnits = (allIngredientUnitTuples meals) <#> (\(Tuple ingredient unit) -> Tuple ingredient [ unit ])
+
+      ingredientUnitsArray :: Meals -> Array (Tuple String (Array String))
+      ingredientUnitsArray meals = Map.toUnfoldable $ ingredientUnitsMap meals
+
+      ingredientsWithMultipleUnitsArray :: Meals -> Array (Tuple String (Array String))
+      ingredientsWithMultipleUnitsArray meals = filter (\(Tuple _ units) -> length units > 1) (ingredientUnitsArray meals)
+
       findInconsistencies :: Meals -> Maybe String
-      findInconsistencies _ = Just ""
+      findInconsistencies meals = case head (ingredientsWithMultipleUnitsArray meals) of
+        Just (Tuple ingredient units) ->
+            Just ("Hittade ingrediensen " <> ingredient <> " med flera enheter:" <> unitsText)
+              where unitsText = foldl (\acc unit -> acc <> " " <> unit) "" units
+        Nothing -> Nothing
 
       errorMessage = findInconsistencies twoMeals
+      ingredientTs = ingredientsWithMultipleUnitsArray twoMeals
 
-    errorMessage # shouldEqual (Just "Ingrediensen Laxfilé anges i flera enheter: st g")
+    --    ingredientTs # shouldEqual []
+    errorMessage # shouldEqual (Just "Hittade ingrediensen Laxfilé med flera enheter: g st")
 
 main :: Effect Unit
 main = launchAff_ $ runSpec [ teamcityReporter ] do
