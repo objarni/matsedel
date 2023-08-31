@@ -151,6 +151,19 @@
       };
     };
   };
+  var concat = function(xss) {
+    if (xss.length <= 1e4) {
+      return Array.prototype.concat.apply([], xss);
+    }
+    var result = [];
+    for (var i = 0, l = xss.length; i < l; i++) {
+      var xs = xss[i];
+      for (var j = 0, m = xs.length; j < m; j++) {
+        result.push(xs[j]);
+      }
+    }
+    return result;
+  };
   var filter = function(f) {
     return function(xs) {
       return xs.filter(f);
@@ -569,7 +582,7 @@
           return v1(v2.value0);
         }
         ;
-        throw new Error("Failed pattern match at Data.Maybe (line 237, column 1 - line 237, column 51): " + [v.constructor.name, v1.constructor.name, v2.constructor.name]);
+        throw new Error("Failed pattern match at Data.Maybe (line 239, column 1 - line 239, column 51): " + [v.constructor.name, v1.constructor.name, v2.constructor.name]);
       };
     };
   };
@@ -583,7 +596,7 @@
         return v.value0;
       }
       ;
-      throw new Error("Failed pattern match at Data.Maybe (line 288, column 1 - line 288, column 46): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Data.Maybe (line 290, column 1 - line 290, column 46): " + [v.constructor.name]);
     };
   };
 
@@ -862,12 +875,12 @@
   var foldMapDefaultR = function(dictFoldable) {
     var foldr2 = foldr(dictFoldable);
     return function(dictMonoid) {
-      var append3 = append(dictMonoid.Semigroup0());
+      var append4 = append(dictMonoid.Semigroup0());
       var mempty2 = mempty(dictMonoid);
       return function(f) {
         return foldr2(function(x) {
           return function(acc) {
-            return append3(f(x))(acc);
+            return append4(f(x))(acc);
           };
         })(mempty2);
       };
@@ -1074,7 +1087,7 @@
         return -1 | 0;
       }
       ;
-      throw new Error("Failed pattern match at Data.Array (line 870, column 31 - line 873, column 11): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Data.Array (line 877, column 31 - line 880, column 11): " + [v.constructor.name]);
     });
   };
   var sortWith = function(dictOrd) {
@@ -1129,7 +1142,7 @@
         }()));
       }
       ;
-      throw new Error("Failed pattern match at Data.Array (line 1085, column 17 - line 1093, column 29): " + [v.constructor.name]);
+      throw new Error("Failed pattern match at Data.Array (line 1092, column 17 - line 1100, column 28): " + [v.constructor.name]);
     };
   };
   var nub = function(dictOrd) {
@@ -1469,10 +1482,10 @@
               return;
             }
             ;
-            throw new Error("Failed pattern match at Data.Map.Internal (line 624, column 18 - line 633, column 71): " + [v.value0.constructor.name]);
+            throw new Error("Failed pattern match at Data.Map.Internal (line 647, column 18 - line 656, column 71): " + [v.value0.constructor.name]);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 623, column 3 - line 623, column 19): " + [v.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 646, column 3 - line 646, column 19): " + [v.constructor.name]);
         }
         ;
         while (!$tco_done) {
@@ -1539,7 +1552,7 @@
             return;
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 241, column 5 - line 241, column 22): " + [v.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 254, column 3 - line 254, column 20): " + [v.constructor.name]);
         }
         ;
         while (!$tco_done) {
@@ -1600,10 +1613,10 @@
               return;
             }
             ;
-            throw new Error("Failed pattern match at Data.Map.Internal (line 462, column 3 - line 467, column 88): " + [v.value0.constructor.name]);
+            throw new Error("Failed pattern match at Data.Map.Internal (line 474, column 3 - line 479, column 88): " + [v.value0.constructor.name]);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 459, column 1 - line 459, column 80): " + [v.constructor.name, v1.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 471, column 1 - line 471, column 80): " + [v.constructor.name, v1.constructor.name]);
         }
         ;
         while (!$tco_done) {
@@ -1659,10 +1672,10 @@
                   return;
                 }
                 ;
-                throw new Error("Failed pattern match at Data.Map.Internal (line 498, column 5 - line 503, column 108): " + [v1.value0.constructor.name, v2.constructor.name]);
+                throw new Error("Failed pattern match at Data.Map.Internal (line 510, column 5 - line 515, column 108): " + [v1.value0.constructor.name, v2.constructor.name]);
               }
               ;
-              throw new Error("Failed pattern match at Data.Map.Internal (line 495, column 3 - line 495, column 56): " + [v1.constructor.name, v2.constructor.name]);
+              throw new Error("Failed pattern match at Data.Map.Internal (line 507, column 3 - line 507, column 56): " + [v1.constructor.name, v2.constructor.name]);
             }
             ;
             while (!$tco_done) {
@@ -1731,7 +1744,7 @@
                 return;
               }
               ;
-              throw new Error("Failed pattern match at Data.Map.Internal (line 478, column 3 - line 478, column 55): " + [v1.constructor.name, v2.constructor.name]);
+              throw new Error("Failed pattern match at Data.Map.Internal (line 490, column 3 - line 490, column 55): " + [v1.constructor.name, v2.constructor.name]);
             }
             ;
             while (!$tco_done1) {
@@ -1852,7 +1865,7 @@
               return unsafeCrashWith("The impossible happened in partial function `up`.");
             }
             ;
-            throw new Error("Failed pattern match at Data.Map.Internal (line 552, column 5 - line 573, column 86): " + [ctxs.constructor.name]);
+            throw new Error("Failed pattern match at Data.Map.Internal (line 575, column 5 - line 596, column 86): " + [ctxs.constructor.name]);
           }
           ;
           while (!$tco_done) {
@@ -2025,7 +2038,7 @@
               return;
             }
             ;
-            throw new Error("Failed pattern match at Data.Map.Internal (line 525, column 16 - line 548, column 80): " + [m.constructor.name]);
+            throw new Error("Failed pattern match at Data.Map.Internal (line 537, column 16 - line 571, column 77): " + [m.constructor.name]);
           }
           ;
           while (!$tco_done3) {
@@ -2054,7 +2067,7 @@
             return foldr(foldableMap)(f)(f(m.value2)(foldr(foldableMap)(f)(f(m.value5)(foldr(foldableMap)(f)(z)(m.value6)))(m.value3)))(m.value0);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 133, column 17 - line 136, column 85): " + [m.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 135, column 17 - line 138, column 85): " + [m.constructor.name]);
         };
       };
     },
@@ -2073,7 +2086,7 @@
             return foldl(foldableMap)(f)(f(foldl(foldableMap)(f)(f(foldl(foldableMap)(f)(z)(m.value0))(m.value2))(m.value3))(m.value5))(m.value6);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 137, column 17 - line 140, column 85): " + [m.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 139, column 17 - line 142, column 85): " + [m.constructor.name]);
         };
       };
     },
@@ -2094,7 +2107,7 @@
             return append22(foldMap(foldableMap)(dictMonoid)(f)(m.value0))(append22(f(m.value2))(append22(foldMap(foldableMap)(dictMonoid)(f)(m.value3))(append22(f(m.value5))(foldMap(foldableMap)(dictMonoid)(f)(m.value6)))));
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 141, column 17 - line 144, column 93): " + [m.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 143, column 17 - line 146, column 93): " + [m.constructor.name]);
         };
       };
     }
@@ -2115,7 +2128,7 @@
             return foldrWithIndex(foldableWithIndexMap)(f)(f(m.value1)(m.value2)(foldrWithIndex(foldableWithIndexMap)(f)(f(m.value4)(m.value5)(foldrWithIndex(foldableWithIndexMap)(f)(z)(m.value6)))(m.value3)))(m.value0);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 147, column 26 - line 150, column 120): " + [m.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 149, column 26 - line 152, column 120): " + [m.constructor.name]);
         };
       };
     },
@@ -2134,7 +2147,7 @@
             return foldlWithIndex(foldableWithIndexMap)(f)(f(m.value4)(foldlWithIndex(foldableWithIndexMap)(f)(f(m.value1)(foldlWithIndex(foldableWithIndexMap)(f)(z)(m.value0))(m.value2))(m.value3))(m.value5))(m.value6);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 151, column 26 - line 154, column 120): " + [m.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 153, column 26 - line 156, column 120): " + [m.constructor.name]);
         };
       };
     },
@@ -2155,7 +2168,7 @@
             return append22(foldMapWithIndex(foldableWithIndexMap)(dictMonoid)(f)(m.value0))(append22(f(m.value1)(m.value2))(append22(foldMapWithIndex(foldableWithIndexMap)(dictMonoid)(f)(m.value3))(append22(f(m.value4)(m.value5))(foldMapWithIndex(foldableWithIndexMap)(dictMonoid)(f)(m.value6)))));
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 155, column 26 - line 158, column 128): " + [m.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 157, column 26 - line 160, column 128): " + [m.constructor.name]);
         };
       };
     },
@@ -2201,8 +2214,34 @@
             return insert1(k)(v.value0)(m);
           }
           ;
-          throw new Error("Failed pattern match at Data.Map.Internal (line 596, column 15 - line 598, column 25): " + [v.constructor.name]);
+          throw new Error("Failed pattern match at Data.Map.Internal (line 617, column 15 - line 619, column 25): " + [v.constructor.name]);
         };
+      };
+    };
+  };
+  var fromFoldableWith = function(dictOrd) {
+    var alter1 = alter(dictOrd);
+    return function(dictFoldable) {
+      var foldl12 = foldl(dictFoldable);
+      return function(f) {
+        var combine = function(v) {
+          return function(v1) {
+            if (v1 instanceof Just) {
+              return new Just(f(v)(v1.value0));
+            }
+            ;
+            if (v1 instanceof Nothing) {
+              return new Just(v);
+            }
+            ;
+            throw new Error("Failed pattern match at Data.Map.Internal (line 635, column 3 - line 635, column 38): " + [v.constructor.name, v1.constructor.name]);
+          };
+        };
+        return foldl12(function(m) {
+          return function(v) {
+            return alter1(combine(v.value1))(v.value0)(m);
+          };
+        })(empty2);
       };
     };
   };
@@ -2755,7 +2794,9 @@
   var nub3 = /* @__PURE__ */ nub(ordString);
   var mapFlipped2 = /* @__PURE__ */ mapFlipped(functorArray);
   var unionWith2 = /* @__PURE__ */ unionWith(ordString);
-  var spy2 = /* @__PURE__ */ spy();
+  var fromFoldableWith2 = /* @__PURE__ */ fromFoldableWith(ordString)(foldableArray);
+  var append3 = /* @__PURE__ */ append(semigroupArray);
+  var toUnfoldable2 = /* @__PURE__ */ toUnfoldable(unfoldableArray);
   var upgradeIngredient = function(ingredient) {
     return new Tuple(ingredient.name, {
       amount: ingredient.amount,
@@ -2768,8 +2809,8 @@
   var removeServingOfMeal = function(meal) {
     return function(meals) {
       var decMeal = function(aMeal) {
-        var $27 = aMeal.meal === meal;
-        if ($27) {
+        var $36 = aMeal.meal === meal;
+        if ($36) {
           return {
             servings: aMeal.servings - 1 | 0,
             meal: aMeal.meal,
@@ -2792,6 +2833,11 @@
     })(meals)));
   };
   var meals2unitLess = mealsToUnitLess;
+  var ingredientTuples = function(meal) {
+    return mapFlipped2(meal.ingredients)(function(ingredient) {
+      return new Tuple(ingredient.name, ingredient.unit);
+    });
+  };
   var flattenMeal = function(meal) {
     return map4(function(ingredient) {
       return {
@@ -2844,11 +2890,49 @@
     return nonZeroIngredients;
   };
   var meals2ingredients = mealsToIngredients;
+  var allIngredientUnitTuples = function(meals) {
+    return concat(map4(ingredientTuples)(meals));
+  };
+  var ingredientUnitsMap = function(meals) {
+    var allIngredientsUnits = mapFlipped2(allIngredientUnitTuples(meals))(function(v) {
+      return new Tuple(v.value0, [v.value1]);
+    });
+    return fromFoldableWith2(function(array1) {
+      return function(array2) {
+        return nub3(append3(array1)(array2));
+      };
+    })(allIngredientsUnits);
+  };
+  var ingredientUnitsArray = function(meals) {
+    return toUnfoldable2(ingredientUnitsMap(meals));
+  };
+  var ingredientsWithMultipleUnitsArray = function(meals) {
+    return filter(function(v) {
+      return length(v.value1) > 1;
+    })(ingredientUnitsArray(meals));
+  };
+  var findInconsistencies = function(meals) {
+    var v = head(ingredientsWithMultipleUnitsArray(meals));
+    if (v instanceof Just) {
+      var unitsText = foldl2(function(acc) {
+        return function(unit2) {
+          return acc + (" " + unit2);
+        };
+      })("")(v.value0.value1);
+      return new Just("Hittade ingrediensen " + (v.value0.value0 + (" med flera enheter:" + unitsText)));
+    }
+    ;
+    if (v instanceof Nothing) {
+      return Nothing.value;
+    }
+    ;
+    throw new Error("Failed pattern match at Main (line 135, column 29 - line 140, column 21): " + [v.constructor.name]);
+  };
   var addServingOfMeal = function(meal) {
     return function(meals) {
       var incMeal = function(aMeal) {
-        var $28 = aMeal.meal === meal;
-        if ($28) {
+        var $47 = aMeal.meal === meal;
+        if ($47) {
           return {
             servings: aMeal.servings + 1 | 0,
             meal: aMeal.meal,
@@ -2864,8 +2948,18 @@
     };
   };
   var main = function __do4() {
-    error("Error message seems to work now")();
-    run(spy2("initialMeals")(standardMatsedel))(meals2ingredients)(meals2unitLess)(addServingOfMeal)(removeServingOfMeal)();
+    (function() {
+      var v = findInconsistencies(standardMatsedel);
+      if (v instanceof Just) {
+        return error(v.value0)();
+      }
+      ;
+      if (v instanceof Nothing) {
+        return run(spy()("initialMeals")(standardMatsedel))(meals2ingredients)(meals2unitLess)(addServingOfMeal)(removeServingOfMeal)();
+      }
+      ;
+      throw new Error("Failed pattern match at Main (line 25, column 3 - line 27, column 127): " + [v.constructor.name]);
+    })();
     return runGerms();
   };
 

@@ -227,7 +227,9 @@ validateMealsTests = describe "meals2unitLess" do
       twoMeals =
         [ { meal: "Stekt lax med rotfrukter i ugn"
           , ingredients:
-              [ { name: "Laxfilé", amount: 5.0, unit: "st" } ]
+              [ { name: "Laxfilé", amount: 5.0, unit: "st" }
+              , { name: "Fast potatis", amount: 1.0, unit: "st" }
+              ]
           , servings: 10
           , webPage: ""
           , unitLess: [ "Citronpeppar", "Salt" ]
@@ -236,6 +238,7 @@ validateMealsTests = describe "meals2unitLess" do
           , ingredients:
               [ { name: "Laxfilé", amount: 150.0, unit: "g" }
               , { name: "Socker", amount: 100.0, unit: "ml" }
+              , { name: "Fast potatis", amount: 2.0, unit: "st" }
               ]
           , servings: 2
           , webPage: ""

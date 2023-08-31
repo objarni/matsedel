@@ -22,8 +22,9 @@ import Data.Functor ((<#>), (<$>))
 
 main :: Effect Unit
 main = do
-  error "Error message seems to work now"
-  run (spy "initialMeals" standardMatsedel) meals2ingredients meals2unitLess addServingOfMeal removeServingOfMeal
+  case findInconsistencies standardMatsedel of
+    Just errorMessage -> error errorMessage
+    Nothing -> run (spy "initialMeals" standardMatsedel) meals2ingredients meals2unitLess addServingOfMeal removeServingOfMeal
   runGerms
 
 -- New types
@@ -127,22 +128,22 @@ meals2unitLess = mealsToUnitLess
 type IngredientsFromMealsFn = Meals -> Ingredients
 type UnitLessFromMealsFn = Meals -> Array String
 
-
 ingredientUnitsArray :: Meals -> Array (Tuple String (Array String))
 ingredientUnitsArray meals = Map.toUnfoldable $ ingredientUnitsMap meals
 
 findInconsistencies :: Meals -> Maybe String
 findInconsistencies meals = case head (ingredientsWithMultipleUnitsArray meals) of
   Just (Tuple ingredient units) ->
-      Just ("Hittade ingrediensen " <> ingredient <> " med flera enheter:" <> unitsText)
-        where unitsText = foldl (\acc unit -> acc <> " " <> unit) "" units
+    Just ("Hittade ingrediensen " <> ingredient <> " med flera enheter:" <> unitsText)
+    where
+    unitsText = foldl (\acc unit -> acc <> " " <> unit) "" units
   Nothing -> Nothing
 
 ingredientsWithMultipleUnitsArray :: Meals -> Array (Tuple String (Array String))
 ingredientsWithMultipleUnitsArray meals = filter (\(Tuple _ units) -> length units > 1) (ingredientUnitsArray meals)
 
 ingredientUnitsMap :: Meals -> Map String (Array String)
-ingredientUnitsMap meals = Map.fromFoldableWith (\array1 array2 -> array1 <> array2) allIngredientsUnits
+ingredientUnitsMap meals = Map.fromFoldableWith (\array1 array2 -> nub (array1 <> array2)) allIngredientsUnits
   where
   allIngredientsUnits :: Array (Tuple String (Array String))
   allIngredientsUnits = (allIngredientUnitTuples meals) <#> (\(Tuple ingredient unit) -> Tuple ingredient [ unit ])
