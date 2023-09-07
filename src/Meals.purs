@@ -209,7 +209,7 @@ standardMatsedel =
   , { meal: "En Miriam vecka"
     , ingredients:
         [ { name: "Fiskbullar i hummersås", amount: 1.0, unit: "paket" }
-        , { name: "Kycklingkorv", amount: 1.0, unit: "paket" }
+        , { name: "Kycklingkorv", amount: 5.0, unit: "st" }
         , { name: "Makaroner", amount: 150.0, unit: "g" }
         , { name: "Majskolvar", amount: 2.0, unit: "st" }
         , { name: "Mozzarella", amount: 150.0, unit: "g" }
