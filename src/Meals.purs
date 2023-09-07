@@ -217,6 +217,7 @@ standardMatsedel =
         , { name: "Örtbröd för ugn", amount: 1.0, unit: "st" }
         , { name: "Grillad kyckling", amount: 1.0, unit: "påse" }
         , { name: "Spenatstuvning", amount: 100.0, unit: "g" }
+        , { name: "Ris med smör", amount: 1.0, unit: "dl" }
         ]
     , unitLess: []
     , servings: 0

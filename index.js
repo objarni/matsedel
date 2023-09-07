@@ -2666,7 +2666,7 @@
       ingredients: [{
         name: "Nudlar",
         amount: 1,
-        unit: "pkt"
+        unit: "paket"
       }, {
         name: "Miniv\xE5rrulle",
         amount: 8,
@@ -2701,6 +2701,112 @@
         unit: "g"
       }],
       unitLess: ["Remoulads\xE5s"],
+      servings: 0,
+      webPage: ""
+    }, {
+      meal: "En veckas frukost o mellanm\xE5l",
+      ingredients: [{
+        name: "Gr\xE4ddost",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Mj\xF6lk",
+        amount: 4.5,
+        unit: "l"
+      }, {
+        name: "Bresm\xF6r",
+        amount: 200,
+        unit: "g"
+      }, {
+        name: "Herrg\xE5rdsost",
+        amount: 1,
+        unit: "paket"
+      }, {
+        name: "Naturell yoghurt",
+        amount: 1,
+        unit: "l"
+      }, {
+        name: "Mannagryn",
+        amount: 500,
+        unit: "g"
+      }, {
+        name: "Br\xF6d/limpa",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Granola",
+        amount: 1,
+        unit: "paket"
+      }],
+      unitLess: [],
+      servings: 0,
+      webPage: ""
+    }, {
+      meal: "En veckas frukt",
+      ingredients: [{
+        name: "Banan",
+        amount: 10,
+        unit: "st"
+      }, {
+        name: "Apelsin",
+        amount: 5,
+        unit: "st"
+      }, {
+        name: "Royal gala \xE4pplen",
+        amount: 5,
+        unit: "st"
+      }, {
+        name: "Frysta b\xE4r",
+        amount: 200,
+        unit: "g"
+      }],
+      unitLess: [],
+      servings: 0,
+      webPage: ""
+    }, {
+      meal: "En Miriam vecka",
+      ingredients: [{
+        name: "Fiskbullar i hummers\xE5s",
+        amount: 1,
+        unit: "paket"
+      }, {
+        name: "Kycklingkorv",
+        amount: 1,
+        unit: "paket"
+      }, {
+        name: "Makaroner",
+        amount: 150,
+        unit: "g"
+      }, {
+        name: "Majskolvar",
+        amount: 2,
+        unit: "st"
+      }, {
+        name: "Mozzarella",
+        amount: 150,
+        unit: "g"
+      }, {
+        name: "Avokado",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "\xD6rtbr\xF6d f\xF6r ugn",
+        amount: 1,
+        unit: "st"
+      }, {
+        name: "Grillad kyckling",
+        amount: 1,
+        unit: "p\xE5se"
+      }, {
+        name: "Spenatstuvning",
+        amount: 100,
+        unit: "g"
+      }, {
+        name: "Ris med sm\xF6r",
+        amount: 1,
+        unit: "dl"
+      }],
+      unitLess: [],
       servings: 0,
       webPage: ""
     }];
