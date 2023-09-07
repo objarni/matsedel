@@ -180,5 +180,46 @@ standardMatsedel =
     , servings: 0
     , webPage: ""
     }
+  , { meal: "En veckas frukost o mellanmål"
+    , ingredients:
+        [ { name: "Gräddost", amount: 1.0, unit: "st" }
+        , { name: "Mjölk", amount: 4.5, unit: "l" }
+        , { name: "Bresmör", amount: 200.0, unit: "g" }
+        , { name: "Herrgårdsost", amount: 1.0, unit: "paket" }
+        , { name: "Naturell yoghurt", amount: 1.0, unit: "l" }
+        , { name: "Mannagryn", amount: 500.0, unit: "g" }
+        , { name: "Bröd/limpa", amount: 1.0, unit: "st" }
+        , { name: "Granola", amount: 1.0, unit: "paket" }
+        ]
+    , unitLess: []
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "En veckas frukt"
+    , ingredients:
+        [ { name: "Banan", amount: 10.0, unit: "st" }
+        , { name: "Apelsin", amount: 5.0, unit: "st" }
+        , { name: "Royal gala äpplen", amount: 5.0, unit: "st" }
+        , { name: "Frysta bär", amount: 200.0, unit: "g" }
+        ]
+    , unitLess: []
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "En Miriam vecka"
+    , ingredients:
+        [ { name: "Fiskbullar i hummersås", amount: 1.0, unit: "paket" }
+        , { name: "Kycklingkorv", amount: 1.0, unit: "paket" }
+        , { name: "Makaroner", amount: 150.0, unit: "g" }
+        , { name: "Majskolvar", amount: 2.0, unit: "st" }
+        , { name: "Mozzarella", amount: 150.0, unit: "g" }
+        , { name: "Avokado", amount: 1.0, unit: "st" }
+        , { name: "Örtbröd för ugn", amount: 1.0, unit: "st" }
+        , { name: "Grillad kyckling", amount: 1.0, unit: "påse" }
+        ]
+    , unitLess: []
+    , servings: 0
+    , webPage: ""
+    }
   ]
 --
