@@ -155,7 +155,7 @@ standardMatsedel =
     }
   , { meal: "Vårrullar med nudlar"
     , ingredients:
-        [ { name: "Nudlar", amount: 1.0, unit: "pkt" }
+        [ { name: "Nudlar", amount: 1.0, unit: "paket" }
         , { name: "Minivårrulle", amount: 8.0, unit: "st" }
         ]
     , unitLess: [ "Soja" ]
