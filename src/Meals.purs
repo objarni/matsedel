@@ -153,5 +153,32 @@ standardMatsedel =
     , webPage: "https://receptfavoriter.se/recept/ugnspannkaka-med-kalkonbacon"
     , unitLess: [ "Salt", "Peppar" ]
     }
+  , { meal: "Vårrullar med nudlar"
+    , ingredients:
+        [ { name: "Nudlar", amount: 1.0, unit: "pkt" }
+        , { name: "Minivårrulle", amount: 8.0, unit: "st" }
+        ]
+    , unitLess: [ "Soja" ]
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "Korv med bröd"
+    , ingredients:
+        [ { name: "Kycklingkorv", amount: 3.0, unit: "st" }
+        , { name: "Korvbröd", amount: 3.0, unit: "st" }
+        ]
+    , unitLess: [ "Ketchup", "Senap" ]
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "Fish and chips"
+    , ingredients:
+        [ { name: "Torskpanetter", amount: 2.0, unit: "st" }
+        , { name: "Pommes", amount: 200.0, unit: "g" }
+        ]
+    , unitLess: [ "Remouladsås" ]
+    , servings: 0
+    , webPage: ""
+    }
   ]
 --
