@@ -2771,8 +2771,8 @@
         unit: "paket"
       }, {
         name: "Kycklingkorv",
-        amount: 1,
-        unit: "paket"
+        amount: 5,
+        unit: "st"
       }, {
         name: "Makaroner",
         amount: 150,
