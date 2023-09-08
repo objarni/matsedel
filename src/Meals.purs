@@ -130,7 +130,7 @@ standardMatsedel =
     , ingredients:
         [ { name: "Ägg", amount: 1.5, unit: "st" }
         , { name: "Vetemjöl", amount: 1.0, unit: "dl" }
-        , { name: "Mjölk", amount: 2.0, unit: "dl" }
+        , { name: "Mjölk", amount: 0.2, unit: "l" }
         , { name: "Salt", amount: 0.5, unit: "krm" }
         , { name: "Kalkonbacon", amount: 50.0, unit: "g" }
         , { name: "Smör", amount: 1.0, unit: "msk" }
