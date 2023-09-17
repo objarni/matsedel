@@ -126,6 +126,18 @@ standardMatsedel =
     , webPage: "https://fråga.leon"
     , unitLess: []
     }
+  , { meal: "Billig tomatsoppa"
+    , ingredients:
+        [ { name: "Krossade tomater", amount: 0.5, unit: "paket" }
+        , { name: "Lök", amount: 0.25, unit: "st" }
+        , { name: "Grädde", amount: 0.6, unit: "dl" }
+        , { name: "Grönsaksbuljong", amount: 0.5, unit: "st" }
+        , { name: "Vitlök", amount: 0.25, unit: "st" }
+        ]
+    , servings: 0
+    , webPage: "https://fråga.josefin"
+    , unitLess: []
+    }
   , { meal: "Ugnspannkaka med kalkonbacon"
     , ingredients:
         [ { name: "Ägg", amount: 1.5, unit: "st" }
@@ -220,6 +232,27 @@ standardMatsedel =
         , { name: "Ris med smör", amount: 1.0, unit: "dl" }
         ]
     , unitLess: []
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "Hamburgare"
+    , ingredients:
+        [ { name: "Hamburgare 90g", amount: 2.0, unit: "st" }
+        , { name: "Rödlök", amount: 0.25, unit: "st" }
+        , { name: "Hamburgerbröd", amount: 2.0, unit: "g" }
+        , { name: "Tomat", amount: 0.5, unit: "st" }
+        ]
+    , unitLess: [ "Hamburgerdressing", "Ketchup", "Senap" ]
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "Tortillapizza"
+    , ingredients:
+        [ { name: "Tortilla", amount: 2.0, unit: "st" }
+        , { name: "Tomatsås", amount: 0.25, unit: "burk" }
+        , { name: "Tomat", amount: 0.5, unit: "st" }
+        ]
+    , unitLess: [ "Ost" ]
     , servings: 0
     , webPage: ""
     }
