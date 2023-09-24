@@ -2917,7 +2917,7 @@
       meal: "Kr\xE4mig laxpasta",
       ingredients: [{
         name: "Fyll p\xE5!",
-        amount: 0,
+        amount: 1,
         unit: "hmm"
       }],
       unitLess: ["Salt", "Peppar"],

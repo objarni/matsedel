@@ -273,7 +273,7 @@ standardMatsedel =
     }
   , { meal: "Krämig laxpasta"
     , ingredients:
-        [ { name: "Fyll på!", amount: 0.0, unit: "hmm" }
+        [ { name: "Fyll på!", amount: 1.0, unit: "hmm" }
         ]
     , unitLess: [ "Salt", "Peppar" ]
     , servings: 0
