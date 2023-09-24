@@ -271,7 +271,7 @@ standardMatsedel =
     , servings: 0
     , webPage: "https://www.ica.se/recept/kramig-pasta-med-tonfisk-och-majs-723606/"
     }
-    , { meal: "Krämig laxpasta"
+  , { meal: "Krämig laxpasta"
     , ingredients:
         [ { name: "Fyll på!", amount: 0.0, unit: "hmm" }
         ]
