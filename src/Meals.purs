@@ -240,7 +240,7 @@ standardMatsedel =
     , ingredients:
         [ { name: "Hamburgare 90g", amount: 2.0, unit: "st" }
         , { name: "Rödlök", amount: 0.25, unit: "st" }
-        , { name: "Hamburgerbröd", amount: 2.0, unit: "g" }
+        , { name: "Hamburgerbröd", amount: 2.0, unit: "st" }
         , { name: "Tomat", amount: 0.5, unit: "st" }
         ]
     , unitLess: [ "Hamburgerdressing", "Ketchup", "Senap" ]

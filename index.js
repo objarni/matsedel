@@ -2852,7 +2852,7 @@
       }, {
         name: "Hamburgerbr\xF6d",
         amount: 2,
-        unit: "g"
+        unit: "st"
       }, {
         name: "Tomat",
         amount: 0.5,
