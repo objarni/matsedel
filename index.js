@@ -2895,8 +2895,8 @@
         unit: "burk"
       }, {
         name: "Plommontomat",
-        amount: 0.75,
-        unit: "st"
+        amount: 0.25,
+        unit: "paket"
       }, {
         name: "Creme Fraiche",
         amount: 0.5,
@@ -2922,7 +2922,7 @@
       }],
       unitLess: ["Salt", "Peppar"],
       servings: 0,
-      webPage: ""
+      webPage: "https://zeinaskitchen.se/kramig-laxpasta/"
     }];
   }();
 

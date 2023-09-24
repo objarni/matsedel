@@ -262,7 +262,7 @@ standardMatsedel =
         [ { name: "Pasta", amount: 100.0, unit: "g" }
         , { name: "Tonfisk i vatten", amount: 0.75, unit: "burk" }
         , { name: "Majs", amount: 0.25, unit: "burk" }
-        , { name: "Plommontomat", amount: 0.75, unit: "st" }
+        , { name: "Plommontomat", amount: 0.25, unit: "paket" }
         , { name: "Creme Fraiche", amount: 0.5, unit: "dl" }
         , { name: "Mjölk", amount: 0.025, unit: "l" }
         , { name: "Ketchupchilisås", amount: 1.0, unit: "msk" }
@@ -277,7 +277,7 @@ standardMatsedel =
         ]
     , unitLess: [ "Salt", "Peppar" ]
     , servings: 0
-    , webPage: ""
+    , webPage: "https://zeinaskitchen.se/kramig-laxpasta/"
     }
   ]
 --
