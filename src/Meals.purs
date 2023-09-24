@@ -195,7 +195,8 @@ standardMatsedel =
   , { meal: "En veckas frukost o mellanmål"
     , ingredients:
         [ { name: "Gräddost", amount: 1.0, unit: "st" }
-        , { name: "Mjölk", amount: 4.5, unit: "l" }
+        , { name: "Mjölk", amount: 6.0, unit: "l" }
+        , { name: "Fil", amount: 3.0, unit: "l" }
         , { name: "Bresmör", amount: 200.0, unit: "g" }
         , { name: "Herrgårdsost", amount: 1.0, unit: "paket" }
         , { name: "Naturell yoghurt", amount: 1.0, unit: "l" }
@@ -253,6 +254,28 @@ standardMatsedel =
         , { name: "Tomat", amount: 0.5, unit: "st" }
         ]
     , unitLess: [ "Ost" ]
+    , servings: 0
+    , webPage: ""
+    }
+  , { meal: "Krämig pasta med tonfisk och majs"
+    , ingredients:
+        [ { name: "Pasta", amount: 100.0, unit: "g" }
+        , { name: "Tonfisk i vatten", amount: 0.75, unit: "burk" }
+        , { name: "Majs", amount: 0.25, unit: "burk" }
+        , { name: "Plommontomat", amount: 0.75, unit: "st" }
+        , { name: "Creme Fraiche", amount: 0.5, unit: "dl" }
+        , { name: "Mjölk", amount: 0.025, unit: "l" }
+        , { name: "Ketchupchilisås", amount: 1.0, unit: "msk" }
+        ]
+    , unitLess: [ "Salt", "Peppar" ]
+    , servings: 0
+    , webPage: "https://www.ica.se/recept/kramig-pasta-med-tonfisk-och-majs-723606/"
+    }
+    , { meal: "Krämig laxpasta"
+    , ingredients:
+        [ { name: "Fyll på!", amount: 0.0, unit: "hmm" }
+        ]
+    , unitLess: [ "Salt", "Peppar" ]
     , servings: 0
     , webPage: ""
     }

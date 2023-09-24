@@ -2737,7 +2737,11 @@
         unit: "st"
       }, {
         name: "Mj\xF6lk",
-        amount: 4.5,
+        amount: 6,
+        unit: "l"
+      }, {
+        name: "Fil",
+        amount: 3,
         unit: "l"
       }, {
         name: "Bresm\xF6r",
@@ -2873,6 +2877,50 @@
         unit: "st"
       }],
       unitLess: ["Ost"],
+      servings: 0,
+      webPage: ""
+    }, {
+      meal: "Kr\xE4mig pasta med tonfisk och majs",
+      ingredients: [{
+        name: "Pasta",
+        amount: 100,
+        unit: "g"
+      }, {
+        name: "Tonfisk i vatten",
+        amount: 0.75,
+        unit: "burk"
+      }, {
+        name: "Majs",
+        amount: 0.25,
+        unit: "burk"
+      }, {
+        name: "Plommontomat",
+        amount: 0.75,
+        unit: "st"
+      }, {
+        name: "Creme Fraiche",
+        amount: 0.5,
+        unit: "dl"
+      }, {
+        name: "Mj\xF6lk",
+        amount: 0.025,
+        unit: "l"
+      }, {
+        name: "Ketchupchilis\xE5s",
+        amount: 1,
+        unit: "msk"
+      }],
+      unitLess: ["Salt", "Peppar"],
+      servings: 0,
+      webPage: "https://www.ica.se/recept/kramig-pasta-med-tonfisk-och-majs-723606/"
+    }, {
+      meal: "Kr\xE4mig laxpasta",
+      ingredients: [{
+        name: "Fyll p\xE5!",
+        amount: 0,
+        unit: "hmm"
+      }],
+      unitLess: ["Salt", "Peppar"],
       servings: 0,
       webPage: ""
     }];
